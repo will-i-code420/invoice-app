@@ -57,15 +57,17 @@ import axios from 'axios'
 export default {
   name: 'create-login',
   data () {
-    model: {
-      name: '',
-      email: '',
-      password: '',
-      c_password: '',
-      company_name: ''
-    },
-    loading: '',
-    status: ''
+    return {
+      model: {
+        name: '',
+        email: '',
+        password: '',
+        c_password: '',
+        company_name: ''
+      },
+      loading: '',
+      status: ''
+    }
   },
   methods: {
     validate () {

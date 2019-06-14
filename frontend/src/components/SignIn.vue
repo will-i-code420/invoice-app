@@ -38,7 +38,7 @@ export default {
     return {
       model: {
         email: '',
-        password: '',
+        password: ''
       },
       loading: '',
       status: ''
