@@ -2,7 +2,7 @@
   <div class="signin-container">
     <b-row>
       <b-col>
-        <form @submit.prevent="login">
+        <b-form @submit.prevent="login">
           <label for="email">Email:</label>
           <b-form-input
           v-model="model.email"
@@ -23,7 +23,7 @@
             {{ loading }}
             {{ status }}
           </div>
-        </form>
+        </b-form>
       </b-col>
     </b-row>
   </div>
@@ -37,49 +37,14 @@ export default {
   data () {
     return {
       model: {
-        name: '',
         email: '',
         password: '',
-        c_password: '',
-        company_name: ''
       },
       loading: '',
       status: ''
     }
   },
   methods: {
-    validate () {
-      if (this.model.password != this.model.c_password) {
-        return false
-      }
-      return true
-    },
-    register () {
-      const formData = new formData()
-      let valid = this.validate()
-      if (valid) {
-        formData.append('name', this.model.name)
-        formData.append('email', this.model.email)
-        formData.append('company_name', this.model.company_name)
-        formData.append('password', this.model.password)
-
-        this.loading = "Registering you, please wait"
-
-        axios.post('http://localhost:3128/register', formData).then(res => {
-          this.loading = ''
-          if (res.data.status === true) {
-            this.$router.push ({
-              name: 'Dashboard',
-              params: { user: res.data.user }
-            })
-          } else {
-            this.status = res.data.message
-          }
-        })
-      } else {
-        alert('Passwords do not match')
-      }
-    },
     login () {
       const formData = new formData()
       formData.append('email', this.model.email)
@@ -102,5 +67,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.btn {
+  margin-top: 20px;
+}
 </style>
