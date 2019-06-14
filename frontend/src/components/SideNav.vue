@@ -22,13 +22,11 @@
 <script>
 export default {
   name: 'sidenav',
-  props: {
-    [
-      "name",
-      "company"
-    ]
-  },
-  data: {
+  props: [
+    "name",
+    "company"
+  ],
+  data () {
     return {
       navBar: false
     }
