@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
     <Header/>
   </div>
 </template>
@@ -10,6 +9,9 @@ import Header from '@/components/Header.vue'
 
 export default {
   name: 'dashboard',
+  components: {
+    Header
+  }
 }
 </script>
 

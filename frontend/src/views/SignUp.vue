@@ -1,12 +1,22 @@
 <template>
-  <div class="signup">
-    <h1>Sign Up Page</h1>
+  <div class="signup-container">
+    <div class="header">
+      <Header/>
+    </div>
+    <SignIn/>
   </div>
 </template>
 
 <script>
+import Header from '@/components/Header.vue'
+import SignIn from '@/components/SignIn.vue'
+
 export default {
   name: 'signup',
+  components: {
+    Header,
+    SignIn
+  }
 }
 </script>
 

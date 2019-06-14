@@ -1,12 +1,12 @@
 <template>
   <b-navbar type="dark" variant="info">
+    <b-navbar-brand to="/about">{{ title }}</b-navbar-brand>
     <template v-if="user != null">
       <SideNav
       :name="user.name"
       :company="user.company"
       />
     </template>
-    <b-navbar-brand href="#">{{ title }}</b-navbar-brand>
   </b-navbar>
 </template>
 
