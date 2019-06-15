@@ -70,6 +70,33 @@ app.post("/login", function(req, res) {
   });
 });
 
+app.post("/invoice", multipartMiddleware, function(req, res) {
+  if (isEmpty(req.body.name)) {
+    return res.json({
+      status: false,
+      message: "Invoice needs name"
+    });
+  }
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `INSERT INTO invoices(name, user_id, paid) VALUES('${req.body.name}','${req.body.user_id}',0)`;
+  db.serialize(function() {
+    db.run(sql, function(err) {
+      if (err) {
+        throw err;
+      }
+      let invoice_id = this.lastID;
+      for (let i = 0; i < req.body.txn_names.length; i++) {
+        let query = `INSERT INTO transactions(name, price, invoice_id) VALUES('${req.body.txn_names[i]}','${req.body.txn_prices[i]}',${invoice_id})`;
+        db.run(query);
+      }
+      return res.json({
+        status: true,
+        message: "Invoice Created"
+      });
+    });
+  });
+});
+
 app.listen(PORT, function() {
   console.log(`App running on localhost:${PORT}`);
 });
