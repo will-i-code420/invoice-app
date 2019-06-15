@@ -12,3 +12,16 @@ let umzug = new Umzug({
   upName: "up",
   downName: "down"
 });
+
+function logUmzugEvent(eventName) {
+  return function(name, migration) {
+    console.log(`${name} ${eventName}`);
+  };
+};
+
+umzug.on("migrating", logUmzugEvent("migrating"));
+umzug.on("migrated", logUmzugEvent("migrated"));
+umzug.on("reverting", logUmzugEvent("reverting"));
+umzug.on("reverted", logUmzugEvent("reverted"));
+
+umzug.up().then(console.log("all migrations done"));
