@@ -16,7 +16,8 @@
               Invoice price: {{ invoice.total_price }}
             </label>
             <hr>
-            <label for="transaction">Add Transaction</label>
+            <h3>Add New Transaction</h3>
+            <label for="transaction">Add Transaction:</label>
             <b-button squared v-b-modal.modal-add-transaction>
               +
             </b-button>
@@ -62,6 +63,7 @@
             </b-form-group>
           </form>
         </b-modal>
+        <hr>
         <div class="transaction-details-container">
           <table>
             <thead>
@@ -101,6 +103,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data () {
     return {

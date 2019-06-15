@@ -15,8 +15,8 @@
               </tr>
             </thead>
             <tbody>
-              <template v-for="invoice in invoices">
-                <tr>
+              <template v-for="(invoice, index) in invoices">
+                <tr :key="index">
                   <th>{{ invoice.id }}</th>
                   <td>{{ invoice.name }}</td>
                   <td v-if="invoice.paid === 0">Unpaid</td>
