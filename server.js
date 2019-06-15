@@ -39,6 +39,37 @@ app.post('/register', function(req, res) {
   });
 });
 
+app.post("/login", function(req, res) {
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `SELECT * from users where email='${req.body.email}'`;
+
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    db.close();
+    if (rows.length === 0) {
+      return res.json({
+        status: false,
+        message: "Sorry, wrong email"
+      });
+    }
+    let user = rows[0];
+    let authenticated = bcrypt.compareSync(req.body.password, user.password);
+    delete user.password;
+    if (authenticated) {
+      return res.json({
+        status: true,
+        user: user
+      });
+    }
+    return res.json({
+      status: false,
+      message: "Wrong Password, try again"
+    });
+  });
+});
+
 app.listen(PORT, function() {
   console.log(`App running on localhost:${PORT}`);
 });
