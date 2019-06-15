@@ -29,6 +29,20 @@ app.get("/invoice/user/:user_id", multipartMiddleware, function(req, res) {
   });
 });
 
+app.get("/invoice/user/:user_id/:invoice_id", multipartMiddleware, function(req, res) {
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `SELECT * FROM invoices LEFT JOIN transactions ON invoices.id=transactions.invoice_id WHERE user_id='${req.params.user_id}' AND invoice_id='${req.params.invoice_id}'`;
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    return res.json({
+      status: true,
+      transactions: rows
+    });
+  });
+});
+
 app.post('/register', function(req, res) {
   if (isEmpty(req.body.name) || isEmpty(req.body.email) || isEmpty(req.body.company_name) || isEmpty(req.body.password)) {
     return res.json({
