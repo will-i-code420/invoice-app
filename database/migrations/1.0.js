@@ -49,5 +49,5 @@ module.exports = {
       });
       db.close();
     });
-  };
+  }
 };
