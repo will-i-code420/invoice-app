@@ -9,14 +9,6 @@ const PORT = process.env.PORT || 3128;
 const multipartMiddleware = multipart();
 const saltRounds = 10;
 
-const isEmpty = string => {
-  if (string === "" || string === null || string === undefined) {
-    return true;
-  } else {
-    return false;
-  };
-};
-
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -59,12 +51,6 @@ app.get("/invoice/user/:user_id/:invoice_id", multipartMiddleware, function(req,
 });
 
 app.post('/register', function(req, res) {
-  if (isEmpty(req.body.name) || isEmpty(req.body.email) || isEmpty(req.body.company_name) || isEmpty(req.body.password)) {
-    return res.json({
-      'status': false,
-      'message': 'All fields required'
-    });
-  }
   bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
     let db = new sqlite3.Database("./database/InvoiceApp.db");
     let sql = `INSERT INTO users(name, email, company_name, password) VALUES('${req.body.name}','${req.body.email}','${req.body.company_name}','${hash}')`;
@@ -114,12 +100,6 @@ app.post("/login", function(req, res) {
 });
 
 app.post("/invoice", multipartMiddleware, function(req, res) {
-  if (isEmpty(req.body.name)) {
-    return res.json({
-      status: false,
-      message: "Invoice needs name"
-    });
-  }
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `INSERT INTO invoices(name, user_id, paid) VALUES('${req.body.name}','${req.body.user_id}',0)`;
   db.serialize(function() {
