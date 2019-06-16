@@ -9,6 +9,14 @@ const PORT = process.env.PORT || 3128;
 const multipartMiddleware = multipart();
 const saltRounds = 10;
 
+const isEmpty = string => {
+  if (string === "" || string === null || string === undefined) {
+    return true;
+  } else {
+    return false;
+  };
+};
+
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

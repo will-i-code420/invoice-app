@@ -55,7 +55,7 @@ export default {
         this.loading = ''
         if (res.data.status === true) {
           this.$router.push ({
-            name: 'Dashboard',
+            name: 'dashboard',
             params: { user: res.data.user}
           })
         } else {

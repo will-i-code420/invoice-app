@@ -36,7 +36,7 @@
           <label for="c-password">Confirm Password:</label>
           <b-form-input
           v-model="model.c_password"
-          type="passsword"
+          type="password"
           required
           >
           </b-form-input>
@@ -91,7 +91,7 @@ export default {
           this.loading = ''
           if (res.data.status === true) {
             this.$router.push ({
-              name: 'Dashboard',
+              name: 'dashboard',
               params: { user: res.data.user }
             })
           } else {

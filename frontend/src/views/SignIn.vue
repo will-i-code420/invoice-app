@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import SignIn from '@/components/SignIn.vue'
+import Login from '@/components/Login.vue'
 import CreateLogin from '@/components/CreateLogin.vue'
 
 export default {
