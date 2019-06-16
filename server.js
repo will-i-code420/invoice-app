@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const multipart = require('connect-multiparty');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 
 const PORT = process.env.PORT || 3128;
 
+const multipartMiddleware = multipart();
 const saltRounds = 10;
 
 const app = express();
