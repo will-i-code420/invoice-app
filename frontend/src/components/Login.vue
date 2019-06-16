@@ -19,7 +19,7 @@
           >
           </b-form-input>
           <div>
-            <b-button pill variant="success">Login</b-button>
+            <b-button pill variant="success" type="submit">Log In</b-button>
             {{ loading }}
             {{ status }}
           </div>
@@ -33,7 +33,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'signup',
+  name: 'login',
   data () {
     return {
       model: {
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     login () {
-      const formData = new formData()
+      const formData = new FormData()
       formData.append('email', this.model.email)
       formData.append('password', this.model.password)
       this.loading = 'Signing in'

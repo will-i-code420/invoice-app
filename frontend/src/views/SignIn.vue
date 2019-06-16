@@ -1,13 +1,13 @@
 <template>
   <div class="signup-container">
     <b-nav tabs align="center">
-      <b-nav-item @click="signIn">Sign-In</b-nav-item>
+      <b-nav-item @click="signIn">Log In</b-nav-item>
       <b-nav-item @click="createLogin">Register New User</b-nav-item>
     </b-nav>
     <b-container class="forms-container">
       <b-row>
         <b-col sm="6" offset="3">
-          <SignIn v-if="showSignIn"/><CreateLogin v-if="showCreateLogin"/>
+          <Login v-if="showSignIn"/><CreateLogin v-if="showCreateLogin"/>
         </b-col>
       </b-row>
     </b-container>
@@ -19,9 +19,9 @@ import SignIn from '@/components/SignIn.vue'
 import CreateLogin from '@/components/CreateLogin.vue'
 
 export default {
-  name: 'signup',
+  name: 'signin',
   components: {
-    SignIn,
+    Login,
     CreateLogin
   },
   data () {

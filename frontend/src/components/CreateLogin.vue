@@ -41,7 +41,7 @@
           >
           </b-form-input>
           <div>
-            <b-button variant="info">Register</b-button>
+            <b-button variant="info" type="submit">Register</b-button>
             {{ loading }}
             {{ status }}
           </div>
@@ -77,7 +77,7 @@ export default {
       return true
     },
     register () {
-      const formData = new formData()
+      const formData = new FormData()
       let valid = this.validate()
       if (valid) {
         formData.append('name', this.model.name)
