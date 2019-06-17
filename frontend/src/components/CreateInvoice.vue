@@ -5,7 +5,7 @@
         <b-col>
           <h2>Complete Details To Create Invoice</h2>
           <b-form @submit.prevent="onSubmit">
-            <label for="invoice">Invoice Name:</label>
+            <label for="invoice">Invoice To:</label>
             <b-form-input
             v-model="invoice.name"
             type="text"
@@ -26,7 +26,7 @@
             title="New Item"
             ok-title="Add Item"
             ok-variant="success"
-            cancel-varient="danger"
+            cancel-variant="danger"
             @show="resetModal"
             @hidden="resetModal"
             @ok="handleOk"
@@ -51,6 +51,21 @@
 
               <b-form-group
               :state="transState"
+              label="Qty:"
+              label-for="quantity"
+              invalid-feedback="Item required"
+              >
+
+              <b-form-input
+              id="quantity"
+              v-model="trans.quantity"
+              :state="transState"
+              required
+              ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+              :state="transState"
               label="Price:"
               label-for="price"
               invalid-feedback="Price required"
@@ -66,30 +81,22 @@
           </form>
         </b-modal>
         <hr>
-        <div class="transaction-details-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Item #</th>
-                <th>Item Name</th>
-                <th>Price</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <template v-for="txn in transactions">
-                <tr :key="txn.id">
-                  <th>{{ txn.id }}</th>
-                  <td>{{ txn.name }}</td>
-                  <td>{{ txn.price }}</td>
-                  <td><b-button squared @click="deleteTransaction(txn.id)">
-                    X
-                  </b-button></td>
-                </tr>
+        <template>
+          <h2>Invoice Info:</h2>
+          <div>
+            <b-table bordered hover :items="transactions" :fields="fields">
+              <template slot="modify">
+                <b-button squared @click="editTransaction(txn.id)">
+                  Edit
+                </b-button>
+                <b-button squared @click="deleteTransaction(txn.id)">
+                  X
+                </b-button>
               </template>
-            </tbody>
-          </table>
-        </div>
+            </b-table>
+
+          </div>
+        </template>
         <div class="create-invoice">
           <b-button pill variant="outline-success" @click="onSubmit">
             Create Invoice
@@ -121,8 +128,16 @@ export default {
       status: '',
       trans: {
         name: '',
+        quantity: 0,
         price: 0
-      }
+      },
+      fields: [
+        { key: 'id' },
+        { key: 'name' },
+        { key: 'quantity' },
+        { key: 'price' },
+        { key: 'modify', class: 'text-center' }
+      ]
     }
   },
   methods: {
@@ -134,6 +149,7 @@ export default {
     resetModal () {
       this.trans.name = ''
       this.trans.price = ''
+      this.trans.quantity = ''
       this.transState = null
 
     },
@@ -148,6 +164,7 @@ export default {
       this.transactions.push({
         id: this.nextTransId,
         name: this.trans.name,
+        quantity: this.trans.quantity,
         price: this.trans.price
       })
       this.nextTransId++
@@ -157,7 +174,7 @@ export default {
     calcTotal () {
       let total = 0
       this.transactions.forEach(element => {
-        total += parseFloat(element.price)
+        total += parseFloat(element.price * element.quantity)
       })
       total = total.toFixed(2)
       this.invoice.total_price = total
@@ -173,13 +190,16 @@ export default {
     onSubmit () {
       const formData = new formData()
       let txn_names = []
+      let txn_quantity = []
       let txn_prices = []
       this.transactions.forEach(element => {
         txn_names.push(element.name)
+        txn_quantity.push(element.quantity)
         txn_prices.push(element.price)
       })
       formData.append("name", this.invoice.name)
       formData.append("txn_names", txn_names)
+      formData.append("txn_quantity", txn_quantity)
       formData.append("txn_prices", txn_prices)
       formData.append("user_id", this.$route.params.user.id)
       this.loading = "Creating Invoice, please wait..."
@@ -197,5 +217,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.btn {
+  margin: 0 30px;
+}
 </style>
