@@ -13,18 +13,20 @@
             >
             </b-form-input>
             <label for="total">
-              Invoice price: {{ invoice.total_price }}
+              Invoice Total: ${{ invoice.total_price }}
             </label>
             <hr>
-            <h3>Add New Transaction</h3>
-            <label for="transaction">Add Transaction:</label>
+            <h3>Add New Item:</h3>
             <b-button squared v-b-modal.modal-add-transaction>
               +
             </b-button>
             <b-modal
             id="modal-add-transaction"
             ref="modal"
-            title="New Transaction"
+            title="New Item"
+            ok-title="Add Item"
+            ok-variant="success"
+            cancel-varient="danger"
             @show="resetModal"
             @hidden="resetModal"
             @ok="handleOk"
@@ -34,9 +36,9 @@
 
               <b-form-group
               :state="transState"
-              label="Transaction:"
+              label="Item Description:"
               label-for="transaction"
-              invalid-feedback="Transaction required"
+              invalid-feedback="Item required"
               >
 
               <b-form-input
@@ -68,8 +70,8 @@
           <table>
             <thead>
               <tr>
-                <th>#</th>
-                <th>Transaction Name</th>
+                <th>Item #</th>
+                <th>Item Name</th>
                 <th>Price</th>
                 <th></th>
               </tr>
@@ -135,9 +137,9 @@ export default {
       this.transState = null
 
     },
-    handleOk (byModalEvt) {
-      byModalEvt.prevenDefault()
-      this.submitTransaction
+    handleOk (bvModalEvt) {
+      bvModalEvt.preventDefault()
+      this.submitTransaction()
     },
     submitTransaction () {
       if (!this.checkFormValidity()) {
@@ -150,15 +152,14 @@ export default {
       })
       this.nextTransId++
       this.calcTotal()
-      this.trans.name = ''
-      this.trans.price = ''
-      this.transState = null
+      this.resetModal()
     },
     calcTotal () {
       let total = 0
       this.transactions.forEach(element => {
-        total += parseInt(element.price)
+        total += parseFloat(element.price)
       })
+      total = total.toFixed(2)
       this.invoice.total_price = total
     },
     deleteTransaction (id) {
