@@ -1,16 +1,16 @@
 <template>
   <div class="dashboard-container">
-    <DashBoard/>
+    <Dash/>
   </div>
 </template>
 
 <script>
-import DashBoard from '@/components/DashBoard.vue'
+import Dash from '@/components/Dash.vue'
 
 export default {
   name: 'dashboard',
   components: {
-    DashBoard
+    Dash
   }
 }
 </script>

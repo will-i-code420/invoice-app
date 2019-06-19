@@ -1,6 +1,6 @@
 <template>
   <b-navbar type="dark" variant="info">
-    <b-navbar-brand to="/about">{{ title }}</b-navbar-brand>
+    <b-navbar-brand to="/about" class="ml-auto">{{ title }}</b-navbar-brand>
     <template v-if="user != null">
       <SideNav
       :name="user.name"
@@ -14,7 +14,7 @@
 import SideNav from '@/components/SideNav.vue'
 
 export default {
-  name: 'header',
+  name: 'navhead',
   props: ["user"],
   components: {
     SideNav

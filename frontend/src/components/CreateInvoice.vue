@@ -43,7 +43,7 @@
 
               <b-form-input
               id="transaction"
-              v-model="trans.name"
+              v-model="trans.description"
               :state="transState"
               required
               ></b-form-input>
@@ -85,16 +85,69 @@
           <h2>Invoice Info:</h2>
           <div>
             <b-table bordered hover :items="transactions" :fields="fields">
-              <template slot="modify">
-                <b-button squared @click="editTransaction(txn.id)">
+              <template slot="modify" slot-scope="{ item }">
+                <b-button squared @click="selectTrans(item)">
                   Edit
                 </b-button>
-                <b-button squared @click="deleteTransaction(txn.id)">
+                <b-modal
+                id="modal-edit-transaction"
+                ref="modal"
+                title="Edit Item:"
+                ok-title="Edit Item"
+                ok-variant="success"
+                cancel-variant="danger"
+                @ok="handleEdit"
+                >
+                <form ref="edit-form">
+
+                  <b-form-group
+                  :state="transState"
+                  label="Item Description:"
+                  label-for="transaction"
+                  invalid-feedback="Item required"
+                  >
+                  <b-form-input
+                  id="transaction"
+                  v-model="selectedTrans.description"
+                  :state="transState"
+                  required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                :state="transState"
+                label="Qty:"
+                label-for="quantity"
+                invalid-feedback="Item required"
+                >
+                <b-form-input
+                id="quantity"
+                v-model="selectedTrans.quantity"
+                :state="transState"
+                required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+              :state="transState"
+              label="Price:"
+              label-for="price"
+              invalid-feedback="Price required"
+              >
+              <b-form-input
+              id="price"
+              v-model="selectedTrans.price"
+              :state="transState"
+              required
+              ></b-form-input>
+            </b-form-group>
+          </form>
+        </b-modal>
+                <b-button squared @click="deleteTransaction(item.id)">
                   X
                 </b-button>
               </template>
             </b-table>
-
           </div>
         </template>
         <div class="create-invoice">
@@ -127,17 +180,18 @@ export default {
       loading: '',
       status: '',
       trans: {
-        name: '',
+        description: '',
         quantity: 0,
         price: 0
       },
       fields: [
         { key: 'id' },
-        { key: 'name' },
+        { key: 'description' },
         { key: 'quantity' },
         { key: 'price' },
         { key: 'modify', class: 'text-center' }
-      ]
+      ],
+      selectedTrans: []
     }
   },
   methods: {
@@ -147,15 +201,21 @@ export default {
       return valid
     },
     resetModal () {
-      this.trans.name = ''
+      this.trans.description = ''
       this.trans.price = ''
       this.trans.quantity = ''
       this.transState = null
-
     },
     handleOk (bvModalEvt) {
       bvModalEvt.preventDefault()
       this.submitTransaction()
+    },
+    selectTrans (item) {
+      this.selectedTrans = item
+      this.$bvModal.show('modal-edit-transaction')
+    },
+    handleEdit () {
+      this.editTransaction()
     },
     submitTransaction () {
       if (!this.checkFormValidity()) {
@@ -163,7 +223,7 @@ export default {
       }
       this.transactions.push({
         id: this.nextTransId,
-        name: this.trans.name,
+        description: this.trans.description,
         quantity: this.trans.quantity,
         price: this.trans.price
       })
@@ -179,12 +239,19 @@ export default {
       total = total.toFixed(2)
       this.invoice.total_price = total
     },
+    editTransaction (id) {
+      if (this.selectedTrans) {
+        this.$delete(this.selectedTrans, '_rowVarient')
+      }
+      this.calcTotal()
+      this.$set(id, '_rowVarient', 'primary')
+      this.selectedTrans = id
+    },
     deleteTransaction (id) {
-      let newList = this.transactions.filter(function(el) {
-        return el.id != id
+      this.transactions = this.transactions.filter(item => {
+        return item.id !== id
       })
       this.nextTransId--
-      this.transactions = newList
       this.calcTotal()
     },
     onSubmit () {
@@ -193,7 +260,7 @@ export default {
       let txn_quantity = []
       let txn_prices = []
       this.transactions.forEach(element => {
-        txn_names.push(element.name)
+        txn_names.push(element.description)
         txn_quantity.push(element.quantity)
         txn_prices.push(element.price)
       })

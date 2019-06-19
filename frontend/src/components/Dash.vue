@@ -1,5 +1,5 @@
 <template>
-  <div class="dashBoard">
+  <div class="dash-container">
     <template v-if="this.isactive === 'create'">
       <CreateInvoice/>
     </template>
@@ -14,7 +14,7 @@ import CreateInvoice from '@/components/CreateInvoice.vue'
 import ViewInvoice from '@/components/ViewInvoice.vue'
 
 export default {
-  name: 'DashBoard',
+  name: 'dash',
   components: {
     CreateInvoice,
     ViewInvoice
