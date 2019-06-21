@@ -108,8 +108,8 @@ app.post("/invoice", multipartMiddleware, function(req, res) {
         throw err;
       }
       let invoice_id = this.lastID;
-      for (let i = 0; i < req.body.txn_names.length; i++) {
-        let query = `INSERT INTO transactions(name, quantity, price, invoice_id) VALUES('${req.body.txn_names[i]}','${req.body.txn_quantity}','${req.body.txn_prices[i]}',${invoice_id})`;
+      for (let i = 0; i < req.body.description.length; i++) {
+        let query = `INSERT INTO transactions(description, quantity, price, invoice_id) VALUES('${req.body.description[i]}','${req.body.quantity}','${req.body.price[i]}',${invoice_id})`;
         db.run(query);
       }
       return res.json({

@@ -256,18 +256,18 @@ export default {
     },
     onSubmit () {
       const formData = new FormData()
-      let txn_names = []
-      let txn_quantity = []
-      let txn_prices = []
+      let description = []
+      let quantity = []
+      let price = []
       this.transactions.forEach(element => {
-        txn_names.push(element.description)
-        txn_quantity.push(element.quantity)
-        txn_prices.push(element.price)
+        description.push(element.description)
+        quantity.push(element.quantity)
+        price.push(element.price)
       })
       formData.append("name", this.invoice.name)
-      formData.append("txn_names", txn_names)
-      formData.append("txn_quantity", txn_quantity)
-      formData.append("txn_prices", txn_prices)
+      formData.append("description", description)
+      formData.append("quantity", quantity)
+      formData.append("price", price)
       formData.append("user_id", this.$route.params.user.id)
       this.loading = "Creating Invoice, please wait..."
 
