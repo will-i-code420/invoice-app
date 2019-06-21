@@ -46,12 +46,9 @@ export default {
   },
   methods: {
     login () {
-      const formData = new FormData()
-      formData.append('email', this.model.email)
-      formData.append('password', this.model.password)
       this.loading = 'Signing in'
 
-      axios.post('http://localhost:3128/login', formData).then(res => {
+      axios.post('http://localhost:3128/login', this.model).then(res => {
         this.loading = ''
         if (res.data.status === true) {
           this.$router.push ({

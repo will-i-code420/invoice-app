@@ -21,7 +21,8 @@ export default {
   },
   data () {
     return {
-      isactive: 'create'
+      isactive: 'create',
+      user: (this.$route.params.user) ? this.$route.params.user : null
     }
   }
 }

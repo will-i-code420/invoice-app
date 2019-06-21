@@ -255,7 +255,7 @@ export default {
       this.calcTotal()
     },
     onSubmit () {
-      const formData = new formData()
+      const formData = new FormData()
       let txn_names = []
       let txn_quantity = []
       let txn_prices = []

@@ -53,7 +53,7 @@ app.get("/invoice/user/:user_id/:invoice_id", multipartMiddleware, function(req,
 app.post('/register', function(req, res) {
   bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
     let db = new sqlite3.Database("./database/InvoiceApp.db");
-    let sql = `INSERT INTO users(name, email, company_name, password) VALUES('${req.body.name}','${req.body.email}','${req.body.company_name}','${hash}')`;
+    let sql = `INSERT INTO users(name, email, company_name, password) VALUES ('${req.body.name}','${req.body.email}','${req.body.company_name}','${hash}')`;
     db.run(sql, function(err) {
       if (err) {
         throw err;

@@ -2,7 +2,7 @@
   <div class="create-login-container">
     <b-row>
       <b-col>
-        <b-form @submit.prevent="register">
+        <b-form ref="create" @submit.prevent="register">
           <label for="name">Name:</label>
           <b-form-input
           v-model="model.name"
@@ -77,17 +77,11 @@ export default {
       return true
     },
     register () {
-      const formData = new FormData()
       let valid = this.validate()
       if (valid) {
-        formData.append('name', this.model.name)
-        formData.append('email', this.model.email)
-        formData.append('company_name', this.model.company_name)
-        formData.append('password', this.model.password)
-
         this.loading = "Registering you, please wait"
 
-        axios.post('http://localhost:3128/register', formData).then(res => {
+        axios.post('http://localhost:3128/register', this.model).then(res => {
           this.loading = ''
           if (res.data.status === true) {
             this.$router.push ({
