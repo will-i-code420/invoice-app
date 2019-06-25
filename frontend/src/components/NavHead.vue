@@ -4,7 +4,7 @@
     <template v-if="user != null">
       <SideNav
       :name="user.name"
-      :company="user.company"
+      :company="user.company_name"
       />
     </template>
   </b-navbar>
@@ -21,7 +21,7 @@ export default {
   },
   data () {
     return {
-      title: "Invoice App"
+      title: "Invoice App",
     }
   }
 }

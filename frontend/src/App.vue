@@ -1,24 +1,11 @@
 <template>
   <div id="app">
-    <NavHead
-    :user="user"
-    />
     <router-view/>
   </div>
 </template>
 
 <script>
-import NavHead from '@/components/NavHead.vue'
-
 export default {
-  components: {
-    NavHead
-  },
-  data () {
-    return {
-      user: (this.$route.params.user) ? this.$route.params.user : null
-    }
-  }
 }
 </script>
 

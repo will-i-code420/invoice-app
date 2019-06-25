@@ -1,5 +1,6 @@
 <template>
   <div class="signup-container">
+    <NavHead/>
     <b-nav tabs align="center">
       <b-nav-item @click="signIn">Log In</b-nav-item>
       <b-nav-item @click="createLogin">Register New User</b-nav-item>
@@ -15,12 +16,14 @@
 </template>
 
 <script>
+import NavHead from '@/components/NavHead.vue'
 import Login from '@/components/Login.vue'
 import CreateLogin from '@/components/CreateLogin.vue'
 
 export default {
   name: 'signin',
   components: {
+    NavHead,
     Login,
     CreateLogin
   },
