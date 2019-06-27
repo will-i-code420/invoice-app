@@ -1,12 +1,16 @@
 <template>
   <b-navbar type="dark" variant="info">
-    <b-navbar-brand to="/about" class="ml-auto">{{ title }}</b-navbar-brand>
-    <template v-if="user != null">
-      <SideNav
-      :name="user.name"
-      :company="user.company_name"
-      />
-    </template>
+    <b-navbar-nav>
+      <template v-if="user != null">
+        <SideNav
+        :name="user.name"
+        :company ="user.company_name"
+        />
+      </template>
+    </b-navbar-nav>
+    <b-navbar-nav class="ml-auto">
+      <b-navbar-brand to="/about">{{ title }}</b-navbar-brand>
+    </b-navbar-nav>
   </b-navbar>
 </template>
 

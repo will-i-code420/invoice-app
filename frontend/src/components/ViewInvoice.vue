@@ -5,31 +5,21 @@
         <b-col>
           <h2>All Invoices:</h2>
           <hr>
-          <table>
-            <thead>
-              <tr>
-                <th>Invoice #</th>
-                <th>Invoice Name</th>
-                <th>Current Status</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <template v-for="(invoice, index) in invoices">
-                <tr :key="index">
-                  <th>{{ invoice.id }}</th>
-                  <td>{{ invoice.name }}</td>
-                  <td v-if="invoice.paid === 0">Unpaid</td>
-                  <td v-else>Paid</td>
-                  <td>
-                    <b-button pill variant="outline-warning" size="small" to="#">
-                      View Invoice
-                    </b-button>
-                  </td>
-                </tr>
+          <div>
+            <b-table striped hover :items="invoices" :fields="fields">
+              <template slot="view">
+                <b-button
+                pill
+                variant="outline-warning"
+                size="small"
+                to="{ name: 'singleInvoice', params: { invoice_id: invoice.id }}"
+                append
+                >
+                  View Invoice
+                </b-button>
               </template>
-            </tbody>
-          </table>
+            </b-table>
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -40,10 +30,17 @@
 import axios from 'axios'
 
 export default {
+  name: 'viewInvoice',
   data () {
     return {
       invoices: [],
-      user: this.$route.params.user
+      user: this.$route.params.user,
+      fields: [
+        { key: 'id' },
+        { key: 'name' },
+        { key: 'status' },
+        { key: 'view' }
+      ]
     }
   },
   mounted () {

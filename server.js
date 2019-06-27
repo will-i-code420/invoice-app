@@ -31,7 +31,7 @@ app.get("/invoice/user/:user_id", multipartMiddleware, function(req, res) {
     }
     return res.json({
       status: true,
-      transactions: rows
+      invoices: rows
     });
   });
 });
