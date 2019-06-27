@@ -108,7 +108,8 @@ app.post("/invoice", multipartMiddleware, function(req, res) {
         throw err;
       }
       let invoice_id = this.lastID;
-      let query = `INSERT INTO transactions(description, quantity, price, invoice_id) VALUES('${req.body.description}','${req.body.quantity}','${req.body.price}',${invoice_id})`;
+      let query = `INSERT INTO transactions(description, quantity, price, total, invoice_id) VALUES('${req.body.description}','${req.body.quantity}','${req.body.price}',
+      '${req.body.total}',${invoice_id})`;
       db.run(query);
 
       return res.json({

@@ -273,6 +273,7 @@ export default {
       formData.append("description", description)
       formData.append("quantity", quantity)
       formData.append("price", price)
+      formData.append("total", this.invoice.total_price)
       formData.append("user_id", this.$route.params.user.id)
       this.loading = "Creating Invoice, please wait..."
 
