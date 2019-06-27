@@ -38,7 +38,18 @@ export default {
       fields: [
         { key: 'id' },
         { key: 'name' },
-        { key: 'status' },
+        {
+          key: 'status',
+          formatter: (value, key, item) => {
+            if (item.paid === 0) {
+              return "Unpaid"
+            } else if (item.paid === item.total) {
+              return "Paid"
+            } else {
+              return "Partial Payment"
+            }
+          }
+        },
         { key: 'view' }
       ]
     }
