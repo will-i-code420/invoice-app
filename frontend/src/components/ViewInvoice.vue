@@ -10,7 +10,7 @@
               <template slot="view">
                 <b-button
                 pill
-                variant="outline-warning"
+                variant="outline-success"
                 size="small"
                 to="{ name: 'singleInvoice', params: { invoice_id: invoice.id }}"
                 append

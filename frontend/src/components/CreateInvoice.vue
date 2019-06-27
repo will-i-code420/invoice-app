@@ -206,6 +206,11 @@ export default {
       this.trans.quantity = ''
       this.transState = null
     },
+    resetInvoice () {
+      this.invoice.name = ''
+      this.invoice.total_price = 0
+      this.transactions = []
+    },
     handleOk (bvModalEvt) {
       bvModalEvt.preventDefault()
       this.submitTransaction()
@@ -279,6 +284,7 @@ export default {
           this.status = res.data.message
         }
       })
+      this.resetInvoice()
     }
   }
 }
