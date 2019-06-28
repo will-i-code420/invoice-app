@@ -1,7 +1,7 @@
 <template>
   <div class="about-container">
     <NavHead/>
-    <h1>This is an about page</h1>
+    <h1 class="about">This is an about page</h1>
   </div>
 </template>
 
@@ -17,4 +17,7 @@ export default {
 </script>
 
 <style>
+.about {
+  padding-top: 65px;
+}
 </style>

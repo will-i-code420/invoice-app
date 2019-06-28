@@ -1,7 +1,7 @@
 <template>
   <div class="signup-container">
     <NavHead/>
-    <b-nav tabs align="center">
+    <b-nav class="user" tabs align="center">
       <b-nav-item @click="signIn">Log In</b-nav-item>
       <b-nav-item @click="createLogin">Register New User</b-nav-item>
     </b-nav>
@@ -49,5 +49,8 @@ export default {
 <style scoped>
 .nav {
   margin-bottom: 30px;
+}
+.user {
+  padding-top: 65px;
 }
 </style>

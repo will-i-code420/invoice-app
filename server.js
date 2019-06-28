@@ -101,7 +101,7 @@ app.post("/login", function(req, res) {
 
 app.post("/invoice", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `INSERT INTO invoices(name, user_id, paid) VALUES('${req.body.name}','${req.body.user_id}',0)`;
+  let sql = `INSERT INTO invoices(name, user_id, paid) VALUES('${req.body.name}','${req.body.user_id}','${req.body.paid}')`;
   db.serialize(function() {
     db.run(sql, function(err) {
       if (err) {

@@ -1,5 +1,5 @@
 <template>
-  <b-navbar type="dark" variant="info">
+  <b-navbar type="dark" variant="info" fixed="top">
     <b-navbar-nav>
       <template v-if="user != null">
         <SideNav

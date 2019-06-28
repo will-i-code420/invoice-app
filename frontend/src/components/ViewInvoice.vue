@@ -3,7 +3,7 @@
     <b-container class="bv-example-row">
       <b-row>
         <b-col>
-          <h2>All Invoices:</h2>
+          <h2 class="invoices">All Invoices:</h2>
           <hr>
           <div>
             <b-table striped hover :items="invoices" :fields="fields">
@@ -64,5 +64,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.invoices {
+  padding-top: 65px;
+}
 </style>

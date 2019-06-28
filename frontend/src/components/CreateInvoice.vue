@@ -3,21 +3,19 @@
     <b-container>
       <b-row>
         <b-col>
-          <h2>Complete Details To Create Invoice</h2>
+          <h2 class="complete">Complete To Create Invoice</h2>
           <b-form @submit.prevent="onSubmit">
-            <label for="invoice">Invoice To:</label>
+            <label class="invoice" for="invoice">Invoice To:</label>
             <b-form-input
             v-model="invoice.name"
             type="text"
+            placeholder="Company Or Individual Name"
             required
             >
             </b-form-input>
-            <label for="total">
-              Invoice Total: ${{ invoice.total_price }}
-            </label>
             <hr>
             <h3>Add New Item:</h3>
-            <b-button squared v-b-modal.modal-add-transaction>
+            <b-button squared variant="success" v-b-modal.modal-add-transaction>
               +
             </b-button>
             <b-modal
@@ -150,7 +148,19 @@
             </b-table>
           </div>
         </template>
-        <div class="create-invoice">
+        <hr>
+        <label class="total" for="total">
+          <h4>Invoice Total: ${{ invoice.total_price }}</h4>
+        </label>
+        <br>
+        <label class="paid" for="paid">Amount Paid:</label>
+        <b-form-input
+        v-model="invoice.paid"
+        required
+        placeholder="ex. 0.00, leave blank if unpaid"
+        >
+        </b-form-input>
+        <div class="create">
           <b-button pill variant="outline-success" @click="onSubmit">
             Create Invoice
           </b-button>
@@ -173,7 +183,8 @@ export default {
       transState: null,
       invoice: {
         name: '',
-        total_price: 0
+        total_price: '',
+        paid: ''
       },
       nextTransId: 1,
       transactions: [],
@@ -208,7 +219,8 @@ export default {
     },
     resetInvoice () {
       this.invoice.name = ''
-      this.invoice.total_price = 0
+      this.invoice.total_price = ''
+      this.invoice.paid = ''
       this.transactions = []
     },
     handleOk (bvModalEvt) {
@@ -269,11 +281,15 @@ export default {
         quantity.push(element.quantity)
         price.push(element.price)
       })
+      if (this.invoice.paid === '') {
+        this.invoice.paid = 0.00
+      }
       formData.append("name", this.invoice.name)
       formData.append("description", description)
       formData.append("quantity", quantity)
       formData.append("price", price)
       formData.append("total", this.invoice.total_price)
+      formData.append("paid", this.invoice.paid)
       formData.append("user_id", this.$route.params.user.id)
       this.loading = "Creating Invoice, please wait..."
 
@@ -294,5 +310,20 @@ export default {
 <style scoped>
 .btn {
   margin: 0 30px;
+}
+.complete {
+  padding-top: 85px;
+}
+.invoice {
+  padding-top: 30px;
+}
+.total {
+  padding-top: 15px;
+}
+.paid {
+  padding-top: 20px;
+}
+.create {
+  padding-top: 30px;
 }
 </style>
