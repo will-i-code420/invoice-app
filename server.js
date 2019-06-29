@@ -122,6 +122,28 @@ app.post("/login", multipartMiddleware, function(req, res) {
   });
 });
 
+app.use(function(req, res, next) {
+  let token = req.body.token || req.query.token || req.headers["x-access-token"];
+
+  if (token) {
+    jwt.verify(token, app.get('appSecret'), function(err, decoded) {
+      if (err) {
+        return res.json({
+          success: false,
+          message: "Failed to authenticate token"
+        });
+      } else {
+        req.decoded = decoded;
+      }
+    });
+  } else {
+    return res.status(403).send({
+      succes: false,
+      message: "No token provided"
+    });
+  }
+});
+
 app.post("/invoice", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `INSERT INTO invoices(name, user_id, paid) VALUES('${req.body.name}','${req.body.user_id}','${req.body.paid}')`;
