@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const multipart = require('connect-multiparty');
 const sqlite3 = require('sqlite3').verbose();
+const cors = require('cors');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const multipartMiddleware = multipart();
@@ -10,13 +11,9 @@ const jwt = require('jsonwebtoken');
 const PORT = process.env.PORT || 3128;
 
 const app = express();
+app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
 app.set('appSecret', 'secretforinvoiceapp');
 
