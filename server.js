@@ -3,11 +3,11 @@ const bodyParser = require('body-parser');
 const multipart = require('connect-multiparty');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
-
-const PORT = process.env.PORT || 3128;
-
 const multipartMiddleware = multipart();
 const saltRounds = 10;
+const jwt = require('jsonwebtoken');
+
+const PORT = process.env.PORT || 3128;
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -17,6 +17,8 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.set('appSecret', 'secretforinvoiceapp');
 
 app.get('/', function(req, res) {
   res.send("Welcome to the Invoice App");
