@@ -84,9 +84,10 @@ export default {
         axios.post('http://localhost:3128/register', this.model).then(res => {
           this.loading = ''
           if (res.data.status === true) {
+            localStorage.setItem('token', res.data.token)
+            localStorage.setItem('user', JSON.stringify(res.data.user))
             this.$router.push ({
-              name: 'dashboard',
-              params: { user: res.data.user }
+              name: 'dashboard'
             })
           } else {
             this.status = res.data.message
