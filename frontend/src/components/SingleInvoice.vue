@@ -22,7 +22,7 @@ export default {
   data () {
     return {
       user: '',
-      invoice: {}
+      invoice: {},
       transactions: [],
       total_price: '',
       fields: [
@@ -38,8 +38,9 @@ export default {
     let token = localStorage.getItem('token')
     let invoice_id = this.$route.params.invoice_id
     axios.get(`http://localhost:3128/invoice/user/${this.user.id}/${invoice_id}`,
+    {
       headers: { "x-access-token": token }
-    ).then(res => {
+    }).then(res => {
       if (res.data === true) {
         this.transactions = res.data.transactions
         this.invoice = res.data.invoice
