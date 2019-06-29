@@ -52,7 +52,7 @@ app.get("/invoice/user/:user_id/:invoice_id", multipartMiddleware, function(req,
   });
 });
 
-app.post('/register', function(req, res) {
+app.post('/register', multipartMiddleware, function(req, res) {
   bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
     let db = new sqlite3.Database("./database/InvoiceApp.db");
     let sql = `INSERT INTO users(name, email, company_name, password) VALUES ('${req.body.name}','${req.body.email}','${req.body.company_name}','${hash}')`;
@@ -60,13 +60,28 @@ app.post('/register', function(req, res) {
       if (err) {
         throw err;
       } else {
-        return res.json({
-          status: true,
-          message: "User Created"
+        let user_id = this.lastID;
+        let query = `SELECT * FROM users WHERE id='${user_id}'`;
+        db.all(query, [], (err, rows) => {
+          if (err) {
+            throw err;
+          }
+          let user = rows[0];
+          delete user.password;
+          const payload = {
+            user: user
+          }
+          let token = jwt.sign(payload, app.get('appSecret'), {
+            expiresInMinutes: "24h"
+          });
+          return res.json({
+            status: true,
+            token : token
+          });
         });
       }
     });
-    db.close()
+    db.close();
   });
 });
 
