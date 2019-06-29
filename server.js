@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const multipart = require('connect-multiparty');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
-const multipartMiddleware = multipart();
 const saltRounds = 10;
+const multipartMiddleware = multipart();
 const jwt = require('jsonwebtoken');
 
 const PORT = process.env.PORT || 3128;
@@ -70,12 +70,13 @@ app.post('/register', multipartMiddleware, function(req, res) {
           delete user.password;
           const payload = {
             user: user
-          }
+          };
           let token = jwt.sign(payload, app.get('appSecret'), {
             expiresInMinutes: "24h"
           });
           return res.json({
             status: true,
+            user: user,
             token : token
           });
         });
@@ -85,9 +86,9 @@ app.post('/register', multipartMiddleware, function(req, res) {
   });
 });
 
-app.post("/login", function(req, res) {
+app.post("/login", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `SELECT * from users where email='${req.body.email}'`;
+  let sql = `SELECT * from users WHERE email='${req.body.email}'`;
 
   db.all(sql, [], (err, rows) => {
     if (err) {
@@ -104,9 +105,14 @@ app.post("/login", function(req, res) {
     let authenticated = bcrypt.compareSync(req.body.password, user.password);
     delete user.password;
     if (authenticated) {
+      const payload = { user: user };
+      let token = jwt.sign(payload, app.get('appSecret'), {
+        expiresIn: "24h"
+      });
       return res.json({
         status: true,
-        user: user
+        user: user,
+        token: token
       });
     }
     return res.json({
