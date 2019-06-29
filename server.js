@@ -20,38 +20,6 @@ app.use(function(req, res, next) {
 
 app.set('appSecret', 'secretforinvoiceapp');
 
-app.get('/', function(req, res) {
-  res.send("Welcome to the Invoice App");
-});
-
-app.get("/invoice/user/:user_id", multipartMiddleware, function(req, res) {
-  let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `SELECT * FROM invoices LEFT JOIN transactions ON invoices.id=transactions.invoice_id WHERE user_id='${req.params.user_id}'`;
-  db.all(sql, [], (err, rows) => {
-    if (err) {
-      throw err;
-    }
-    return res.json({
-      status: true,
-      invoices: rows
-    });
-  });
-});
-
-app.get("/invoice/user/:user_id/:invoice_id", multipartMiddleware, function(req, res) {
-  let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `SELECT * FROM invoices LEFT JOIN transactions ON invoices.id=transactions.invoice_id WHERE user_id='${req.params.user_id}' AND invoice_id='${req.params.invoice_id}'`;
-  db.all(sql, [], (err, rows) => {
-    if (err) {
-      throw err;
-    }
-    return res.json({
-      status: true,
-      transactions: rows
-    });
-  });
-});
-
 app.post('/register', multipartMiddleware, function(req, res) {
   bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
     let db = new sqlite3.Database("./database/InvoiceApp.db");
@@ -142,6 +110,38 @@ app.use(function(req, res, next) {
       message: "No token provided"
     });
   }
+});
+
+app.get('/', function(req, res) {
+  res.send("Welcome to the Invoice App");
+});
+
+app.get("/invoice/user/:user_id", multipartMiddleware, function(req, res) {
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `SELECT * FROM invoices LEFT JOIN transactions ON invoices.id=transactions.invoice_id WHERE user_id='${req.params.user_id}'`;
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    return res.json({
+      status: true,
+      invoices: rows
+    });
+  });
+});
+
+app.get("/invoice/user/:user_id/:invoice_id", multipartMiddleware, function(req, res) {
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `SELECT * FROM invoices LEFT JOIN transactions ON invoices.id=transactions.invoice_id WHERE user_id='${req.params.user_id}' AND invoice_id='${req.params.invoice_id}'`;
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    return res.json({
+      status: true,
+      transactions: rows
+    });
+  });
 });
 
 app.post("/invoice", multipartMiddleware, function(req, res) {
