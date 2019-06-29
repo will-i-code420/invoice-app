@@ -12,7 +12,7 @@
                 pill
                 variant="outline-success"
                 size="small"
-                :to="{ name: 'singleInvoice', params: { invoice_id: invoice.id, user: this.user } }"
+                :to="{ name: 'singleInvoice', params: { invoice_id: invoice.id } }"
                 >
                   View Invoice
                 </b-button>

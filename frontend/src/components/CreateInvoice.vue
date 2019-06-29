@@ -250,8 +250,8 @@ export default {
     },
     calcTotal () {
       let total = 0
-      this.transactions.forEach(element => {
-        total += parseFloat(element.price * element.quantity)
+      this.transactions.forEach(item => {
+        total += parseFloat(item.price * item.quantity)
       })
       total = total.toFixed(2)
       this.invoice.total_price = total
