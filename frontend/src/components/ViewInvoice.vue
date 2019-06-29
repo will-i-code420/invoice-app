@@ -33,7 +33,7 @@ export default {
   data () {
     return {
       invoices: [],
-      user: this.$route.params.user,
+      user: '',
       fields: [
         { key: 'id' },
         { key: 'name' },
@@ -54,7 +54,11 @@ export default {
     }
   },
   mounted () {
-    axios.get(`http://localhost:3128/invoice/user/${this.user.id}`).then(res => {
+    this.user = JSON.parse(localStorage.getItem('user'))
+    axios.get(`http://localhost:3128/invoice/user/${this.user.id}`,
+    {
+      headers: {"x-access-token": localStorage.getItem('token')}
+    }).then(res => {
       if (res.data.status === true) {
         this.invoices = res.data.invoices
       }
