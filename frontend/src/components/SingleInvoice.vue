@@ -3,7 +3,14 @@
     <NavHead
     :user="user"
     />
-    <div class="invoice">
+    <div class="invoice-info">
+      <h3 class="invoice-id">Invoice # {{ invoice.id }}</h3>
+      <hr>
+      <h3 class="invoice-company">Bill To:</h3>
+      <h5>{{ invoice.name }}</h5>
+      <hr>
+    </div>
+    <div class="invoice-details">
       <b-table bordered hover :items="transactions" :fields="fields">
       </b-table>
     </div>
@@ -26,7 +33,7 @@ export default {
       transactions: [],
       total_price: '',
       fields: [
-        { key: 'id' },
+        { key: 'item_id', label: 'Item #' },
         { key: 'description' },
         { key: 'quantity' },
         { key: 'price' },
@@ -57,7 +64,10 @@ export default {
 </script>
 
 <style scoped>
-.invoice {
+.invoice-id {
+  text-align: right;
+}
+.invoice-info {
   padding-top: 65px;
 }
 </style>

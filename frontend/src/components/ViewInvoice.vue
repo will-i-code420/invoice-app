@@ -6,7 +6,7 @@
           <h2 class="invoices">All Invoices:</h2>
           <hr>
           <div>
-            <b-table striped hover :items="invoices" :fields="fields">
+            <b-table bordered hover :items="invoices" :fields="fields">
               <template slot="view" slot-scope="{ item }">
                 <b-button
                 pill
@@ -35,7 +35,7 @@ export default {
       invoices: [],
       user: '',
       fields: [
-        { key: 'id' },
+        { key: 'id', label: 'Invoice #' },
         { key: 'name' },
         {
           key: 'status',

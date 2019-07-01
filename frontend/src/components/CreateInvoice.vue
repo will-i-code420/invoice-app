@@ -4,6 +4,7 @@
       <b-row>
         <b-col>
           <h2 class="complete">Complete To Create Invoice</h2>
+          <hr>
           <b-form @submit.prevent="onSubmit">
             <label class="invoice" for="invoice">Invoice To:</label>
             <b-form-input
@@ -180,6 +181,7 @@ import axios from 'axios'
 export default {
   data () {
     return {
+      user: '',
       transState: null,
       invoice: {
         name: '',
@@ -196,7 +198,7 @@ export default {
         price: 0
       },
       fields: [
-        { key: 'id' },
+        { key: 'item_id', label: 'Item #' },
         { key: 'description' },
         { key: 'quantity' },
         { key: 'price' },
@@ -221,6 +223,7 @@ export default {
       this.invoice.name = ''
       this.invoice.total_price = ''
       this.invoice.paid = ''
+      this.nextTransId = 1
       this.transactions = []
     },
     handleOk (bvModalEvt) {
@@ -239,7 +242,7 @@ export default {
         return
       }
       this.transactions.push({
-        id: this.nextTransId,
+        item_id: this.nextTransId,
         description: this.trans.description,
         quantity: this.trans.quantity,
         price: this.trans.price
@@ -273,10 +276,12 @@ export default {
     },
     onSubmit () {
       const formData = new FormData()
+      let item_id = []
       let description = []
       let quantity = []
       let price = []
       this.transactions.forEach(element => {
+        item_id.push(element.item_id)
         description.push(element.description)
         quantity.push(element.quantity)
         price.push(element.price)
@@ -285,15 +290,20 @@ export default {
         this.invoice.paid = 0.00
       }
       formData.append("name", this.invoice.name)
+      formData.append("item_id", item_id)
       formData.append("description", description)
       formData.append("quantity", quantity)
       formData.append("price", price)
       formData.append("total", this.invoice.total_price)
       formData.append("paid", this.invoice.paid)
-      formData.append("user_id", this.$route.params.user.id)
+      let user = JSON.parse(localStorage.getItem('user'))
+      formData.append("user_id", user.id)
       this.loading = "Creating Invoice, please wait..."
 
-      axios.post("http://localhost:3128/invoice", formData).then(res => {
+      axios.post("http://localhost:3128/invoice", formData,
+      {
+        headers: {"x-access-token": localStorage.getItem("token")}
+      }).then(res => {
         this.loading = ''
         if (res.data.status === true) {
           this.status = res.data.message
