@@ -41,7 +41,7 @@ export default {
     {
       headers: { "x-access-token": token }
     }).then(res => {
-      if (res.data === true) {
+      if (res.data.status === true) {
         this.transactions = res.data.transactions
         this.invoice = res.data.invoice
         let total = 0

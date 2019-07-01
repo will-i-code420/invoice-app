@@ -7,12 +7,12 @@
           <hr>
           <div>
             <b-table striped hover :items="invoices" :fields="fields">
-              <template slot="view">
+              <template slot="view" slot-scope="{ item }">
                 <b-button
                 pill
                 variant="outline-success"
                 size="small"
-                :to="{ name: 'singleInvoice', params: { invoice_id: invoice.id } }"
+                :to="{ name: 'singleInvoice', params: { invoice_id: item.id } }"
                 >
                   View Invoice
                 </b-button>
@@ -57,7 +57,7 @@ export default {
     this.user = JSON.parse(localStorage.getItem('user'))
     axios.get(`http://localhost:3128/invoice/user/${this.user.id}`,
     {
-      headers: {"x-access-token": localStorage.getItem('token')}
+      headers: {"x-access-token": localStorage.getItem("token")}
     }).then(res => {
       if (res.data.status === true) {
         this.invoices = res.data.invoices

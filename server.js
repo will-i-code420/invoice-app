@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3128;
 
 const app = express();
 app.use(cors())
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.set('appSecret', 'secretforinvoiceapp');
@@ -99,6 +99,7 @@ app.use(function(req, res, next) {
         });
       } else {
         req.decoded = decoded;
+        next()
       }
     });
   } else {
@@ -115,7 +116,7 @@ app.get('/', function(req, res) {
 
 app.get("/invoice/user/:user_id", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `SELECT * FROM invoices LEFT JOIN transactions ON invoices.id=transactions.invoice_id WHERE user_id='${req.params.user_id}'`;
+  let sql = `SELECT * FROM invoices WHERE user_id='${req.params.user_id}'`;
   db.all(sql, [], (err, rows) => {
     if (err) {
       throw err;
@@ -129,14 +130,22 @@ app.get("/invoice/user/:user_id", multipartMiddleware, function(req, res) {
 
 app.get("/invoice/user/:user_id/:invoice_id", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `SELECT * FROM invoices LEFT JOIN transactions ON invoices.id=transactions.invoice_id WHERE user_id='${req.params.user_id}' AND invoice_id='${req.params.invoice_id}'`;
+  let sql = `SELECT * FROM invoices WHERE user_id='${req.params.user_id}' AND id='${req.params.invoice_id}'`;
   db.all(sql, [], (err, rows) => {
     if (err) {
       throw err;
     }
-    return res.json({
-      status: true,
-      transactions: rows
+    let invoice = rows[0]
+    let fetchInvoice = `SELECT * FROM transactions WHERE invoice_id='${req.params.invoice_id}'`
+    db.all(fetchInvoice, [], (err, rows) => {
+      if (err) {
+        throw err;
+      }
+      return res.json({
+        status: true,
+        invoice: invoice,
+        transactions: rows
+      })
     });
   });
 });
