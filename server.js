@@ -151,18 +151,33 @@ app.get("/invoice/user/:user_id/:invoice_id", multipartMiddleware, function(req,
 });
 
 app.post("/invoice", multipartMiddleware, function(req, res) {
+  let item = req.body.item_id.split(",")
+  let descrip = req.body.description.split(",")
+  let quan = req.body.quantity.split(",")
+  let cost = req.body.price.split(",")
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `INSERT INTO invoices(name, user_id, paid) VALUES('${req.body.name}','${req.body.user_id}','${req.body.paid}')`;
   db.serialize(function() {
     db.run(sql, function(err) {
       if (err) {
-        throw err;
+        return res.json({
+          status: false,
+          message: "There was an error creating invoice!"
+        });
       }
       let invoice_id = this.lastID;
-      let query = `INSERT INTO transactions(item_id, description, quantity, price, total, invoice_id) VALUES('${req.body.item_id}','${req.body.description}','${req.body.quantity}','${req.body.price}',
-      '${req.body.total}',${invoice_id})`;
-      db.run(query);
-
+      for (let i = 0; i < descrip.length; i++) {
+        let query = `INSERT INTO transactions(item_id, description, quantity, price, invoice_id) VALUES('${item[i]}','${descrip[i]}','${quan[i]}','${cost[i]}',${invoice_id})`;
+        db.run(query, function(err) {
+          if (err) {
+            error = true;
+            return res.json({
+              status: false,
+              message: "There was an error creating invoice!"
+            });
+          }
+        });
+      }
       return res.json({
         status: true,
         message: "Invoice Created"

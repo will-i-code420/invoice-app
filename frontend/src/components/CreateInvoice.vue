@@ -225,6 +225,7 @@ export default {
       this.invoice.paid = ''
       this.nextTransId = 1
       this.transactions = []
+      this.transState = null
     },
     handleOk (bvModalEvt) {
       bvModalEvt.preventDefault()
@@ -294,7 +295,6 @@ export default {
       formData.append("description", description)
       formData.append("quantity", quantity)
       formData.append("price", price)
-      formData.append("total", this.invoice.total_price)
       formData.append("paid", this.invoice.paid)
       let user = JSON.parse(localStorage.getItem('user'))
       formData.append("user_id", user.id)

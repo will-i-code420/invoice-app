@@ -3,17 +3,35 @@
     <NavHead
     :user="user"
     />
+    <h1>Invoice Info:</h1>
+    <hr>
     <div class="invoice-info">
-      <h3 class="invoice-id">Invoice # {{ invoice.id }}</h3>
-      <hr>
+      <div class="company_info">
       <h3 class="invoice-company">Bill To:</h3>
-      <h5>{{ invoice.name }}</h5>
-      <hr>
+      <h4 class="invoice-company">{{ invoice.name }}</h4>
+      <h4>Address</h4>
+      <h4>City, State, Zip</h4>
+      </div>
+      <h3 class="invoice-id">Invoice # {{ invoice.id }}</h3>
     </div>
+    <hr>
     <div class="invoice-details">
       <b-table bordered hover :items="transactions" :fields="fields">
       </b-table>
+      <div class="total">
+        <h4>Invoice Total: ${{ total_price }}</h4>
+      </div>
+      <hr class="balance">
+      <div class="paid">
+        <h4>Amount Paid: ${{ invoice.paid }}</h4>
+      </div>
+      <hr class="balance">
+      <div class="due">
+        <h4>Balance: ${{ balance_due }}</h4>
+      </div>
+      <hr class="balance">
     </div>
+    <b-button pill variant="outline-success">Add Payment</b-button>
   </div>
 </template>
 
@@ -32,6 +50,7 @@ export default {
       invoice: {},
       transactions: [],
       total_price: '',
+      balance_due: '',
       fields: [
         { key: 'item_id', label: 'Item #' },
         { key: 'description' },
@@ -57,6 +76,9 @@ export default {
         })
         total = total.toFixed(2)
         this.total_price = total
+        let balance = 0
+        balance = this.total_price - this.invoice.paid
+        this.balance_due = balance.toFixed(2)
       }
     })
   }
@@ -64,10 +86,17 @@ export default {
 </script>
 
 <style scoped>
-.invoice-id {
-  text-align: right;
+h1 {
+  padding-top: 70px;
 }
 .invoice-info {
-  padding-top: 65px;
+  display: flex;
+  justify-content: space-between;
+}
+.invoice-info div:last-child {
+  margin-left: auto;
+}
+.total, .paid, .due {
+  text-align: right;
 }
 </style>
