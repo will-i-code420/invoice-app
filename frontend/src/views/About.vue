@@ -20,7 +20,7 @@ export default {
       user: ''
     }
   },
-  mounted () {
+  created () {
     this.user = JSON.parse(localStorage.getItem('user'))
   }
 }

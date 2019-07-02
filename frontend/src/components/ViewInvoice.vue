@@ -53,7 +53,7 @@ export default {
       ]
     }
   },
-  mounted () {
+  created () {
     this.user = JSON.parse(localStorage.getItem('user'))
     axios.get(`http://localhost:3128/invoice/user/${this.user.id}`,
     {

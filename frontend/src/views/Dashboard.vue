@@ -27,10 +27,10 @@ export default {
   data () {
     return {
       isactive: 'create',
-      user: null
+      user: ''
     }
   },
-  mounted () {
+  created () {
     this.user = JSON.parse(localStorage.getItem('user'))
   }
 }

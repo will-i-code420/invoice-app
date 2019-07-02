@@ -59,7 +59,7 @@ export default {
       ]
     }
   },
-  mounted () {
+  created () {
     this.user = JSON.parse(localStorage.getItem('user'))
     let token = localStorage.getItem('token')
     let invoice_id = this.$route.params.invoice_id
