@@ -4,10 +4,22 @@
     :user="user"
     />
     <template v-if="this.isactive === 'create'">
-      <CreateInvoice/>
+      <b-container class="forms-container">
+        <b-row>
+          <b-col sm="6" offset="3">
+            <CreateInvoice/>
+          </b-col>
+        </b-row>
+      </b-container>
     </template>
     <template v-else>
-      <ViewInvoice/>
+      <b-container class="forms-container">
+        <b-row>
+          <b-col sm="6" offset="3">
+            <ViewInvoice/>
+          </b-col>
+        </b-row>
+      </b-container>
     </template>
   </div>
 </template>
