@@ -3,16 +3,21 @@
     <NavHead
     :user="user"
     />
-    <h1>Invoice Info:</h1>
+    <h1>Invoice #{{ invoice.id }} Info:</h1>
     <hr>
     <div class="invoice-info">
       <div class="company_info">
       <h3 class="invoice-company">Bill To:</h3>
-      <h4 class="invoice-company">{{ invoice.name }}</h4>
+      <h4 class="invoice-company">Attn: {{ invoice.name }}</h4>
       <h4>Address</h4>
       <h4>City, State, Zip</h4>
       </div>
-      <h3 class="invoice-id">Invoice # {{ invoice.id }}</h3>
+      <h3>Bill From:</h3>
+      <h4>{{ user.company_name }}</h4>
+      <h4>{{ user.company_address }}</h4>
+      <h4>{{ user.company_city }}, {{ user.company_state }}, {{ user.company_zip }}</h4>
+      <h4>{{ user.name }}</h4>
+      <h4>{{ user.phone }}</h4>
     </div>
     <hr>
     <div class="invoice-details">
@@ -74,8 +79,7 @@ export default {
         this.transactions.forEach(item => {
           total += parseFloat(item.price * item.quantity)
         })
-        total = total.toFixed(2)
-        this.total_price = total
+        this.total_price = total.toFixed(2)
         let balance = 0
         balance = this.total_price - this.invoice.paid
         this.balance_due = balance.toFixed(2)

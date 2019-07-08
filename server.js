@@ -20,7 +20,7 @@ app.set('appSecret', 'secretforinvoiceapp');
 app.post('/register', multipartMiddleware, function(req, res) {
   bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
     let db = new sqlite3.Database("./database/InvoiceApp.db");
-    let sql = `INSERT INTO users(name, email, company_name, password) VALUES ('${req.body.name}','${req.body.email}','${req.body.company_name}','${hash}')`;
+    let sql = `INSERT INTO users(name, email, phone, company_name, company_address, company_city, company_state, company_zip, password) VALUES ('${req.body.name}','${req.body.email}','${req.body.phone}','${req.body.company_name}','${req.body.company_address}','${req.body.company_city}','${req.body.company_state}','${req.body.company_zip}','${hash}')`;
     db.run(sql, function(err) {
       if (err) {
         throw err;
@@ -37,7 +37,7 @@ app.post('/register', multipartMiddleware, function(req, res) {
             user: user
           };
           let token = jwt.sign(payload, app.get('appSecret'), {
-            expiresInMinutes: "24h"
+            expiresIn: "8h"
           });
           return res.json({
             status: true,
@@ -72,7 +72,7 @@ app.post("/login", multipartMiddleware, function(req, res) {
     if (authenticated) {
       const payload = { user: user };
       let token = jwt.sign(payload, app.get('appSecret'), {
-        expiresIn: "24h"
+        expiresIn: "8h"
       });
       return res.json({
         status: true,

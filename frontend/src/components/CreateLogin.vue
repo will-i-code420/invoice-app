@@ -19,9 +19,46 @@
           required
           >
           </b-form-input>
+          <label for="name">Phone:</label>
+          <b-form-input
+          v-model="model.phone"
+          placeholder="ex. 800-235-1234 ext. 033"
+          type="text"
+          required
+          >
+          </b-form-input>
           <label for="company">Company Name:</label>
           <b-form-input
           v-model="model.company_name"
+          type="text"
+          required
+          >
+          </b-form-input>
+          <label for="company">Company Address:</label>
+          <b-form-input
+          v-model="model.company_address"
+          placeholder="Billing Street # and name only"
+          type="text"
+          required
+          >
+          </b-form-input>
+          <label for="company">Company City:</label>
+          <b-form-input
+          v-model="model.company_city"
+          type="text"
+          required
+          >
+          </b-form-input>
+          <label for="company">Company State:</label>
+          <b-form-input
+          v-model="model.company_state"
+          type="text"
+          required
+          >
+          </b-form-input>
+          <label for="company">Company Zip:</label>
+          <b-form-input
+          v-model="model.company_zip"
           type="text"
           required
           >
@@ -61,9 +98,14 @@ export default {
       model: {
         name: '',
         email: '',
+        phone: '',
         password: '',
         c_password: '',
-        company_name: ''
+        company_name: '',
+        company_address: '',
+        company_city: '',
+        company_state: '',
+        company_zip: ''
       },
       loading: '',
       status: ''
