@@ -29,7 +29,7 @@
       </div>
       <hr class="balance">
       <div class="paid">
-        <h4>Amount Paid: ${{ invoice.paid }}</h4>
+        <h4>Amount Paid: ${{ amount_paid }}</h4>
       </div>
       <hr class="balance">
       <div class="due">
@@ -66,6 +66,7 @@ export default {
       invoice: {},
       transactions: [],
       total_price: '',
+      amount_paid: '',
       balance_due: '',
       paid: '',
       status: '',
@@ -98,6 +99,9 @@ export default {
         let balance = 0
         balance = this.total_price - this.invoice.paid
         this.balance_due = balance.toFixed(2)
+        let amount = 0
+        amount = this.invoice.paid
+        this.amount_paid = amount.toFixed(2)
       }
     })
   },
@@ -114,12 +118,14 @@ export default {
           this.status = res.data.message
         }
       })
-      
+
     },
     newBalance() {
       let payment = Number(this.paid)
       let invoicePaid = Number(this.invoice.paid)
       this.invoice.paid = Number(invoicePaid) + Number(payment)
+      let amount = this.invoice.paid
+      this.amount_paid = amount.toFixed(2)
       let balance = this.total_price - this.invoice.paid
       this.balance_due = balance.toFixed(2)
       this.addPayment()

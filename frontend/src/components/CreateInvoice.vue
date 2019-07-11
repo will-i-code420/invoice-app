@@ -185,7 +185,7 @@ export default {
       transState: null,
       invoice: {
         name: '',
-        total_price: '',
+        total_price: Number(),
         paid: ''
       },
       nextTransId: 1,
@@ -194,8 +194,8 @@ export default {
       status: '',
       trans: {
         description: '',
-        quantity: 0,
-        price: 0
+        quantity: Number(),
+        price: Number()
       },
       fields: [
         { key: 'item_id', label: 'Item #' },
@@ -253,12 +253,11 @@ export default {
       this.resetModal()
     },
     calcTotal () {
-      let total = 0
+      let total = Number()
       this.transactions.forEach(item => {
         total += parseFloat(item.price * item.quantity)
       })
-      total = total.toFixed(2)
-      this.invoice.total_price = Number(total)
+      this.invoice.total_price = total.toFixed(2)
     },
     editTransaction (id) {
       if (this.selectedTrans) {
@@ -288,7 +287,7 @@ export default {
         price.push(element.price)
       })
       if (this.invoice.paid === '') {
-        this.invoice.paid = 0.00
+        this.invoice.paid = Number(0.00)
       }
       formData.append("name", this.invoice.name)
       formData.append("item_id", item_id)
