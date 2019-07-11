@@ -258,7 +258,7 @@ export default {
         total += parseFloat(item.price * item.quantity)
       })
       total = total.toFixed(2)
-      this.invoice.total_price = total
+      this.invoice.total_price = Number(total)
     },
     editTransaction (id) {
       if (this.selectedTrans) {

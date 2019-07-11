@@ -12,14 +12,15 @@
       <h4>Address</h4>
       <h4>City, State, Zip</h4>
       </div>
+      <div>
       <h3>Bill From:</h3>
       <h4>{{ user.company_name }}</h4>
       <h4>{{ user.company_address }}</h4>
       <h4>{{ user.company_city }}, {{ user.company_state }}, {{ user.company_zip }}</h4>
       <h4>{{ user.name }}</h4>
       <h4>{{ user.phone }}</h4>
+      </div>
     </div>
-    <hr>
     <div class="invoice-details">
       <b-table bordered hover :items="transactions" :fields="fields">
       </b-table>
@@ -36,7 +37,17 @@
       </div>
       <hr class="balance">
     </div>
-    <b-button pill variant="outline-success">Add Payment</b-button>
+    <b-form>
+      <label class="payment" for="payment">Add Payment</label>
+      <b-form-input
+      v-model="paid"
+      type="text"
+      required
+      >
+      </b-form-input>
+    <b-button pill variant="outline-success" @click="newBalance">Apply Payment</b-button>
+    {{ status }}
+    </b-form>
   </div>
 </template>
 
@@ -56,6 +67,8 @@ export default {
       transactions: [],
       total_price: '',
       balance_due: '',
+      paid: '',
+      status: '',
       fields: [
         { key: 'item_id', label: 'Item #' },
         { key: 'description' },
@@ -63,6 +76,8 @@ export default {
         { key: 'price' },
       ]
     }
+  },
+  computed: {
   },
   created () {
     this.user = JSON.parse(localStorage.getItem('user'))
@@ -85,6 +100,31 @@ export default {
         this.balance_due = balance.toFixed(2)
       }
     })
+  },
+  methods: {
+    addPayment() {
+      this.status = "Updating Invoice"
+      axios.patch(`http://localhost:3128/invoice`, this.invoice,
+      {
+        headers: {"x-access-token": localStorage.getItem("token")}
+      }).then(res => {
+        if (res.data.message === true) {
+          this.status = res.data.message
+        } else {
+          this.status = res.data.message
+        }
+      })
+      
+    },
+    newBalance() {
+      let payment = Number(this.paid)
+      let invoicePaid = Number(this.invoice.paid)
+      this.invoice.paid = Number(invoicePaid) + Number(payment)
+      let balance = this.total_price - this.invoice.paid
+      this.balance_due = balance.toFixed(2)
+      this.addPayment()
+      this.paid = ''
+    }
   }
 }
 </script>
@@ -102,5 +142,8 @@ h1 {
 }
 .total, .paid, .due {
   text-align: right;
+}
+.btn {
+  margin-top: 20px;
 }
 </style>

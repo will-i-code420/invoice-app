@@ -17,6 +17,10 @@ app.use(bodyParser.json());
 
 app.set('appSecret', 'secretforinvoiceapp');
 
+app.get('/', function(req, res) {
+  res.send("Welcome to the Invoice App");
+});
+
 app.post('/register', multipartMiddleware, function(req, res) {
   bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
     let db = new sqlite3.Database("./database/InvoiceApp.db");
@@ -110,10 +114,6 @@ app.use(function(req, res, next) {
   }
 });
 
-app.get('/', function(req, res) {
-  res.send("Welcome to the Invoice App");
-});
-
 app.get("/invoice/user/:user_id", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `SELECT * FROM invoices WHERE user_id='${req.params.user_id}'`;
@@ -184,6 +184,25 @@ app.post("/invoice", multipartMiddleware, function(req, res) {
       });
     });
   });
+});
+
+app.patch("/invoice", multipartMiddleware, function(req, res) {
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `UPDATE invoices SET paid='${req.body.paid}' WHERE id='${req.body.id}'`;
+  db.run(sql, function(err) {
+    if (err) {
+      console.log(err)
+      return res.json({
+        status: false,
+        message: "Error Adding Payment"
+      });
+    }
+    return res.json({
+      status: true,
+      message: "Payment Applied"
+    });
+  });
+  db.close()
 });
 
 app.listen(PORT, function() {
