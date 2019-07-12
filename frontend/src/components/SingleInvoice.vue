@@ -4,6 +4,11 @@
     :user="user"
     />
     <h1>Invoice #{{ invoice.id }} Info:</h1>
+    <div class="invoice-dates">
+      <h5 class="created">Created On: {{ create_date }}</h5>
+      <h5 class="updated">Last Payment On: {{ update_date }}</h5>
+    </div>
+    <h5 class="next-payment">Next Payment Due: {{ payment_due }}</h5>
     <hr>
     <div class="invoice-info">
       <div class="company_info">
@@ -68,6 +73,9 @@ export default {
       total_price: '',
       amount_paid: '',
       balance_due: '',
+      payment_due: '',
+      create_date: '',
+      update_date: '',
       paid: '',
       status: '',
       fields: [
@@ -102,6 +110,8 @@ export default {
         let amount = 0
         amount = this.invoice.paid
         this.amount_paid = amount.toFixed(2)
+        this.dateConvert()
+        this.paymentDue()
       }
     })
   },
@@ -118,7 +128,7 @@ export default {
           this.status = res.data.message
         }
       })
-
+      this.paymentDue()
     },
     newBalance() {
       let payment = Number(this.paid)
@@ -130,6 +140,35 @@ export default {
       this.balance_due = balance.toFixed(2)
       this.addPayment()
       this.paid = ''
+    },
+    paymentDue() {
+      let date
+      let dueDate
+      if (!this.invoice.updated) {
+        date = new Date(this.invoice.created)
+      } else {
+        date = new Date(this.invoice.updated)
+      }
+      dueDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()+21)
+      this.payment_due = dueDate.toDateString()
+    },
+    dateConvert() {
+      let create
+      if (this.invoice.created) {
+        create = new Date(this.invoice.created)
+        this.create_date = create.toDateString()
+      } else {
+        create = ''
+        this.create_date = create
+      }
+      let update
+      if (this.invoice.updated) {
+        update = new Date(this.invoice.updated)
+        this.update_date = update.toDateString()
+      } else {
+        update = ''
+        this.update_date = update
+      }
     }
   }
 }
@@ -137,7 +176,7 @@ export default {
 
 <style scoped>
 h1 {
-  padding-top: 70px;
+  margin-top: 70px;
 }
 .invoice-info {
   display: flex;
@@ -151,5 +190,9 @@ h1 {
 }
 .btn {
   margin-top: 20px;
+}
+.invoice-dates {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
