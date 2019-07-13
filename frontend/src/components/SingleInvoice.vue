@@ -128,6 +128,7 @@ export default {
           this.status = res.data.message
         }
       })
+      this.updatedDate()
       this.paymentDue()
     },
     newBalance() {
@@ -138,19 +139,24 @@ export default {
       this.amount_paid = amount.toFixed(2)
       let balance = this.total_price - this.invoice.paid
       this.balance_due = balance.toFixed(2)
-      this.addPayment()
       this.paid = ''
+      this.addPayment()
     },
     paymentDue() {
       let date
-      let dueDate
       if (!this.invoice.updated) {
         date = new Date(this.invoice.created)
       } else {
         date = new Date(this.invoice.updated)
       }
-      dueDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()+21)
-      this.payment_due = dueDate.toDateString()
+      if (this.total_price === this.amount_paid) {
+        this.payment_due = "PAID IN FULL"
+      } else {
+        let dueDate
+        dueDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()+21)
+        this.payment_due = dueDate.toDateString()
+      }
+      this.status= ''
     },
     dateConvert() {
       let create
@@ -169,7 +175,22 @@ export default {
         update = ''
         this.update_date = update
       }
+    },
+    updatedDate() {
+      let invoice_id = this.$route.params.invoice_id
+      axios.get(`http://localhost:3128/invoice/user/${this.user.id}/${invoice_id}`,
+        {
+          headers: {"x-access-token": localStorage.getItem("token")}
+      }).then(res => {
+        if (res.data.status === true) {
+          this.invoice = res.data.invoice
+        }
+        let update = this.invoice.updated
+        this.update_date = update.toDateString()
+      })
     }
+  },
+  watch: {
   }
 }
 </script>

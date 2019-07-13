@@ -156,7 +156,8 @@ app.post("/invoice", multipartMiddleware, function(req, res) {
   let quan = req.body.quantity.split(",");
   let cost = req.body.price.split(",");
   let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `INSERT INTO invoices(name, user_id, paid, created) VALUES('${req.body.name}','${req.body.user_id}','${req.body.paid}',datetime('now'))`;
+  let sql = `INSERT INTO invoices(name, user_id, paid, total_price, created) VALUES('${req.body.name}','${req.body.user_id}','${req.body.paid}','${req.body.total_price}',datetime('now', 'localtime'))`;
+  console.log(req.body.total_price, req.body.paid, req.body.name)
   db.serialize(function() {
     db.run(sql, function(err) {
       if (err) {
@@ -188,7 +189,7 @@ app.post("/invoice", multipartMiddleware, function(req, res) {
 
 app.patch("/invoice", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `UPDATE invoices SET paid='${req.body.paid}', updated=datetime('now') WHERE id='${req.body.id}'`;
+  let sql = `UPDATE invoices SET paid='${req.body.paid}', updated=datetime('now', 'localtime') WHERE id='${req.body.id}'`;
   db.run(sql, function(err) {
     if (err) {
       console.log(err)

@@ -185,7 +185,7 @@ export default {
       transState: null,
       invoice: {
         name: '',
-        total_price: Number(),
+        total_price: '',
         paid: ''
       },
       nextTransId: 1,
@@ -295,9 +295,11 @@ export default {
       formData.append("quantity", quantity)
       formData.append("price", price)
       formData.append("paid", this.invoice.paid)
+      formData.append("total_price", this.invoice.total_price)
       let user = JSON.parse(localStorage.getItem('user'))
       formData.append("user_id", user.id)
       this.loading = "Creating Invoice, please wait..."
+      console.log(this.invoice.total_price)
 
       axios.post("http://localhost:3128/invoice", formData,
       {
