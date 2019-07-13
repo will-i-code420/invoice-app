@@ -299,8 +299,6 @@ export default {
       let user = JSON.parse(localStorage.getItem('user'))
       formData.append("user_id", user.id)
       this.loading = "Creating Invoice, please wait..."
-      console.log(this.invoice.total_price)
-
       axios.post("http://localhost:3128/invoice", formData,
       {
         headers: {"x-access-token": localStorage.getItem("token")}

@@ -185,12 +185,15 @@ export default {
         if (res.data.status === true) {
           this.invoice = res.data.invoice
         }
-        let update = this.invoice.updated
-        this.update_date = update.toDateString()
       })
     }
   },
   watch: {
+    invoice: {
+      handler() {
+        this.dateConvert()
+      }
+    }
   }
 }
 </script>

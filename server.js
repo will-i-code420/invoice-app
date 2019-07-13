@@ -157,7 +157,6 @@ app.post("/invoice", multipartMiddleware, function(req, res) {
   let cost = req.body.price.split(",");
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `INSERT INTO invoices(name, user_id, paid, total_price, created) VALUES('${req.body.name}','${req.body.user_id}','${req.body.paid}','${req.body.total_price}',datetime('now', 'localtime'))`;
-  console.log(req.body.total_price, req.body.paid, req.body.name)
   db.serialize(function() {
     db.run(sql, function(err) {
       if (err) {
