@@ -53,6 +53,27 @@
     <b-button pill variant="outline-success" @click="newBalance">Apply Payment</b-button>
     {{ status }}
     </b-form>
+    <div class="email-invoice">
+      <b-form>
+        <label class="recipient" for="recipient">Send Invoice To:</label>
+        <b-form-input
+        v-model="recipient.name"
+        type="text"
+        required
+        >
+        </b-form-input>
+        <label class="recipientEmail" for="recipientEmail">Email Address:</label>
+        <b-form-input
+        v-model="recipient.email"
+        type="email"
+        required
+        >
+        </b-form-input>
+        <b-button pill variant="outline-success" @click="sendInvoice">Email Invoice</b-button>
+        {{ loading }}
+        {{ status }}
+      </b-form>
+    </div>
   </div>
 </template>
 
@@ -78,12 +99,17 @@ export default {
       update_date: '',
       paid: '',
       status: '',
+      loading: '',
       fields: [
         { key: 'item_id', label: 'Item #' },
         { key: 'description' },
         { key: 'quantity' },
         { key: 'price' },
-      ]
+      ],
+      recipient: {
+        name: '',
+        email: ''
+      }
     }
   },
   computed: {
@@ -185,6 +211,19 @@ export default {
         if (res.data.status === true) {
           this.invoice = res.data.invoice
         }
+      })
+    },
+    sendInvoice() {
+      this.loading = 'Emailing Invoice, please wait...'
+      const formData = new FormData()
+      formData.append("user", JSON.stringify(this.user))
+      formData.append("recipient", JSON.stringify(this.recipient))
+      axios.post("http://localhost:3128/sendmail", formData,
+      {
+        headers: {"x-access-token": localStorage.getItem("token")}
+      }).then(res => {
+        this.loading = ''
+        this.status = res.data.message
       })
     }
   },
