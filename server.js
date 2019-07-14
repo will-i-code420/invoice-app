@@ -7,8 +7,17 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const multipartMiddleware = multipart();
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
 const PORT = process.env.PORT || 3128;
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'waronow123@gmail.com',
+    pass: 'Tucson@19'
+  }
+});
 
 const app = express();
 app.use(cors())
@@ -214,6 +223,30 @@ app.post("/business", multipartMiddleware, function(req, res) {
       status: true,
       message: "Business Saved"
     });
+  });
+});
+
+app.post("/sendmail", multipartMiddleware, function(req, res) {
+  let sender = JSON.parse(req.body.user);
+  let recipient = JSON.parse(req.body.recipient);
+  let mailOptions = {
+    from: "waronow123@gmail.com",
+    to: recipient.email,
+    subject: `Hello, ${recipient.name}.  Here is an invoice from ${sender.company_name}`,
+    text: `You owe ${sender.company_name}`
+  };
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      return res.json({
+        status: false,
+        message: `Error emailing to ${recipient.name}`
+      });
+    } else {
+      return res.json({
+        status: true,
+        message: `Invoice emailed to ${recipient.name}`
+      });
+    }
   });
 });
 
