@@ -4,33 +4,122 @@
     :user="user"
     />
     <h1>Hello, {{ user.name }} from {{ user.company_name }}</h1>
-    <h2>Current Info:</h2>
     <hr>
-    <b-container class="bv-example-row">
-      <b-row>
-        <b-col sm="6" offset="3">
-          <div class="profile-info">
-            <b-table bordered hover :items="userInfo" :fields="fields">
-              <template slot="edit" slot-scope="{ item }">
-                <b-button
-                pill
-                variant="outline-danger"
-                size="small"
-                @click="editItem(item)"
-                >
-                  Edit
-                </b-button>
-              </template>
-            </b-table>
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
+    <div class="profile-tabs">
+    <b-card no-body>
+      <b-tabs pills card vertical nav-wrapper-class="w-25">
+        <b-tab title="Your Info" active><b-card-text>
+          <li>{{ user.name }}</li>
+          <li>{{ user.email }}</li>
+          <li>{{ user.phone }}</li>
+        </b-card-text></b-tab>
+        <b-tab title="Company Info"><b-card-text>
+          <li>{{ user.company_name }}</li>
+          <li>{{ user.company_address }}</li>
+          <li>{{ user.company_city }}, {{ user.company_state }}, {{ user.company_zip }}</li>
+        </b-card-text></b-tab>
+        <b-tab title="Add Business To Rolodex"><b-card-text>
+          Add business you do regular business w/ here:
+          <b-form @submit.prevent="submitBusiness">
+            <b-form-group
+            id="input-group-1"
+            label="Business Name:"
+            label-for="input-1"
+            >
+            <b-form-input
+            id="input-1"
+            v-model="businessInfo.business_name"
+            required
+            ></b-form-input>
+            </b-form-group>
+
+            <b-form-group
+            id="input-group-2"
+            label="Contact Name:"
+            label-for="input-2">
+            <b-form-input
+            id="input-2"
+            v-model="businessInfo.business_contact"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-3"
+            label="Contact Phone:"
+            label-for="input-3">
+            <b-form-input
+            id="input-3"
+            v-model="businessInfo.business_phone"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-4"
+            label="Contact Email:"
+            label-for="input-4">
+            <b-form-input
+            id="input-4"
+            v-model="businessInfo.business_email"
+            type="email"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-5"
+            label="Business Address:"
+            label-for="input-5">
+            <b-form-input
+            id="input-5"
+            v-model="businessInfo.business_address"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-6"
+            label="Business City:"
+            label-for="input-6">
+            <b-form-input
+            id="input-6"
+            v-model="businessInfo.business_city"
+            required
+            ></b-form-input>
+            <b-form-group
+            id="input-group-7"
+            label="Business State:"
+            label-for="input-7">
+            <b-form-input
+            id="input-7"
+            v-model="businessInfo.business_state"
+            required
+            ></b-form-input>
+            </b-form-group>
+            </b-form-group>
+            <b-form-group
+            id="input-group-8"
+            label="Business Zip:"
+            label-for="input-8">
+            <b-form-input
+            id="input-8"
+            v-model="businessInfo.business_zip"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-button type="submit" variant="primary">Submit</b-button>
+            {{ status }}
+          </b-form>
+        </b-card-text></b-tab>
+        <b-tab title="Business Rolodex"><b-card-text>
+          <p>List Of Business'</p>
+        </b-card-text></b-tab>
+      </b-tabs>
+    </b-card>
+    </div>
   </div>
 </template>
 
 <script>
 import NavHead from '@/components/NavHead.vue'
+import axios from 'axios'
 
 export default {
   name: 'profile',
@@ -40,24 +129,72 @@ export default {
   data () {
     return {
       user: '',
-      userInfo:[],
-      fields: [
-        { key: 'name' },
-        { key: 'email' },
-        { key: 'phone', label: 'Contact #' },
-        { key: 'company_name' },
-        { key: 'company_address', label: 'Address' },
-        { key: 'edit' }
-      ]
+      business: '',
+      status: '',
+      businessInfo: {
+        business_name: '',
+        business_contact: '',
+        business_phone: '',
+        business_email: '',
+        business_address: '',
+        business_city: '',
+        business_state: '',
+        business_zip: ''
+      }
     }
   },
   created () {
     this.user = JSON.parse(localStorage.getItem('user'))
-    this.userInfo = [this.user]
+    this.getBusinessRolodex()
   },
   methods: {
-    editInfo(item) {
-
+    editInfo() {
+    },
+    submitBusiness() {
+      this.status = "Saving New Business"
+      const formData = new FormData()
+      formData.append("business_name", this.businessInfo.business_name)
+      formData.append("business_contact", this.businessInfo.business_contact)
+      formData.append("business_email", this.businessInfo.business_email)
+      formData.append("business_phone", this.businessInfo.business_phone)
+      formData.append("business_address", this.businessInfo.business_address)
+      formData.append("business_city", this.businessInfo.business_city)
+      formData.append("business_state", this.businessInfo.business_state)
+      formData.append("business_zip", this.businessInfo.business_zip)
+      formData.append("user_id", this.user.id)
+      axios.post(`http://localhost:3128/business`, formData,
+      {
+        headers: {"x-access-token": localStorage.getItem("token")}
+      }).then(res => {
+        if (res.data.status === true) {
+          this.status = res.data.message
+          this.getBusinessRolodex()
+        } else {
+          this.status = res.data.message
+        }
+      })
+      this.clearBusinessForm()
+    },
+    clearBusinessForm() {
+      this.businessInfo.business_name = '',
+      this.businessInfo.business_contact = '',
+      this.businessInfo.business_email = '',
+      this.businessInfo.business_phone = '',
+      this.businessInfo.business_address = '',
+      this.businessInfo.business_city = '',
+      this.businessInfo.business_state = '',
+      this.businessInfo.business_zip = '',
+      this.status = ''
+    },
+    getBusinessRolodex() {
+      axios.get(`http://localhost:3128/business/user/${this.user.id}`,
+      {
+        headers: {"x-access-token": localStorage.getItem("token")}
+      }).then(res => {
+        if (res.data.status === true) {
+          this.business = res.data.business
+        }
+      })
     }
   }
 }
@@ -66,5 +203,8 @@ export default {
 <style scoped>
 h1 {
   padding-top: 70px;
+}
+.profile-tabs {
+  margin-top: 50px;
 }
 </style>
