@@ -19,7 +19,6 @@
           <li>{{ user.company_city }}, {{ user.company_state }}, {{ user.company_zip }}</li>
         </b-card-text></b-tab>
         <b-tab title="Add Business To Rolodex"><b-card-text>
-          Add business you do regular business w/ here:
           <b-form @submit.prevent="submitBusiness">
             <b-form-group
             id="input-group-1"
