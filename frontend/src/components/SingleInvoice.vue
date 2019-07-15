@@ -3,6 +3,7 @@
     <NavHead
     :user="user"
     />
+    <div class="whole-invoice" ref="invoice">
     <h1>Invoice #{{ invoice.id }} Info:</h1>
     <div class="invoice-dates">
       <h5 class="created">Created On: {{ create_date }}</h5>
@@ -42,6 +43,7 @@
       </div>
       <hr class="balance">
     </div>
+    </div>
     <b-form>
       <label class="payment" for="payment">Add Payment</label>
       <b-form-input
@@ -73,6 +75,7 @@
         {{ loading }}
         {{ status }}
       </b-form>
+      <b-button pill variant="outline-success" @click="createPdf">Create PDF</b-button>
     </div>
   </div>
 </template>
@@ -80,6 +83,7 @@
 <script>
 import NavHead from '@/components/NavHead.vue'
 import axios from 'axios'
+import jsPDF from 'jspdf'
 
 export default {
   name: 'singleInvoice',
@@ -227,6 +231,14 @@ export default {
       })
       this.recipient.name = ''
       this.recipient.email = ''
+    },
+    createPdf() {
+      const doc = new jsPDF()
+      const content = this.$refs.invoice.innerHTML
+      doc.fromHTML(content, 15, 15, {
+        width: 170
+      })
+      doc.save("sample.pdf")
     }
   },
   watch: {
