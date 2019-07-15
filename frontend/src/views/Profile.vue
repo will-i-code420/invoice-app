@@ -49,6 +49,7 @@
             <b-form-input
             id="input-3"
             v-model="businessInfo.business_phone"
+            type="tel"
             required
             ></b-form-input>
             </b-form-group>

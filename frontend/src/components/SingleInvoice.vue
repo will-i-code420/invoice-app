@@ -225,6 +225,8 @@ export default {
         this.loading = ''
         this.status = res.data.message
       })
+      this.recipient.name = ''
+      this.recipient.email = ''
     }
   },
   watch: {
