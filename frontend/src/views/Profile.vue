@@ -335,7 +335,7 @@ export default {
       this.employeeInfo.zip = ''
       this.employeeInfo.state_tax = ''
       this.employeeInfo.fed_tax = ''
-    }
+    },
     getBusinessRolodex() {
       axios.get(`http://localhost:3128/business/user/${this.user.id}`,
       {
