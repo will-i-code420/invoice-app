@@ -104,12 +104,112 @@
             required
             ></b-form-input>
             </b-form-group>
-            <b-button type="submit" variant="primary">Submit</b-button>
+            <b-button type="submit" variant="primary">Add Business</b-button>
             {{ status }}
           </b-form>
         </b-card-text></b-tab>
         <b-tab title="Business Rolodex"><b-card-text>
           <p>List Of Business'</p>
+        </b-card-text></b-tab>
+        <b-tab title="Employee Rolodex"><b-card-text>
+          <p>List Of Employee's</p>
+        </b-card-text></b-tab>
+        <b-tab title="Add Employee"><b-card-text>
+          <b-form @submit.prevent="submitEmployee">
+            <b-form-group
+            id="input-group-9"
+            label="Employee Name:"
+            label-for="input-9">
+            <b-form-input
+            id="input-9"
+            v-model="employeeInfo.name"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-14"
+            label="Employee Phone:"
+            label-for="input-14">
+            <b-form-input
+            id="input-14"
+            v-model="employeeInfo.phone"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-15"
+            label="Employee Email:"
+            label-for="input-15">
+            <b-form-input
+            id="input-15"
+            v-model="employeeInfo.email"
+            type="email"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-10"
+            label="Home Address:"
+            label-for="input-10">
+            <b-form-input
+            id="input-10"
+            v-model="employeeInfo.address"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-11"
+            label="Home City:"
+            label-for="input-11">
+            <b-form-input
+            id="input-11"
+            v-model="employeeInfo.city"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-12"
+            label="Home State:"
+            label-for="input-12">
+            <b-form-input
+            id="input-12"
+            v-model="employeeInfo.state"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-13"
+            label="Home Zip:"
+            label-for="input-13">
+            <b-form-input
+            id="input-13"
+            v-model="employeeInfo.zip"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-16"
+            label="State Tax Deduction:"
+            label-for="input-16">
+            <b-form-input
+            id="input-16"
+            v-model="employeeInfo.state_tax"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-form-group
+            id="input-group-17"
+            label="Federal Tax Deduction:"
+            label-for="input-17">
+            <b-form-input
+            id="input-17"
+            v-model="employeeInfo.fed_tax"
+            required
+            ></b-form-input>
+            </b-form-group>
+            <b-button type="submit" variant="primary">Add Employee</b-button>
+            {{ status }}
+          </b-form>
         </b-card-text></b-tab>
       </b-tabs>
     </b-card>
@@ -130,6 +230,7 @@ export default {
     return {
       user: '',
       business: '',
+      employee: '',
       status: '',
       businessInfo: {
         business_name: '',
@@ -140,12 +241,24 @@ export default {
         business_city: '',
         business_state: '',
         business_zip: ''
+      },
+      employeeInfo: {
+        name: '',
+        phone: '',
+        email: '',
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+        state_tax: '',
+        fed_tax: ''
       }
     }
   },
   created () {
     this.user = JSON.parse(localStorage.getItem('user'))
     this.getBusinessRolodex()
+    this.getEmployeeRolodex()
   },
   methods: {
     editInfo() {
@@ -162,7 +275,7 @@ export default {
       formData.append("business_state", this.businessInfo.business_state)
       formData.append("business_zip", this.businessInfo.business_zip)
       formData.append("user_id", this.user.id)
-      axios.post(`http://localhost:3128/business`, formData,
+      axios.post('http://localhost:3128/business', formData,
       {
         headers: {"x-access-token": localStorage.getItem("token")}
       }).then(res => {
@@ -186,6 +299,43 @@ export default {
       this.businessInfo.business_zip = '',
       this.status = ''
     },
+    submitEmployee() {
+      this.staus = "Saving Employee..."
+      const formData = new FormData()
+      formData.append("name", this.employeeInfo.name),
+      formData.append("phone", this.employeeInfo.phone),
+      formData.append("email", this.employeeInfo.email),
+      formData.append("address", this.employeeInfo.address),
+      formData.append("city", this.employeeInfo.city),
+      formData.append("state", this.employeeInfo.state),
+      formData.append("zip", this.employeeInfo.zip),
+      formData.append("state_tax", this.employeeInfo.state_tax),
+      formData.append("fed_tax", this.employeeInfo.fed_tax),
+      formData.append("user_id", this.user.id)
+      axios.post('http://localhost:3128/employee', formData,
+      {
+        headers: {"x-access-token": localStorage.getItem("token")}
+      }).then(res => {
+        if (res.data.status === true) {
+          this.status = res.data.message
+          this.getEmployeeRolodex()
+        } else {
+          this.status = res.data.message
+        }
+      })
+      this.clearEmployeeForm()
+    },
+    clearEmployeeForm() {
+      this.employeeInfo.name = ''
+      this.employeeInfo.phone = ''
+      this.employeeInfo.email = ''
+      this.employeeInfo.address = ''
+      this.employeeInfo.city = ''
+      this.employeeInfo.state = ''
+      this.employeeInfo.zip = ''
+      this.employeeInfo.state_tax = ''
+      this.employeeInfo.fed_tax = ''
+    }
     getBusinessRolodex() {
       axios.get(`http://localhost:3128/business/user/${this.user.id}`,
       {
@@ -193,6 +343,16 @@ export default {
       }).then(res => {
         if (res.data.status === true) {
           this.business = res.data.business
+        }
+      })
+    },
+    getEmployeeRolodex() {
+      axios.get(`http://localhost:3128/employee/user/${this.user.id}`,
+      {
+        headers: {"x-access-token": localStorage.getItem("token")}
+      }).then(res => {
+        if (res.data.status === true) {
+          this.employee = res.data.employee
         }
       })
     }
