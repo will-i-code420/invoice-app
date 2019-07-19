@@ -160,8 +160,8 @@ app.get("/invoice/user/:user_id/:invoice_id", multipartMiddleware, function(req,
 });
 
 app.get("/business/user/:user_id", multipartMiddleware, function(req, res) {
-  let db = new sqlite3.Database("./database/InvoiceApp.db")
-  let sql = `SELECT * FROM business where user_id=${req.params.user_id}`
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `SELECT * FROM business where user_id=${req.params.user_id}`;
   db.all(sql, [], (err, rows) => {
     if (err) {
       throw err;
@@ -169,6 +169,20 @@ app.get("/business/user/:user_id", multipartMiddleware, function(req, res) {
     return res.json({
       status: true,
       business: rows
+    });
+  });
+});
+
+app.get("/employee/user/:user_id", multipartMiddleware, function(req, res) {
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `SELECT * FROM employee where user_id=${req.params.user_id}`;
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    return res.json({
+      status: true,
+      employee: rows
     });
   });
 });
@@ -211,7 +225,7 @@ app.post("/invoice", multipartMiddleware, function(req, res) {
 
 app.post("/business", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `INSERT INTO business(business_name, business_contact, business_email, business_phone, business_address, business_city, business_state, business_zip, user_id) VALUES('${req.body.business_name}','${req.body.business_contact}','${req.body.business_email}','${req.body.business_phone}','${req.body.business_address}','${req.body.business_city}','${req.body.business_state}','${req.body.business_zip}','${req.body.user_id}')`
+  let sql = `INSERT INTO business(business_name, business_contact, business_email, business_phone, business_address, business_city, business_state, business_zip, user_id) VALUES('${req.body.business_name}','${req.body.business_contact}','${req.body.business_email}','${req.body.business_phone}','${req.body.business_address}','${req.body.business_city}','${req.body.business_state}','${req.body.business_zip}','${req.body.user_id}')`;
   db.run(sql, function(err) {
     if (err) {
       return res.json({
@@ -221,7 +235,24 @@ app.post("/business", multipartMiddleware, function(req, res) {
     }
     return res.json({
       status: true,
-      message: "Business Saved"
+      message: "New Business Created"
+    });
+  });
+});
+
+app.post("/employee", multipartMiddleware, function(req, res) {
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `INSERT INTO employee(name, phone, email, address, city, state, zip, state_tax, fed_tax, user_id) VALUES('${req.body.name}','${req.body.phone}','${req.body.email}','${req.body.address}','${req.body.city}','${req.body.state}','${req.body.zip}','${req.body.fed_tax}','${req.body.state_tax}','${req.body.user_id}')`;
+  db.run(sql, function(err) {
+    if (err) {
+      return res.json({
+        status: false,
+        message: "Error Saving Employee"
+      });
+    }
+    return res.json({
+      status: true,
+      message: "New Employee Created"
     });
   });
 });

@@ -4,7 +4,6 @@
     :user="user"
     />
     <h1>Hello, {{ user.name }} from {{ user.company_name }}</h1>
-    <hr>
     <div class="profile-tabs">
     <b-card no-body>
       <b-tabs pills card vertical nav-wrapper-class="w-25">
@@ -109,10 +108,14 @@
           </b-form>
         </b-card-text></b-tab>
         <b-tab title="Business Rolodex"><b-card-text>
-          <p>List Of Business'</p>
+          <li v-for="business in business" :key="business.id">
+            {{ business.business_name }}
+          </li>
         </b-card-text></b-tab>
         <b-tab title="Employee Rolodex"><b-card-text>
-          <p>List Of Employee's</p>
+          <li v-for="employee in employee" :key="employee.id">
+            {{ employee.name }}
+          </li>
         </b-card-text></b-tab>
         <b-tab title="Add Employee"><b-card-text>
           <b-form @submit.prevent="submitEmployee">

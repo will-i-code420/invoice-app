@@ -4,7 +4,7 @@
     :user="user"
     />
     <div id="whole-invoice">
-    <h1>Invoice #{{ invoice.id }}:</h1>
+    <h1>Invoice #{{ invoice.id }} :</h1>
     <div class="invoice-dates">
       <h5 class="created">Created On: {{ create_date }}</h5>
       <h5 class="updated">Last Payment On: {{ update_date }}</h5>
