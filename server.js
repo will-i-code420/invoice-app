@@ -8,6 +8,7 @@ const saltRounds = 10;
 const multipartMiddleware = multipart();
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const multer = require('multer');
 
 const PORT = process.env.PORT || 3128;
 
@@ -17,6 +18,10 @@ const transporter = nodemailer.createTransport({
     user: 'waronow123@gmail.com',
     pass: 'Tucson@19'
   }
+});
+
+const upload = multer({
+  dest: './uploads',
 });
 
 const app = express();
@@ -278,6 +283,12 @@ app.post("/sendmail", multipartMiddleware, function(req, res) {
         message: `Invoice emailed to ${recipient.name}`
       });
     }
+  });
+});
+
+app.post('/uploads', upload.single('file'), (req, res) => {
+  res.json({
+    file: req.file
   });
 });
 

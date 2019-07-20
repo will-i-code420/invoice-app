@@ -192,7 +192,7 @@
             </b-form-group>
             <b-form-group
             id="input-group-16"
-            label="State Tax Deduction:"
+            label="State Tax Rate:"
             label-for="input-16">
             <b-form-input
             id="input-16"
@@ -202,7 +202,7 @@
             </b-form-group>
             <b-form-group
             id="input-group-17"
-            label="Federal Tax Deduction:"
+            label="Federal Tax Rate:"
             label-for="input-17">
             <b-form-input
             id="input-17"
@@ -213,6 +213,9 @@
             <b-button type="submit" variant="primary">Add Employee</b-button>
             {{ status }}
           </b-form>
+          <b-form v-if="this.status==='New Employee Created'">
+            <FileUpload/>
+          </b-form>
         </b-card-text></b-tab>
       </b-tabs>
     </b-card>
@@ -222,12 +225,14 @@
 
 <script>
 import NavHead from '@/components/NavHead.vue'
+import FileUpload from '@/components/FileUpload.vue'
 import axios from 'axios'
 
 export default {
   name: 'profile',
   components: {
-    NavHead
+    NavHead,
+    FileUpload
   },
   data () {
     return {
