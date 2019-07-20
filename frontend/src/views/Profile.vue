@@ -104,7 +104,6 @@
             ></b-form-input>
             </b-form-group>
             <b-button type="submit" variant="primary">Add Business</b-button>
-            {{ status }}
           </b-form>
         </b-card-text></b-tab>
         <b-tab title="Business Rolodex"><b-card-text>
@@ -211,7 +210,6 @@
             ></b-form-input>
             </b-form-group>
             <b-button type="submit" variant="primary">Add Employee</b-button>
-            {{ status }}
           </b-form>
           <b-form v-if="this.status==='New Employee Created'">
             <FileUpload/>
@@ -289,9 +287,11 @@ export default {
       }).then(res => {
         if (res.data.status === true) {
           this.status = res.data.message
+          alert(res.data.message)
           this.getBusinessRolodex()
         } else {
           this.status = res.data.message
+          alert(res.data.message)
         }
       })
       this.clearBusinessForm()
@@ -326,9 +326,11 @@ export default {
       }).then(res => {
         if (res.data.status === true) {
           this.status = res.data.message
+          alert(res.data.message)
           this.getEmployeeRolodex()
         } else {
           this.status = res.data.message
+          alert(res.data.message)
         }
       })
       this.clearEmployeeForm()
@@ -343,6 +345,7 @@ export default {
       this.employeeInfo.zip = ''
       this.employeeInfo.state_tax = ''
       this.employeeInfo.fed_tax = ''
+      this.status = ''
     },
     getBusinessRolodex() {
       axios.get(`http://localhost:3128/business/user/${this.user.id}`,

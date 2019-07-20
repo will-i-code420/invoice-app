@@ -165,8 +165,6 @@
           <b-button pill variant="outline-success" @click="onSubmit">
             Create Invoice
           </b-button>
-          {{ loading }}
-          {{ status }}
         </div>
         </b-form>
         </b-col>
@@ -306,8 +304,10 @@ export default {
         this.loading = ''
         if (res.data.status === true) {
           this.status = res.data.message
+          alert(res.data.message)
         } else {
           this.status = res.data.message
+          alert(res.data.message)
         }
       })
       this.resetInvoice()

@@ -55,7 +55,6 @@
       >
       </b-form-input>
     <b-button pill variant="outline-success" @click="newBalance">Apply Payment</b-button>
-    {{ status }}
     </b-form>
     <div class="email-invoice">
       <b-form>
@@ -74,8 +73,6 @@
         >
         </b-form-input>
         <b-button pill variant="outline-success" @click="sendInvoice">Email Invoice</b-button>
-        {{ loading }}
-        {{ status }}
       </b-form>
       <b-button pill variant="outline-success" @click="createPdf">Create PDF</b-button>
     </div>
@@ -157,8 +154,10 @@ export default {
       }).then(res => {
         if (res.data.message === true) {
           this.status = res.data.message
+          alert(res.data.message)
         } else {
           this.status = res.data.message
+          alert(res.data.message)
         }
       })
       this.updatedDate()
@@ -231,6 +230,7 @@ export default {
       }).then(res => {
         this.loading = ''
         this.status = res.data.message
+        alert(res.data.message)
       })
       this.recipient.name = ''
       this.recipient.email = ''
