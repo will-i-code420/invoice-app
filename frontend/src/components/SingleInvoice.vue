@@ -56,24 +56,6 @@
       </b-form-input>
     <b-button pill variant="outline-success" @click="newBalance">Apply Payment</b-button>
     </b-form>
-    <div class="email-invoice">
-      <b-form>
-        <label class="recipient" for="recipient">Send Invoice To:</label>
-        <b-form-input
-        v-model="recipient.name"
-        type="text"
-        required
-        >
-        </b-form-input>
-        <label class="recipientEmail" for="recipientEmail">Email Address:</label>
-        <b-form-input
-        v-model="recipient.email"
-        type="email"
-        required
-        >
-        </b-form-input>
-        <b-button pill variant="outline-success" @click="sendInvoice">Email Invoice</b-button>
-      </b-form>
       <b-button pill variant="outline-success" @click="createPdf">Create PDF</b-button>
     </div>
   </div>
@@ -110,10 +92,6 @@ export default {
         { key: 'quantity' },
         { key: 'price' },
       ],
-      recipient: {
-        name: '',
-        email: ''
-      }
     }
   },
   computed: {
@@ -218,22 +196,6 @@ export default {
           this.invoice = res.data.invoice
         }
       })
-    },
-    sendInvoice() {
-      this.loading = 'Emailing Invoice, please wait...'
-      const formData = new FormData()
-      formData.append("user", JSON.stringify(this.user))
-      formData.append("recipient", JSON.stringify(this.recipient))
-      axios.post("http://localhost:3128/sendmail", formData,
-      {
-        headers: {"x-access-token": localStorage.getItem("token")}
-      }).then(res => {
-        this.loading = ''
-        this.status = res.data.message
-        alert(res.data.message)
-      })
-      this.recipient.name = ''
-      this.recipient.email = ''
     },
     createPdf() {
       const filename = `${this.invoice.name}_Invoice.pdf`
