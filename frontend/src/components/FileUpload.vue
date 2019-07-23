@@ -26,8 +26,10 @@ export default {
       this.file = form
     },
     async fileUpload() {
+      let user = JSON.parse(localStorage.getItem('user'))
       const formData = new FormData()
       formData.append('file', this.file)
+      formData.append('user_id', user.id)
       try {
         await axios.post('http://localhost:3128/uploads', formData,
         {

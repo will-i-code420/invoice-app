@@ -3,18 +3,30 @@ const bodyParser = require('body-parser');
 const multipart = require('connect-multiparty');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
+const path = require('path');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const multipartMiddleware = multipart();
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
+const moment = require('moment');
 
 const PORT = process.env.PORT || 3128;
 
-const upload = multer({
-  dest: './uploads',
+const dir = './uploads';
+let date = moment().format('lll')
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, dir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname + '-' + date + path.extname(file.originalname));
+  }
 });
+
+const upload = multer({storage: storage});
 
 const app = express();
 app.use(cors())
@@ -172,7 +184,7 @@ app.get("/business/user/:user_id", multipartMiddleware, function(req, res) {
 
 app.get("/employee/user/:user_id", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `SELECT * FROM employee where user_id=${req.params.user_id}`;
+  let sql = `SELECT * FROM employee WHERE user_id=${req.params.user_id}`;
   db.all(sql, [], (err, rows) => {
     if (err) {
       throw err;
@@ -180,6 +192,21 @@ app.get("/employee/user/:user_id", multipartMiddleware, function(req, res) {
     return res.json({
       status: true,
       employee: rows
+    });
+  });
+});
+
+app.get("/employee/user/:user_id/:employee_id", multipartMiddleware, (req, res) => {
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `SELECT * from employee WHERE user_id=${req.params.user_id} AND id=${req.params.employee_id}`;
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    let employee = rows[0]
+    return res.json({
+      status: true,
+      employee: employee
     });
   });
 });
@@ -239,7 +266,7 @@ app.post("/business", multipartMiddleware, function(req, res) {
 
 app.post("/employee", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `INSERT INTO employee(name, phone, email, address, city, state, zip, state_tax, fed_tax, user_id) VALUES('${req.body.name}','${req.body.phone}','${req.body.email}','${req.body.address}','${req.body.city}','${req.body.state}','${req.body.zip}','${req.body.fed_tax}','${req.body.state_tax}','${req.body.user_id}')`;
+  let sql = `INSERT INTO employee(name, phone, email, address, city, state, zip, state_tax, fed_tax, created_on, user_id) VALUES('${req.body.name}','${req.body.phone}','${req.body.email}','${req.body.address}','${req.body.city}','${req.body.state}','${req.body.zip}','${req.body.fed_tax}','${req.body.state_tax}',datetime('now', 'localtime'),'${req.body.user_id}')`;
   db.run(sql, function(err) {
     if (err) {
       return res.json({
@@ -255,8 +282,19 @@ app.post("/employee", multipartMiddleware, function(req, res) {
 });
 
 app.post('/uploads', upload.single('file'), (req, res) => {
-  res.json({
-    file: req.file
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `INSERT INTO file(name, size, type, user_id, created_on, employee_id) VALUES('${req.file.filename}','${req.file.size}','${req.file.mimetype}','${req.body.user_id}',datetime('now', 'localtime'))`;
+  db.run(sql, (err) => {
+    if (err) {
+      return res.json({
+        status: false,
+        message: "Error Uploading File(s)"
+      });
+    }
+    return res.json({
+      status: true,
+      message: "File(s) Uploaded"
+    });
   });
 });
 
@@ -265,7 +303,6 @@ app.patch("/invoice", multipartMiddleware, function(req, res) {
   let sql = `UPDATE invoices SET paid='${req.body.paid}', updated=datetime('now', 'localtime') WHERE id='${req.body.id}'`;
   db.run(sql, function(err) {
     if (err) {
-      console.log(err)
       return res.json({
         status: false,
         message: "Error Adding Payment"

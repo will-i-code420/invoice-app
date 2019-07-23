@@ -5,6 +5,7 @@ import SignIn from './views/SignIn.vue'
 import About from './views/About.vue'
 import Profile from './views/Profile.vue'
 import SingleInvoice from './components/SingleInvoice.vue'
+import SingleEmployee from './components/SingleEmployee.vue'
 
 
 Vue.use(Router)
@@ -32,6 +33,11 @@ export default new Router({
       path: '/invoice',
       name: 'singleInvoice',
       component: SingleInvoice
+    },
+    {
+      path: '/employee',
+      name: 'singleEmployee',
+      component: SingleEmployee
     },
     {
       path: '/profile',

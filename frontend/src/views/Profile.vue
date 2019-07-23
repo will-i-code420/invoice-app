@@ -112,9 +112,18 @@
           </li>
         </b-card-text></b-tab>
         <b-tab title="Employee Rolodex"><b-card-text>
-          <li v-for="employee in employee" :key="employee.id">
-            {{ employee.name }}
-          </li>
+          <b-table bordered hover :items="employee" :fields="fields">
+            <template slot="view" slot-scope="{ item }">
+              <b-button
+              pill
+              variant="outline-success"
+              size="small"
+              :to="{ name: 'singleEmployee', params: { employee_id: item.id } }"
+              >
+              View Employee
+              </b-button>
+            </template>
+          </b-table>
         </b-card-text></b-tab>
         <b-tab title="Add Employee"><b-card-text>
           <b-form @submit.prevent="submitEmployee">
@@ -211,9 +220,6 @@
             </b-form-group>
             <b-button type="submit" variant="primary">Add Employee</b-button>
           </b-form>
-          <b-form v-if="this.status==='New Employee Created'">
-            <FileUpload/>
-          </b-form>
         </b-card-text></b-tab>
       </b-tabs>
     </b-card>
@@ -223,20 +229,25 @@
 
 <script>
 import NavHead from '@/components/NavHead.vue'
-import FileUpload from '@/components/FileUpload.vue'
 import axios from 'axios'
 
 export default {
   name: 'profile',
   components: {
-    NavHead,
-    FileUpload
+    NavHead
   },
   data () {
     return {
       user: '',
-      business: '',
-      employee: '',
+      business: [],
+      employee: [],
+      fields: [
+        { key: 'name' },
+        { key: 'phone' },
+        { key: 'email' },
+        { key: 'created_on', label: 'Hire Date' },
+        { key: 'view' }
+      ],
       status: '',
       businessInfo: {
         business_name: '',
@@ -271,6 +282,7 @@ export default {
     },
     submitBusiness() {
       this.status = "Saving New Business"
+      let json = {}
       const formData = new FormData()
       formData.append("business_name", this.businessInfo.business_name)
       formData.append("business_contact", this.businessInfo.business_contact)
@@ -281,7 +293,10 @@ export default {
       formData.append("business_state", this.businessInfo.business_state)
       formData.append("business_zip", this.businessInfo.business_zip)
       formData.append("user_id", this.user.id)
-      axios.post('http://localhost:3128/business', formData,
+      for (const [key, value] of formData.entries()) {
+        json[key] = value
+      }
+      axios.post('http://localhost:3128/business', json,
       {
         headers: {"x-access-token": localStorage.getItem("token")}
       }).then(res => {
@@ -309,6 +324,7 @@ export default {
     },
     submitEmployee() {
       this.staus = "Saving Employee..."
+      let json = {}
       const formData = new FormData()
       formData.append("name", this.employeeInfo.name),
       formData.append("phone", this.employeeInfo.phone),
@@ -320,7 +336,11 @@ export default {
       formData.append("state_tax", this.employeeInfo.state_tax),
       formData.append("fed_tax", this.employeeInfo.fed_tax),
       formData.append("user_id", this.user.id)
-      axios.post('http://localhost:3128/employee', formData,
+      for (const [key, value] of formData.entries()) {
+        json[key] = value
+      }
+      console.log(json)
+      axios.post('http://localhost:3128/employee', json,
       {
         headers: {"x-access-token": localStorage.getItem("token")}
       }).then(res => {

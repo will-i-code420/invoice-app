@@ -273,6 +273,8 @@ export default {
       this.calcTotal()
     },
     onSubmit () {
+      this.loading = "Creating Invoice, please wait..."
+      let json = {}
       const formData = new FormData()
       let item_id = []
       let description = []
@@ -296,8 +298,11 @@ export default {
       formData.append("total_price", this.invoice.total_price)
       let user = JSON.parse(localStorage.getItem('user'))
       formData.append("user_id", user.id)
-      this.loading = "Creating Invoice, please wait..."
-      axios.post("http://localhost:3128/invoice", formData,
+      for (const [key, value] of formData.entries()) {
+        json[key] = value
+      }
+      console.log(json)
+      axios.post("http://localhost:3128/invoice", json,
       {
         headers: {"x-access-token": localStorage.getItem("token")}
       }).then(res => {
