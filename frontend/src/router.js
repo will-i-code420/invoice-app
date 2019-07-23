@@ -6,6 +6,7 @@ import About from './views/About.vue'
 import Profile from './views/Profile.vue'
 import SingleInvoice from './components/SingleInvoice.vue'
 import SingleEmployee from './components/SingleEmployee.vue'
+import SingleBusiness from './components/SingleBusiness.vue'
 
 
 Vue.use(Router)
@@ -38,6 +39,11 @@ export default new Router({
       path: '/employee',
       name: 'singleEmployee',
       component: SingleEmployee
+    },
+    {
+      path: '/business',
+      name: 'singleBusiness',
+      component: SingleBusiness
     },
     {
       path: '/profile',

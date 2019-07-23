@@ -107,9 +107,18 @@
           </b-form>
         </b-card-text></b-tab>
         <b-tab title="Business Rolodex"><b-card-text>
-          <li v-for="business in business" :key="business.id">
-            {{ business.business_name }}
-          </li>
+          <b-table bordered hover :items="business" :fields="bfields">
+            <template slot="view" slot-scope="{ item }">
+              <b-button
+              pill
+              variant="outline-success"
+              size="small"
+              :to="{ name: 'singleBusiness', params: { business_id: item.id } }"
+              >
+              View Employee
+              </b-button>
+            </template>
+          </b-table>
         </b-card-text></b-tab>
         <b-tab title="Employee Rolodex"><b-card-text>
           <b-table bordered hover :items="employee" :fields="fields">
@@ -243,10 +252,17 @@ export default {
       employee: [],
       fields: [
         { key: 'name' },
-        { key: 'phone' },
+        { key: 'phone', label: 'Phone #' },
         { key: 'email' },
         { key: 'created_on', label: 'Hire Date' },
         { key: 'view' }
+      ],
+      bfields: [
+        { key: 'business_name', label: 'Name' },
+        { key: 'business_contact', label: 'Contact' },
+        { key: 'business_phone', label: 'Phone #' },
+        { key: 'business_email', label: 'Email' },
+        { key: 'view' },
       ],
       status: '',
       businessInfo: {

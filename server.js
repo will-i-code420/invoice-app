@@ -198,15 +198,30 @@ app.get("/employee/user/:user_id", multipartMiddleware, function(req, res) {
 
 app.get("/employee/user/:user_id/:employee_id", multipartMiddleware, (req, res) => {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
-  let sql = `SELECT * from employee WHERE user_id=${req.params.user_id} AND id=${req.params.employee_id}`;
+  let sql = `SELECT * FROM employee WHERE user_id=${req.params.user_id} AND id=${req.params.employee_id}`;
   db.all(sql, [], (err, rows) => {
     if (err) {
       throw err;
     }
-    let employee = rows[0]
+    let employee = rows[0];
     return res.json({
       status: true,
       employee: employee
+    });
+  });
+});
+
+app.get("/business/user/:user_id/:business_id", multipartMiddleware, (req, res) => {
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `SELECT * FROM business WHERE user_id=${req.params.user_id} AND id=${req.params.business_id}`;
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    let business = rows[0];
+    return res.json({
+      status: true,
+      business: business
     });
   });
 });
