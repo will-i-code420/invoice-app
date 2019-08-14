@@ -296,7 +296,7 @@ app.post("/employee", multipartMiddleware, function(req, res) {
   });
 });
 
-app.post('/uploads', upload.single('file'), (req, res) => {
+app.post('/uploads', upload.array('file', 10), (req, res) => {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `INSERT INTO file(name, size, type, user_id, created_on, employee_id) VALUES('${req.file.filename}','${req.file.size}','${req.file.mimetype}','${req.body.user_id}',datetime('now', 'localtime'))`;
   db.run(sql, (err) => {

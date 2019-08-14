@@ -2,7 +2,16 @@
   <div class="file">
     <b-form enctype="multipart/form-data" @submit.prevent="fileUpload">
       <label>Upload File</label>
-      <input type="file" ref="file" @change="selectedFile">
+      <b-form-file
+      class="mt-3 file-form"
+      v-model="file"
+      ref="file"
+      @change="selectedFile"
+      multiple
+      placeholder="Drag Files Here Or Click To Add Files"
+      browse-text=""
+      >
+      </b-form-file>
       <b-button pill variant="outline-primary" type="submit">
         Add
       </b-button>
@@ -17,7 +26,7 @@ export default {
   name: 'FileUpload',
   data () {
     return {
-      file: ''
+      file: []
     }
   },
   methods: {
@@ -46,4 +55,12 @@ export default {
 </script>
 
 <style scoped>
+.file {
+}
+.file-form {
+  color: aqua;
+  border: 1px dashed black;
+  width: 400px;
+  height: 200px;
+}
 </style>
