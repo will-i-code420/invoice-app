@@ -1,13 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Dashboard from './views/Dashboard.vue'
-import SignIn from './views/SignIn.vue'
-import About from './views/About.vue'
-import Profile from './views/Profile.vue'
-import SingleInvoice from './components/SingleInvoice.vue'
-import SingleEmployee from './components/SingleEmployee.vue'
-import SingleBusiness from './components/SingleBusiness.vue'
-
 
 Vue.use(Router)
 
@@ -18,37 +10,57 @@ export default new Router({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: Dashboard
+      component: () =>
+        import('@/views/Dashboard.vue')
     },
     {
       path: '/',
-      name: 'signin',
-      component: SignIn
+      name: 'home',
+      component: () =>
+        import('@/views/Home.vue')
     },
     {
       path: '/about',
       name: 'about',
-      component: About
+      component: () =>
+        import('@/views/About.vue')
     },
     {
-      path: '/invoice',
+      path: '/create',
+      name: 'createInvoice',
+      component: () =>
+        import('@/components/CreateInvoice.vue')
+    },
+    {
+      path: '/invoices',
+      name: 'viewInvoice',
+      component: () =>
+        import('@/components/ViewInvoice.vue')
+    },
+    {
+      path: '/invoices/:id',
       name: 'singleInvoice',
-      component: SingleInvoice
+      component: () =>
+        import('@/components/SingleInvoice.vue')
     },
     {
-      path: '/employee',
+      path: '/employee/:id',
       name: 'singleEmployee',
-      component: SingleEmployee
+      component: () =>
+        import('@/components/SingleEmployee.vue')
     },
     {
-      path: '/business',
+      path: '/business/:id',
       name: 'singleBusiness',
-      component: SingleBusiness
+      component: () =>
+        import('@/components/SingleBusiness.vue')
     },
     {
       path: '/profile',
       name: 'profile',
       component: Profile
+      component: () =>
+        import('@/views/Profile.vue')
     }
   ]
 })
