@@ -1,11 +1,17 @@
 <template>
   <div id="app">
+    <NavHead/>
     <router-view/>
   </div>
 </template>
 
 <script>
+import NavHead from '@/components/NavHead'
+
 export default {
+  components: {
+    NavHead
+  }
 }
 </script>
 

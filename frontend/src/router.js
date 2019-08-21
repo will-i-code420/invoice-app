@@ -33,7 +33,7 @@ export default new Router({
     },
     {
       path: '/invoices',
-      name: 'viewInvoice',
+      name: 'viewInvoices',
       component: () =>
         import('@/components/ViewInvoice.vue')
     },

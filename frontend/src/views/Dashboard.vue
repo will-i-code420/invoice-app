@@ -1,8 +1,5 @@
 <template>
   <div class="dash-container">
-    <NavHead
-    :user="user"
-    />
     <template v-if="this.isactive === 'create'">
       <b-container class="forms-container">
         <b-row>
@@ -25,25 +22,22 @@
 </template>
 
 <script>
-import NavHead from '@/components/NavHead.vue'
-import CreateInvoice from '@/components/CreateInvoice.vue'
-import ViewInvoice from '@/components/ViewInvoice.vue'
+import CreateInvoice from '@/components/CreateInvoice'
+import ViewInvoice from '@/components/ViewInvoice'
 
 export default {
   name: 'dashboard',
   components: {
-    NavHead,
     CreateInvoice,
     ViewInvoice
   },
   data () {
     return {
-      isactive: 'create',
-      user: ''
+      isactive: 'create'
     }
   },
   created () {
-    this.user = JSON.parse(localStorage.getItem('user'))
+    // this.user = JSON.parse(localStorage.getItem('user'))
   }
 }
 </script>

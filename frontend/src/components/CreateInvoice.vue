@@ -177,6 +177,7 @@
 import axios from 'axios'
 
 export default {
+  name: 'create-invoice',
   data () {
     return {
       user: '',

@@ -48,8 +48,8 @@ export default {
       await authentication.login(this.userLogin).then(res => {
         this.loading = ''
         if (res.data.status === true) {
-          localStorage.setItem('token', res.data.token)
-          localStorage.setItem('user', JSON.stringify(res.data.user))
+          this.$store.dispatch('setToken', res.data.token)
+          this.$store.dispatch('setUser', res.data.user)
           this.$router.push ({ name: 'dashboard' })
         }
       }).catch(err => {

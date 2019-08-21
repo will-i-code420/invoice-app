@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import NavHead from '@/components/NavHead.vue'
-import Login from '@/components/Login.vue'
-import CreateLogin from '@/components/CreateLogin.vue'
+import NavHead from '@/components/NavHead'
+import Login from '@/components/Login'
+import CreateLogin from '@/components/CreateLogin'
 
 export default {
   name: 'signin',
