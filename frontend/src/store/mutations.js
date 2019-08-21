@@ -16,9 +16,9 @@ export default {
     }
   },
   logout(state) {
-    state.user = '',
+    state.user = false,
     state.token = '',
-    state.admin = '',
-    state.isLoggedIn = ''
+    state.admin = false,
+    state.isLoggedIn = false
   }
 }

@@ -35,9 +35,6 @@ export default {
     return {
       isactive: 'create'
     }
-  },
-  created () {
-    // this.user = JSON.parse(localStorage.getItem('user'))
   }
 }
 </script>

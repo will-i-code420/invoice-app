@@ -1,6 +1,5 @@
 <template>
   <div class="signup-container">
-    <NavHead/>
     <b-nav class="user" tabs align="center">
       <b-nav-item @click="signIn">Log In</b-nav-item>
       <b-nav-item @click="createLogin">Register New User</b-nav-item>
@@ -16,14 +15,12 @@
 </template>
 
 <script>
-import NavHead from '@/components/NavHead'
 import Login from '@/components/Login'
 import CreateLogin from '@/components/CreateLogin'
 
 export default {
   name: 'signin',
   components: {
-    NavHead,
     Login,
     CreateLogin
   },

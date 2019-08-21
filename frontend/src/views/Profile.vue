@@ -1,8 +1,5 @@
 <template>
   <div class="profile">
-    <NavHead
-    :user="user"
-    />
     <h1>Hello, {{ user.name }} from {{ user.company_name }}</h1>
     <div class="profile-tabs">
     <b-card no-body>
@@ -237,17 +234,12 @@
 </template>
 
 <script>
-import NavHead from '@/components/NavHead.vue'
 import axios from 'axios'
 
 export default {
   name: 'profile',
-  components: {
-    NavHead
-  },
   data () {
     return {
-      user: '',
       business: [],
       employee: [],
       fields: [
@@ -288,8 +280,12 @@ export default {
       }
     }
   },
+  computed: {
+    user() {
+      return this.$store.getters.getUser
+    }
+  },
   created () {
-    this.user = JSON.parse(localStorage.getItem('user'))
     this.getBusinessRolodex()
     this.getEmployeeRolodex()
   },
