@@ -5,7 +5,7 @@
         <b-form @submit.prevent="login">
           <label for="email">Email:</label>
           <b-form-input
-          v-model="model.email"
+          v-model="userLogin.email"
           placeholder="ex. bob@gmail.com"
           type="email"
           required
@@ -13,7 +13,7 @@
           </b-form-input>
           <label for="password">Password:</label>
           <b-form-input
-          v-model="model.password"
+          v-model="userLogin.password"
           type="password"
           required
           >
@@ -30,35 +30,30 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
   name: 'login',
   data () {
     return {
-      model: {
+      userLogin: {
         email: '',
         password: ''
       },
-      loading: '',
-      status: ''
+      loading: ''
     }
   },
   methods: {
-    login () {
-      this.loading = 'Signing in'
-
-      axios.post('http://localhost:3128/login', this.model).then(res => {
+    async login () {
+      this.loading = 'Signing in...'
+      await authentication.login(this.userLogin).then(res => {
         this.loading = ''
         if (res.data.status === true) {
           localStorage.setItem('token', res.data.token)
           localStorage.setItem('user', JSON.stringify(res.data.user))
-          this.$router.push ({
-            name: 'dashboard'
-          })
-        } else {
-          this.status = res.data.message
+          this.$router.push ({ name: 'dashboard' })
         }
+      }).catch(err => {
+        alert(err.res.data.message)
       })
     }
   }

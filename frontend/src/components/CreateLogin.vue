@@ -5,7 +5,7 @@
         <b-form ref="create" @submit.prevent="register">
           <label for="name">Name:</label>
           <b-form-input
-          v-model="model.name"
+          v-model="createUser.name"
           placeholder="ex. Jane Doe"
           type="text"
           required
@@ -13,7 +13,7 @@
           </b-form-input>
           <label for="email">Email:</label>
           <b-form-input
-          v-model="model.email"
+          v-model="createUser.email"
           placeholder="ex. bob@gmail.com"
           type="email"
           required
@@ -21,7 +21,7 @@
           </b-form-input>
           <label for="name">Phone:</label>
           <b-form-input
-          v-model="model.phone"
+          v-model="createUser.phone"
           placeholder="ex. 800-235-1234 ext. 033"
           type="text"
           required
@@ -29,14 +29,14 @@
           </b-form-input>
           <label for="company">Company Name:</label>
           <b-form-input
-          v-model="model.company_name"
+          v-model="createUser.company_name"
           type="text"
           required
           >
           </b-form-input>
           <label for="company">Company Address:</label>
           <b-form-input
-          v-model="model.company_address"
+          v-model="createUser.company_address"
           placeholder="Billing Street # and name only"
           type="text"
           required
@@ -44,35 +44,35 @@
           </b-form-input>
           <label for="company">Company City:</label>
           <b-form-input
-          v-model="model.company_city"
+          v-model="createUser.company_city"
           type="text"
           required
           >
           </b-form-input>
           <label for="company">Company State:</label>
           <b-form-input
-          v-model="model.company_state"
+          v-model="createUser.company_state"
           type="text"
           required
           >
           </b-form-input>
           <label for="company">Company Zip:</label>
           <b-form-input
-          v-model="model.company_zip"
+          v-model="createUser.company_zip"
           type="text"
           required
           >
           </b-form-input>
           <label for="password">Password:</label>
           <b-form-input
-          v-model="model.password"
+          v-model="createUser.password"
           type="password"
           required
           >
           </b-form-input>
           <label for="c-password">Confirm Password:</label>
           <b-form-input
-          v-model="model.c_password"
+          v-model="confirm_password"
           type="password"
           required
           >
@@ -89,51 +89,47 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
   name: 'create-login',
   data () {
     return {
-      model: {
+      createUser: {
         name: '',
         email: '',
         phone: '',
         password: '',
-        c_password: '',
         company_name: '',
         company_address: '',
         company_city: '',
         company_state: '',
         company_zip: ''
       },
+      confirm_password: '',
       loading: '',
       status: ''
     }
   },
   methods: {
     validate () {
-      if (this.model.password != this.model.c_password) {
+      if (this.createUser.password != this.confirm_password) {
         return false
       }
       return true
     },
-    register () {
+    async register () {
       let valid = this.validate()
       if (valid) {
-        this.loading = "Registering you, please wait"
-
-        axios.post('http://localhost:3128/register', this.model).then(res => {
+        this.loading = "Registering you, please wait..."
+        await authentication.register(this.createUser).then(res => {
           this.loading = ''
           if (res.data.status === true) {
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('user', JSON.stringify(res.data.user))
-            this.$router.push ({
-              name: 'dashboard'
-            })
-          } else {
-            this.status = res.data.message
+            this.$router.push ({ name: 'dashboard' })
           }
+          }).catch(err => {
+            alert(err.res.data.message)
         })
       } else {
         alert('Passwords do not match')

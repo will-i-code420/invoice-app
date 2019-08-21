@@ -8,7 +8,6 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const multipartMiddleware = multipart();
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
 const multer = require('multer');
 const moment = require('moment');
 
@@ -104,7 +103,7 @@ app.post("/login", multipartMiddleware, function(req, res) {
     }
     return res.json({
       status: false,
-      message: "Wrong Password, try again"
+      message: "Incorrect login credentials, try again"
     });
   });
 });
