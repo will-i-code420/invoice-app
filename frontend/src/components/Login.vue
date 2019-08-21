@@ -21,7 +21,6 @@
           <div>
             <b-button pill variant="success" type="submit">Log In</b-button>
             {{ loading }}
-            {{ status }}
           </div>
         </b-form>
       </b-col>
@@ -30,6 +29,7 @@
 </template>
 
 <script>
+import authentication from '@/services/authentication'
 
 export default {
   name: 'login',
@@ -53,7 +53,7 @@ export default {
           this.$router.push ({ name: 'dashboard' })
         }
       }).catch(err => {
-        alert(err.res.data.message)
+        alert(err)
       })
     }
   }

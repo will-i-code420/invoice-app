@@ -89,6 +89,7 @@
 </template>
 
 <script>
+import authentication from '@/services/authentication'
 
 export default {
   name: 'create-login',
@@ -129,7 +130,7 @@ export default {
             this.$router.push ({ name: 'dashboard' })
           }
           }).catch(err => {
-            alert(err.res.data.message)
+            alert(err)
         })
       } else {
         alert('Passwords do not match')
