@@ -283,6 +283,9 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUser
+    },
+    token() {
+      return this.$store.getters.getToken
     }
   },
   created () {
@@ -310,7 +313,7 @@ export default {
       }
       axios.post('http://localhost:3128/business', json,
       {
-        headers: {"x-access-token": localStorage.getItem("token")}
+        headers: {"x-access-token": this.token}
       }).then(res => {
         if (res.data.status === true) {
           this.status = res.data.message
@@ -351,10 +354,9 @@ export default {
       for (const [key, value] of formData.entries()) {
         json[key] = value
       }
-      console.log(json)
       axios.post('http://localhost:3128/employee', json,
       {
-        headers: {"x-access-token": localStorage.getItem("token")}
+        headers: {"x-access-token": this.token}
       }).then(res => {
         if (res.data.status === true) {
           this.status = res.data.message
@@ -380,9 +382,9 @@ export default {
       this.status = ''
     },
     getBusinessRolodex() {
-      axios.get(`http://localhost:3128/business/user/${this.user.id}`,
+      axios.get(`http://localhost:3128/business/${this.user.id}`,
       {
-        headers: {"x-access-token": localStorage.getItem("token")}
+        headers: {"x-access-token": this.token}
       }).then(res => {
         if (res.data.status === true) {
           this.business = res.data.business
@@ -390,9 +392,9 @@ export default {
       })
     },
     getEmployeeRolodex() {
-      axios.get(`http://localhost:3128/employee/user/${this.user.id}`,
+      axios.get(`http://localhost:3128/employee/${this.user.id}`,
       {
-        headers: {"x-access-token": localStorage.getItem("token")}
+        headers: {"x-access-token": this.token}
       }).then(res => {
         if (res.data.status === true) {
           this.employee = res.data.employee

@@ -167,7 +167,7 @@ app.get("/invoice/:user_id/:invoice_id", multipartMiddleware, function(req, res)
   });
 });
 
-app.get("/business/user/:user_id", multipartMiddleware, function(req, res) {
+app.get("/business/:user_id", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `SELECT * FROM business where user_id=${req.params.user_id}`;
   db.all(sql, [], (err, rows) => {
@@ -181,7 +181,7 @@ app.get("/business/user/:user_id", multipartMiddleware, function(req, res) {
   });
 });
 
-app.get("/employee/user/:user_id", multipartMiddleware, function(req, res) {
+app.get("/employee/:user_id", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `SELECT * FROM employee WHERE user_id=${req.params.user_id}`;
   db.all(sql, [], (err, rows) => {
@@ -195,7 +195,7 @@ app.get("/employee/user/:user_id", multipartMiddleware, function(req, res) {
   });
 });
 
-app.get("/employee/user/:user_id/:employee_id", multipartMiddleware, (req, res) => {
+app.get("/employee/:user_id/:employee_id", multipartMiddleware, (req, res) => {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `SELECT * FROM employee WHERE user_id=${req.params.user_id} AND id=${req.params.employee_id}`;
   db.all(sql, [], (err, rows) => {
@@ -210,7 +210,7 @@ app.get("/employee/user/:user_id/:employee_id", multipartMiddleware, (req, res) 
   });
 });
 
-app.get("/business/user/:user_id/:business_id", multipartMiddleware, (req, res) => {
+app.get("/business/:user_id/:business_id", multipartMiddleware, (req, res) => {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `SELECT * FROM business WHERE user_id=${req.params.user_id} AND id=${req.params.business_id}`;
   db.all(sql, [], (err, rows) => {

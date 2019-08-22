@@ -22,14 +22,16 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUser
+    },
+    token() {
+      return this.$store.getters.getToken
     }
   },
   created () {
-    let token = localStorage.getItem('token')
     let employee_id = this.$route.params.employee_id
-    axios.get(`http://localhost:3128/employee/user/${this.user.id}/${employee_id}`,
+    axios.get(`http://localhost:3128/employee/${this.user.id}/${employee_id}`,
     {
-      headers: { "x-access-token": token }
+      headers: { "x-access-token": this.token }
     }).then(res => {
       if (res.data.status === true) {
         this.employee = res.data.employee
