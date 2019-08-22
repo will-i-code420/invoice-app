@@ -55,12 +55,15 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUser
+    },
+    token() {
+      return this.$store.getters.getToken
     }
   },
   created () {
-    axios.get(`http://localhost:3128/invoice/user/${this.user.id}`,
+    axios.get(`http://localhost:3128/invoice/${this.user.id}`,
     {
-      headers: {"x-access-token": localStorage.getItem("token")}
+      headers: {"x-access-token": this.token}
     }).then(res => {
       if (res.data.status === true) {
         this.invoices = res.data.invoices

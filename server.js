@@ -131,7 +131,7 @@ app.use(function(req, res, next) {
   }
 });
 
-app.get("/invoice/user/:user_id", multipartMiddleware, function(req, res) {
+app.get("/invoice/:user_id", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `SELECT * FROM invoices WHERE user_id='${req.params.user_id}'`;
   db.all(sql, [], (err, rows) => {
@@ -145,7 +145,7 @@ app.get("/invoice/user/:user_id", multipartMiddleware, function(req, res) {
   });
 });
 
-app.get("/invoice/user/:user_id/:invoice_id", multipartMiddleware, function(req, res) {
+app.get("/invoice/:user_id/:invoice_id", multipartMiddleware, function(req, res) {
   let db = new sqlite3.Database("./database/InvoiceApp.db");
   let sql = `SELECT * FROM invoices WHERE user_id='${req.params.user_id}' AND id='${req.params.invoice_id}'`;
   db.all(sql, [], (err, rows) => {

@@ -1,6 +1,6 @@
 <template>
   <b-navbar type="dark" variant="info" fixed="top">
-    <Menu v-if="$store.state.isLoggedIn"/>
+    <UserMenu v-if="$store.state.isLoggedIn"/>
   <b-navbar-nav class="ml-auto">
     <b-navbar-brand to="about">{{ title }}</b-navbar-brand>
   </b-navbar-nav>
@@ -8,12 +8,12 @@
 </template>
 
 <script>
-import Menu from '@/components/Menu'
+import UserMenu from '@/components/UserMenu'
 
 export default {
   name: 'navhead',
   components: {
-    Menu
+    UserMenu
   },
   data () {
     return {
