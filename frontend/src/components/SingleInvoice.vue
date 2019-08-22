@@ -1,8 +1,5 @@
 <template>
   <div class="single-invoice">
-    <NavHead
-    :user="user"
-    />
     <div id="whole-invoice">
     <h1>Invoice #{{ invoice.id }}:</h1>
     <div class="invoice-dates">
@@ -61,19 +58,14 @@
 </template>
 
 <script>
-import NavHead from '@/components/NavHead.vue'
 import axios from 'axios'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 
 export default {
   name: 'singleInvoice',
-  components: {
-    NavHead
-  },
   data () {
     return {
-      user: '',
       invoice: {},
       transactions: [],
       total_price: '',
@@ -94,9 +86,11 @@ export default {
     }
   },
   computed: {
+    user() {
+      return this.$store.getters.getUser
+    }
   },
   created () {
-    this.user = JSON.parse(localStorage.getItem('user'))
     let token = localStorage.getItem('token')
     let invoice_id = this.$route.params.invoice_id
     axios.get(`http://localhost:3128/invoice/user/${this.user.id}/${invoice_id}`,

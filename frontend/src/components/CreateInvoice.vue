@@ -5,7 +5,7 @@
         <b-col>
           <h2 class="complete">Complete To Create Invoice</h2>
           <hr>
-          <b-form @submit.prevent="onSubmit">
+          <b-form @submit.prevent="submitInvoice">
             <label class="invoice" for="invoice">Invoice To:</label>
             <b-form-input
             v-model="invoice.name"
@@ -162,7 +162,7 @@
         >
         </b-form-input>
         <div class="create">
-          <b-button pill variant="outline-success" @click="onSubmit">
+          <b-button pill variant="outline-success" type="submit">
             Create Invoice
           </b-button>
         </div>
@@ -180,7 +180,6 @@ export default {
   name: 'create-invoice',
   data () {
     return {
-      user: '',
       transState: null,
       invoice: {
         name: '',
@@ -204,6 +203,11 @@ export default {
         { key: 'modify', class: 'text-center' }
       ],
       selectedTrans: []
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.getters.getUser
     }
   },
   methods: {
@@ -273,7 +277,7 @@ export default {
       this.nextTransId--
       this.calcTotal()
     },
-    onSubmit () {
+    submitInvoice () {
       this.loading = "Creating Invoice, please wait..."
       let json = {}
       const formData = new FormData()
@@ -297,12 +301,10 @@ export default {
       formData.append("price", price)
       formData.append("paid", this.invoice.paid)
       formData.append("total_price", this.invoice.total_price)
-      let user = JSON.parse(localStorage.getItem('user'))
-      formData.append("user_id", user.id)
+      formData.append("user_id", this.user.id)
       for (const [key, value] of formData.entries()) {
         json[key] = value
       }
-      console.log(json)
       axios.post("http://localhost:3128/invoice", json,
       {
         headers: {"x-access-token": localStorage.getItem("token")}

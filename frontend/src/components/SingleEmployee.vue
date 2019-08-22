@@ -1,32 +1,30 @@
 <template>
   <div class="single-employee">
-    <NavHead
-    :user="user"
-    />
     <h1>{{ employee.name }} Profile:</h1>
     <FileUpload/>
   </div>
 </template>
 
 <script>
-import NavHead from '@/components/NavHead.vue'
-import FileUpload from '@/components/FileUpload.vue'
+import FileUpload from '@/components/FileUpload'
 import axios from 'axios'
 
 export default {
   name: 'singleEmployee',
   components: {
-    NavHead,
     FileUpload
   },
   data () {
     return {
-      user: '',
       employee: {}
     }
   },
+  computed: {
+    user() {
+      return this.$store.getters.getUser
+    }
+  },
   created () {
-    this.user = JSON.parse(localStorage.getItem('user'))
     let token = localStorage.getItem('token')
     let employee_id = this.$route.params.employee_id
     axios.get(`http://localhost:3128/employee/user/${this.user.id}/${employee_id}`,

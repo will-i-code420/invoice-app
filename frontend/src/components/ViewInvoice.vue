@@ -33,7 +33,6 @@ export default {
   data () {
     return {
       invoices: [],
-      user: '',
       fields: [
         { key: 'id', label: 'Invoice #' },
         { key: 'name' },
@@ -53,8 +52,12 @@ export default {
       ]
     }
   },
+  computed: {
+    user() {
+      return this.$store.getters.getUser
+    }
+  },
   created () {
-    this.user = JSON.parse(localStorage.getItem('user'))
     axios.get(`http://localhost:3128/invoice/user/${this.user.id}`,
     {
       headers: {"x-access-token": localStorage.getItem("token")}
