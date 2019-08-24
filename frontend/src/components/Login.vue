@@ -53,7 +53,7 @@ export default {
           this.$router.push ({ name: 'dashboard' })
         }
       }).catch(err => {
-        alert(err)
+        alert(err.response.data.error)
       })
     }
   }
