@@ -14,10 +14,28 @@ module.exports = {
       })
     }
   },
-  login (req, res) {
-    return res.json({
-      status: true,
-      message: `${req.body.email} has been registered`
-    })
+  async login (req, res) {
+    try {
+      const {email, password} = req.body
+      const user = await User.findOne({
+        where: {
+          email: email
+        }
+      })
+      const isPasswordValid = password === user.password
+      if (!user || !isPasswordValid) {
+        return res.status(404).json({
+          error: 'Incorrect login credentials'
+        })
+      }
+      res.status(201).json({
+        status: true,
+        user: user
+      })
+    } catch (err) {
+      res.status(500).json({
+        error: 'Oops, our server had an issue, try again.'
+      })
+    }
   }
 };
