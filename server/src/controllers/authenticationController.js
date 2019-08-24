@@ -18,7 +18,8 @@ module.exports = {
       let token = jwtSignUser(userPayload)
       res.status(201).json({
         status: true,
-        user: user
+        user: user,
+        token: token
       })
     } catch (err) {
       res.status(409).json({
