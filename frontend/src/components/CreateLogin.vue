@@ -80,7 +80,6 @@
           <div>
             <b-button variant="info" type="submit">Register</b-button>
             {{ loading }}
-            {{ status }}
           </div>
         </b-form>
       </b-col>
@@ -108,20 +107,29 @@ export default {
       },
       confirm_password: '',
       loading: '',
-      status: ''
+      registerError: ''
     }
   },
   methods: {
     validate () {
       if (this.createUser.password != this.confirm_password) {
+        this.registerError = "Passwords DO NOT match!"
         return false
+      } else if (this.createUser.phone.length !== 10) {
+        this.registerError = "Not valid phone #"
+        return false
+      } else {
+        return true
       }
-      return true
     },
     async register () {
+      if (this.createUser.phone === '') {
+        this. createUser.phone = '0000000000'
+      }
       let valid = this.validate()
       if (valid) {
         this.loading = "Registering you, please wait..."
+        this.createUser.phone = parseInt(this.createUser.phone)
         await authentication.register(this.createUser).then(res => {
           this.loading = ''
           if (res.data.status === true) {
@@ -130,10 +138,10 @@ export default {
             this.$router.push ({ name: 'dashboard' })
           }
           }).catch(err => {
-            alert(err)
+            alert(err.response.data.error)
         })
       } else {
-        alert('Passwords do not match')
+        alert(this.registerError)
       }
     }
   }
