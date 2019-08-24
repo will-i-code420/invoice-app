@@ -91,7 +91,7 @@
 import authentication from '@/services/authentication'
 
 export default {
-  name: 'create-login',
+  name: 'register',
   data () {
     return {
       createUser: {

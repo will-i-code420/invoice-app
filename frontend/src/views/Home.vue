@@ -2,12 +2,12 @@
   <div class="signup-container">
     <b-nav class="user" tabs align="center">
       <b-nav-item @click="signIn">Log In</b-nav-item>
-      <b-nav-item @click="createLogin">Register New User</b-nav-item>
+      <b-nav-item @click="register">Register New User</b-nav-item>
     </b-nav>
     <b-container class="forms-container">
       <b-row>
         <b-col sm="6" offset="3">
-          <Login v-if="showSignIn"/><CreateLogin v-if="showCreateLogin"/>
+          <Login v-if="showSignIn"/><Register v-if="showCreateLogin"/>
         </b-col>
       </b-row>
     </b-container>
@@ -16,13 +16,13 @@
 
 <script>
 import Login from '@/components/Login'
-import CreateLogin from '@/components/CreateLogin'
+import Register from '@/components/Register'
 
 export default {
   name: 'signin',
   components: {
     Login,
-    CreateLogin
+    Register
   },
   data () {
     return {
@@ -35,7 +35,7 @@ export default {
       this.showSignIn = !this.showSignIn
       this.showCreateLogin = false
     },
-    createLogin () {
+    register () {
       this.showCreateLogin = !this.showCreateLogin
       this.showSignIn = false
     }
