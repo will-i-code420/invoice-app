@@ -138,9 +138,11 @@ export default {
             this.$router.push ({ name: 'dashboard' })
           }
           }).catch(err => {
+            this.loading = ''
             alert(err.response.data.error)
         })
       } else {
+        this.loading = ''
         alert(this.registerError)
       }
     }
