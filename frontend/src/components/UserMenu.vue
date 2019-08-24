@@ -1,5 +1,5 @@
 <template>
-  <b-navbar-nav>
+  <b-navbar-nav class="navhead">
     <b-dropdown ref="user_dropdown" text="Menu" no-caret variant="info">
       <b-dropdown-item><h5>Welcome, {{ user.name }}</h5></b-dropdown-item>
       <b-dropdown-divider></b-dropdown-divider>
@@ -9,7 +9,7 @@
       <b-dropdown-divider></b-dropdown-divider>
       <b-button class="logout" variant="outline-primary" size="sm" @click="logout">Log Out</b-button>
     </b-dropdown>
-    <b-navbar-brand to="/dashboard"><h5>{{ user.company_name }}</h5></b-navbar-brand>
+    <b-navbar-brand class="company" to="/dashboard"><h5>{{ user.company_name }}</h5></b-navbar-brand>
   </b-navbar-nav>
 </template>
 
@@ -36,5 +36,9 @@ export default {
 }
 .logout {
   margin-left: 35%;
+}
+.company {
+  padding-top: 10px;
+  padding-left: 10px;
 }
 </style>
