@@ -4,6 +4,7 @@ module.exports = {
   async register (req, res) {
     try {
       const user = await User.create(req.body)
+      delete user.dataValues.password
       res.status(201).json({
         status: true,
         user: user
@@ -23,6 +24,7 @@ module.exports = {
         }
       })
       const isPasswordValid = password === user.password
+      delete user.dataValues.password
       if (!user || !isPasswordValid) {
         return res.status(404).json({
           error: 'Incorrect login credentials'
