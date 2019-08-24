@@ -34,7 +34,7 @@ module.exports = {
           email: email
         }
       })
-      const isPasswordValid = password === user.password
+      const isPasswordValid = await user.comparePassword(password)
       delete user.dataValues.password
       if (!user || !isPasswordValid) {
         return res.status(404).json({
