@@ -1,4 +1,12 @@
 const {User} = require('../models');
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
+
+function jwtSignUser (user) {
+  return jwt.sign(user, config.authentication.jwtSecret, {
+    expiresIn: "1hr"
+  })
+}
 
 module.exports = {
   async register (req, res) {
