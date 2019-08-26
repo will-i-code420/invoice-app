@@ -173,7 +173,7 @@
 </template>
 
 <script>
-import invoice from '@/services/invoice'
+import invoiceService from '@/services/invoiceService'
 
 export default {
   name: 'create-invoice',
@@ -307,7 +307,7 @@ export default {
       for (const [key, value] of formData.entries()) {
         invoiceForm[key] = value
       }
-      await invoice.create(invoiceForm).then(res => {
+      await invoiceService.create(invoiceForm).then(res => {
         this.loading = ''
         if (res.data.status === true) {
           this.status = res.data.message

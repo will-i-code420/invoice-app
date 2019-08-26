@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import authentication from '@/services/authentication'
+import authenticationService from '@/services/authenticationService'
 
 export default {
   name: 'register',
@@ -130,7 +130,7 @@ export default {
       if (valid) {
         this.loading = "Registering you, please wait..."
         this.createUser.phone = parseInt(this.createUser.phone)
-        await authentication.register(this.createUser).then(res => {
+        await authenticationService.register(this.createUser).then(res => {
           this.loading = ''
           if (res.data.status === true) {
             this.$store.dispatch('setToken', res.data.token)

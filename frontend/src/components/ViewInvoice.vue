@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import invoice from '@/services/invoice'
+import invoiceService from '@/services/invoiceService'
 
 export default {
   name: 'viewInvoice',
@@ -58,7 +58,7 @@ export default {
     }
   },
   async created () {
-    this.invoices = await invoice.index()
+    this.invoices = await invoiceService.index()
   }
 }
 </script>

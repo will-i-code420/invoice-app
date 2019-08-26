@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import authentication from '@/services/authentication'
+import authenticationService from '@/services/authenticationService'
 
 export default {
   name: 'login',
@@ -45,7 +45,7 @@ export default {
   methods: {
     async login () {
       this.loading = 'Signing in...'
-      await authentication.login(this.userLogin).then(res => {
+      await authenticationService.login(this.userLogin).then(res => {
         this.loading = ''
         if (res.data.status === true) {
           this.$store.dispatch('setToken', res.data.token)
