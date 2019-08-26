@@ -156,7 +156,7 @@
         <br>
         <label class="paid" for="paid">Amount Paid:</label>
         <b-form-input
-        v-model="invoice.paid"
+        v-model="invoice.amount_paid"
         placeholder="ex. 0.00, leave blank if unpaid"
         >
         </b-form-input>
@@ -183,7 +183,7 @@ export default {
       invoice: {
         name: '',
         total_price: '',
-        paid: ''
+        amount_paid: ''
       },
       nextTransId: 1,
       transactions: [],
@@ -227,7 +227,7 @@ export default {
     resetInvoice () {
       this.invoice.name = ''
       this.invoice.total_price = ''
-      this.invoice.paid = ''
+      this.invoice.amount_paid = ''
       this.nextTransId = 1
       this.transactions = []
       this.transState = null
@@ -301,7 +301,7 @@ export default {
       formData.append("description", description)
       formData.append("quantity", quantity)
       formData.append("price", price)
-      formData.append("paid", this.invoice.paid)
+      formData.append("amount_paid", this.invoice.amount_paid)
       formData.append("total_price", this.invoice.total_price)
       formData.append("user_id", this.user.id)
       for (const [key, value] of formData.entries()) {
