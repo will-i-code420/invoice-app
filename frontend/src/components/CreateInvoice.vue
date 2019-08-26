@@ -157,7 +157,6 @@
         <label class="paid" for="paid">Amount Paid:</label>
         <b-form-input
         v-model="invoice.paid"
-        required
         placeholder="ex. 0.00, leave blank if unpaid"
         >
         </b-form-input>
@@ -174,7 +173,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import invoice from '@/services/invoice'
 
 export default {
   name: 'create-invoice',
@@ -208,6 +207,9 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUser
+    },
+    token() {
+      return this.$store.getters.getToken
     }
   },
   methods: {
@@ -277,9 +279,9 @@ export default {
       this.nextTransId--
       this.calcTotal()
     },
-    submitInvoice () {
+    async submitInvoice () {
       this.loading = "Creating Invoice, please wait..."
-      let json = {}
+      let invoiceForm = {}
       const formData = new FormData()
       let item_id = []
       let description = []
@@ -303,12 +305,9 @@ export default {
       formData.append("total_price", this.invoice.total_price)
       formData.append("user_id", this.user.id)
       for (const [key, value] of formData.entries()) {
-        json[key] = value
+        invoiceForm[key] = value
       }
-      axios.post("http://localhost:3128/invoice", json,
-      {
-        headers: {"x-access-token": localStorage.getItem("token")}
-      }).then(res => {
+      await invoice.create(invoiceForm).then(res => {
         this.loading = ''
         if (res.data.status === true) {
           this.status = res.data.message

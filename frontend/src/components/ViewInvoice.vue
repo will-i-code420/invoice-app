@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import invoice from '@/services/invoice'
 
 export default {
   name: 'viewInvoice',
@@ -55,20 +55,10 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUser
-    },
-    token() {
-      return this.$store.getters.getToken
     }
   },
-  created () {
-    axios.get(`http://localhost:3128/invoice/${this.user.id}`,
-    {
-      headers: {"x-access-token": this.token}
-    }).then(res => {
-      if (res.data.status === true) {
-        this.invoices = res.data.invoices
-      }
-    })
+  async created () {
+    this.invoices = await invoice.index()
   }
 }
 </script>
