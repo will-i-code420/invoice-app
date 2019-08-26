@@ -293,8 +293,8 @@ export default {
         quantity.push(element.quantity)
         price.push(element.price)
       })
-      if (this.invoice.paid === '') {
-        this.invoice.paid = Number(0.00)
+      if (this.invoice.amount_paid === '') {
+        this.invoice.amount_paid = 0
       }
       formData.append("name", this.invoice.name)
       formData.append("item_id", item_id)
