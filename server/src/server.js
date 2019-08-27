@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const {sequelize} = require('./models');
-const config = require('./config/config.js');
+const config = require('./config/config.json');
 
 const app = express();
 
@@ -14,6 +14,6 @@ app.use(cors());
 require('./routes')(app);
 
 sequelize.sync().then(() => {
-  app.listen(config.port)
-  console.log(`Server running on Port: ${config.port}`)
+  app.listen(config.development.port)
+  console.log(`Server running on Port: ${config.development.port}`)
 });

@@ -20,10 +20,6 @@ module.exports = {
       price: {
         type: Sequelize.INTEGER
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
       InvoicesId: {
         type: Sequelize.UUID,
         onDelete: 'CASCADE',
@@ -31,6 +27,10 @@ module.exports = {
           model: 'Invoices',
           key: 'id'
         }
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,

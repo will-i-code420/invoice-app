@@ -1,9 +1,9 @@
 const {User} = require('../models');
 const jwt = require('jsonwebtoken');
-const config = require('../config/config');
+const config = require('../config/config.json');
 
 function jwtSignUser (user) {
-  return jwt.sign(user, config.authentication.jwtSecret, {
+  return jwt.sign(user, config.development.authentication.jwtSecret, {
     expiresIn: "1hr"
   })
 }
