@@ -47,9 +47,9 @@ module.exports = (sequelize, DataTypes) => {
       beforeUpdate: hashPassword
     }
   });
-  User.associate = function(models) {
+  //User.associate = function(models) {
     // associations can be defined here
-  };
+  //};
   User.prototype.comparePassword = function (password) {
     return bcrypt.compare(password, this.password)
   };

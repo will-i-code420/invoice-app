@@ -13,19 +13,19 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: function(models) {
-        Invoice.hasMany(models.Transactions, {
+        Invoices.hasMany(models.Transactions, {
           foreignKey: 'InvoicesId',
           onDelete: 'CASCADE'
         });
-        Invoice.belongsTo(models.User, {
+        Invoices.belongsTo(models.User, {
           foreignKey: 'UserId',
           onDelete: 'CASCADE'
         });
       }
     }
   });
-  Invoices.associate = function(models) {
+  //Invoices.associate = function(models) {
     // associations can be defined here
-  };
+  //};
   return Invoices;
 };
