@@ -310,11 +310,9 @@ export default {
       await invoiceService.create(invoiceForm).then(res => {
         this.loading = ''
         if (res.data.status === true) {
-          this.status = res.data.message
           alert(res.data.message)
         } else {
-          this.status = res.data.message
-          alert(res.data.message)
+          alert(res.data.error)
         }
       })
       this.resetInvoice()
