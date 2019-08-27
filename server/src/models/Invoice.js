@@ -8,8 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     amount_paid: DataTypes.INTEGER,
-    total_price: DataTypes.INTEGER,
-    user_id: DataTypes.INTEGER
+    total_price: DataTypes.INTEGER
   })
   return Invoice
 };

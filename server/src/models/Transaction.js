@@ -9,8 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     item_id: DataTypes.INTEGER,
     description: DataTypes.STRING,
     quantity: DataTypes.INTEGER,
-    price: DataTypes.INTEGER,
-    invoice_id: DataTypes.INTEGER
+    price: DataTypes.INTEGER
   })
   return Transaction
 };
