@@ -4,7 +4,6 @@ module.exports = {
     return queryInterface.createTable('Invoices', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
@@ -17,6 +16,14 @@ module.exports = {
       },
       total_due: {
         type: Sequelize.INTEGER
+      },
+      UserId: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,

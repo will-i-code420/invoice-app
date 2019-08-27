@@ -4,7 +4,6 @@ module.exports = {
     return queryInterface.createTable('Transactions', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
@@ -24,6 +23,14 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      InvoicesId: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Invoices',
+          key: 'id'
+        }
       },
       updatedAt: {
         allowNull: false,
