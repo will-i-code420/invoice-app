@@ -151,7 +151,7 @@
         </template>
         <hr>
         <label class="total" for="total">
-          <h4>Invoice Total: ${{ invoice.total_price }}</h4>
+          <h4>Invoice Total: ${{ invoice.total_due }}</h4>
         </label>
         <br>
         <label class="paid" for="paid">Amount Paid:</label>
@@ -182,7 +182,7 @@ export default {
       transState: null,
       invoice: {
         name: '',
-        total_price: '',
+        total_due: '',
         amount_paid: ''
       },
       nextTransId: 1,
@@ -226,7 +226,7 @@ export default {
     },
     resetInvoice () {
       this.invoice.name = ''
-      this.invoice.total_price = ''
+      this.invoice.total_due = ''
       this.invoice.amount_paid = ''
       this.nextTransId = 1
       this.transactions = []
@@ -262,7 +262,7 @@ export default {
       this.transactions.forEach(item => {
         total += parseFloat(item.price * item.quantity)
       })
-      this.invoice.total_price = total.toFixed(2)
+      this.invoice.total_due = total.toFixed(2)
     },
     editTransaction (id) {
       if (this.selectedTrans) {
@@ -302,7 +302,7 @@ export default {
       formData.append("quantity", quantity)
       formData.append("price", price)
       formData.append("amount_paid", this.invoice.amount_paid)
-      formData.append("total_price", this.invoice.total_price)
+      formData.append("total_due", this.invoice.total_due)
       formData.append("user_id", this.user.id)
       for (const [key, value] of formData.entries()) {
         invoiceForm[key] = value

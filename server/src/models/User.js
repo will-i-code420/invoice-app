@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true
     },
-    password: type: DataTypes.STRING,
+    password: DataTypes.STRING,
     company_name: DataTypes.STRING,
     company_address: DataTypes.STRING,
     company_city: DataTypes.STRING,
@@ -33,6 +33,14 @@ module.exports = (sequelize, DataTypes) => {
     company_zip: DataTypes.STRING,
     admin: DataTypes.BOOLEAN
     }, {
+    classMethods: {
+      associate: function(models) {
+        User.hasMany(models.Invoice, {
+          foreignKey: 'UserId',
+          onDelete: 'CASCADE'
+        })
+      }
+    },
     hooks: {
       beforeCreate: hashPassword,
       beforeUpdate: hashPassword

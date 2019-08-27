@@ -8,7 +8,20 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     amount_paid: DataTypes.INTEGER,
-    total_price: DataTypes.INTEGER
+    total_due: DataTypes.INTEGER
+  }, {
+    classMethods: {
+      associate: function(models) {
+        Invoice.hasMany(models.Transaction, {
+          foreignKey: 'InvoiceId',
+          onDelete: 'CASCADE'
+        })
+        Invoice.belongsTo(models.User, {
+          foreignKey: 'UserId',
+          onDelete: 'CASCADE'
+        })
+      }
+    }
   })
   return Invoice
 };
