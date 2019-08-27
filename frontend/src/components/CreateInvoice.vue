@@ -303,7 +303,6 @@ export default {
       formData.append("price", price)
       formData.append("amount_paid", this.invoice.amount_paid)
       formData.append("total_due", this.invoice.total_due)
-      formData.append("user_id", this.user.id)
       for (const [key, value] of formData.entries()) {
         invoiceForm[key] = value
       }
@@ -311,9 +310,9 @@ export default {
         this.loading = ''
         if (res.data.status === true) {
           alert(res.data.message)
-        } else {
-          alert(res.data.error)
         }
+      }).catch(err => {
+        alert(err.response.data.error)
       })
       this.resetInvoice()
     }

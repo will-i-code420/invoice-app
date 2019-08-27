@@ -103,7 +103,8 @@ export default {
         company_address: '',
         company_city: '',
         company_state: '',
-        company_zip: ''
+        company_zip: '',
+        admin: false
       },
       confirm_password: '',
       loading: '',
@@ -115,7 +116,7 @@ export default {
       if (this.createUser.password != this.confirm_password) {
         this.registerError = "Passwords DO NOT match!"
         return false
-      } else if (this.createUser.phone.length !== 10) {
+      } else if (this.createUser.phone.length < 10) {
         this.registerError = "Not valid phone #"
         return false
       } else {
@@ -123,13 +124,9 @@ export default {
       }
     },
     async register () {
-      if (this.createUser.phone === '') {
-        this. createUser.phone = '0000000000'
-      }
       let valid = this.validate()
       if (valid) {
         this.loading = "Registering you, please wait..."
-        this.createUser.phone = parseInt(this.createUser.phone)
         await authenticationService.register(this.createUser).then(res => {
           this.loading = ''
           if (res.data.status === true) {

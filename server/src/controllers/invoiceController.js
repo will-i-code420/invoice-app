@@ -1,11 +1,11 @@
-const {Invoice} = require('../models');
-const {Transaction} = require('../models');
+const {Invoices} = require('../models');
+const {Transactions} = require('../models');
 
 module.exports = {
   async index (req, res) {
     try {
       const user = req.params.user_id
-      const invoices = await Invoice.findAll({
+      const invoices = await Invoices.findAll({
         where: {
           user_id: user
         }
@@ -22,8 +22,8 @@ module.exports = {
   },
   async create (req, res) {
     try {
-      Invoice.create(req.body)
-      Transaction.create(req.body)
+      Invoices.create(req.body)
+      Transactions.create(req.body)
       res.status(201).json({
         status: true,
         message: 'Invoice created'
