@@ -24,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  //Invoices.associate = function(models) {
-    // associations can be defined here
-  //};
+  Invoices.associate = function(models) {
+    Invoices.belongsTo(models.User)
+  };
   return Invoices;
 };
