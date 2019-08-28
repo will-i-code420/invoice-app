@@ -11,18 +11,12 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     quantity: DataTypes.INTEGER,
     price: DataTypes.INTEGER
-  }, {
-    classMethods: {
-      associate: function(models) {
-        Transactions.belongsTo(models.Invoices, {
-          foreignKey: 'InvoicesId',
-          onDelete: 'CASCADE'
-        });
-      }
-    }
-  });
-  Transactions.associate = function(models) {
-    Transactions.belongsTo(models.Invoices)
+  }, {});
+  Transactions.associate = (models) => {
+    Transactions.belongsTo(models.Invoices, {
+      foreignKey: 'transactionId',
+      onDelete: 'CASCADE'
+    });
   };
   return Transactions;
 };

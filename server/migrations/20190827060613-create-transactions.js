@@ -20,12 +20,13 @@ module.exports = {
       price: {
         type: Sequelize.INTEGER
       },
-      InvoicesId: {
+      transactionId: {
         type: Sequelize.UUID,
         onDelete: 'CASCADE',
         references: {
           model: 'Invoices',
-          key: 'id'
+          key: 'id',
+          as: 'transactionId'
         }
       },
       createdAt: {

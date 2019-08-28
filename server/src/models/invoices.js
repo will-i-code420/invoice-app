@@ -10,22 +10,16 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     amount_paid: DataTypes.INTEGER,
     total_due: DataTypes.INTEGER
-  }, {
-    classMethods: {
-      associate: function(models) {
-        Invoices.hasMany(models.Transactions, {
-          foreignKey: 'InvoicesId',
-          onDelete: 'CASCADE'
-        });
-        Invoices.belongsTo(models.User, {
-          foreignKey: 'UserId',
-          onDelete: 'CASCADE'
-        });
-      }
-    }
-  });
-  Invoices.associate = function(models) {
-    Invoices.belongsTo(models.User)
+  }, {});
+  Invoices.associate = (models) => {
+    Invoices.belongsTo(models.User, {
+      foreignKey: 'invoiceId',
+      onDelete: 'CASCADE'
+    });
+    Invoices.hasMany(models.Transactions, {
+      foreignKey: 'transactionId',
+      as: 'transactionId'
+    });
   };
   return Invoices;
 };

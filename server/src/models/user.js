@@ -41,8 +41,8 @@ module.exports = (sequelize, DataTypes) => {
   });
   User.associate = (models) => {
     User.hasMany(models.Invoices, {
-      foreignKey: 'UserId',
-      as: 'InvoiceId'
+      foreignKey: 'invoiceId',
+      as: 'invoiceId'
     });
   };
   User.prototype.comparePassword = function (password) {

@@ -17,12 +17,13 @@ module.exports = {
       total_due: {
         type: Sequelize.INTEGER
       },
-      UserId: {
+      invoiceId: {
         type: Sequelize.UUID,
         onDelete: 'CASCADE',
         references: {
           model: 'Users',
-          key: 'id'
+          key: 'id',
+          as: 'invoiceId'
         }
       },
       createdAt: {
