@@ -34,22 +34,17 @@ module.exports = (sequelize, DataTypes) => {
     company_zip: DataTypes.INTEGER,
     admin: DataTypes.BOOLEAN
   }, {
-    classMethods: {
-      associate: function(models) {
-        User.hasMany(models.Invoices, {
-          foreignKey: 'UserId',
-          onDelete: 'CASCADE'
-        })
-      }
-    },
     hooks: {
       beforeCreate: hashPassword,
       beforeUpdate: hashPassword
     }
   });
-  //User.associate = function(models) {
-    // associations can be defined here
-  //};
+  User.associate = (models) => {
+    User.hasMany(models.Invoices, {
+      foreignKey: 'UserId',
+      as: 'InvoiceId'
+    });
+  };
   User.prototype.comparePassword = function (password) {
     return bcrypt.compare(password, this.password)
   };
