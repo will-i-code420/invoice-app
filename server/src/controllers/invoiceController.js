@@ -1,5 +1,4 @@
 const {Invoices} = require('../models');
-const {Transactions} = require('../models');
 
 module.exports = {
   async index (req, res) {
@@ -22,8 +21,12 @@ module.exports = {
   },
   async create (req, res) {
     try {
-      Invoices.create(req.body)
-      Transactions.create(req.body)
+      Invoices.create({
+        name: req.body.name,
+        amount_paid: req.body.amount_paid,
+        total_due: req.body.total_due,
+        invoiceId: req.params.invoiceId
+      })
       res.status(201).json({
         status: true,
         message: 'Invoice created'
