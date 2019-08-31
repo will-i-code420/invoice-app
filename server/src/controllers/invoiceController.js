@@ -29,7 +29,7 @@ module.exports = {
         total_due: req.body.total_due,
         invoiceId: req.body.invoiceId
       }).then((invoice) => {
-         newInvoice = invoice
+        newInvoice = invoice
          Transactions.create({
            item_id: req.body.item_id,
            description: req.body.description,

@@ -2,7 +2,7 @@
 const Promise = require('bluebird');
 const bcrypt = Promise.promisifyAll(require('bcrypt'));
 
-function hashPassword (user, options) {
+function hashPassword(user, options) {
   if (!user.changed('password')) {
     return
   }
