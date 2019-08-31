@@ -303,6 +303,7 @@ export default {
       formData.append("price", price)
       formData.append("amount_paid", this.invoice.amount_paid)
       formData.append("total_due", this.invoice.total_due)
+      formData.append("invoiceId", this.user.id)
       for (const [key, value] of formData.entries()) {
         invoiceForm[key] = value
       }

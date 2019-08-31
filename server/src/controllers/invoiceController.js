@@ -1,4 +1,5 @@
 const {Invoices} = require('../models');
+const {Transactions} = require('../models');
 
 module.exports = {
   async index (req, res) {
@@ -20,18 +21,29 @@ module.exports = {
     }
   },
   async create (req, res) {
+    let newInvoice = {}
     try {
-      Invoices.create({
+      await Invoices.create({
         name: req.body.name,
         amount_paid: req.body.amount_paid,
         total_due: req.body.total_due,
-        invoiceId: req.params.invoiceId
+        invoiceId: req.body.invoiceId
+      }).then((invoice) => {
+         newInvoice = invoice
+         Transactions.create({
+           item_id: req.body.item_id,
+           description: req.body.description,
+           quantity: req.body.quantity,
+           price: req.body.price,
+           transactionId: newInvoice['id']
+         })
       })
       res.status(201).json({
         status: true,
         message: 'Invoice created'
       })
     } catch (err) {
+      console.log(err)
       res.status(409).json({
         status: false,
         error: err

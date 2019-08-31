@@ -38,7 +38,7 @@ export default new Router({
         import('@/components/ViewInvoice.vue')
     },
     {
-      path: '/invoice',
+      path: '/invoice/:id',
       name: 'singleInvoice',
       component: () =>
         import('@/components/SingleInvoice.vue')
