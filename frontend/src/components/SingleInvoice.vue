@@ -30,11 +30,11 @@
       <b-table bordered hover :items="transactions" :fields="fields">
       </b-table>
       <div class="total">
-        <h4>Invoice Total: ${{ total_price }}</h4>
+        <h4>Invoice Total: ${{ invoice.total_due }}</h4>
       </div>
       <hr class="balance">
       <div class="paid">
-        <h4>Amount Paid: ${{ amount_paid }}</h4>
+        <h4>Amount Paid: ${{ invoice.amount_paid }}</h4>
       </div>
       <hr class="balance">
       <div class="due">
@@ -68,8 +68,6 @@ export default {
     return {
       invoice: {},
       transactions: [],
-      total_price: '',
-      amount_paid: '',
       balance_due: '',
       payment_due: '',
       create_date: '',
@@ -95,11 +93,14 @@ export default {
   },
   async created () {
     try {
+      let balance
       const id = this.$store.state.user.id
       const invoiceId = this.$store.state.route.params.id
       await invoiceService.invoice(id, invoiceId).then(res => {
         this.invoice = res.data.invoice
         console.log(this.invoice)
+        balance = this.invoice.total_due - this.invoice.amount_paid
+        this.balance_due = balance.toFixed(2)
         this.dateConvert()
         this.paymentDue()
       })
@@ -138,12 +139,12 @@ export default {
     },
     paymentDue() {
       let date
-      if (!this.invoice.updated) {
-        date = new Date(this.invoice.created)
+      if (!this.invoice.updatedAt) {
+        date = new Date(this.invoice.createdAt)
       } else {
-        date = new Date(this.invoice.updated)
+        date = new Date(this.invoice.updatedAt)
       }
-      if (this.total_price === this.amount_paid) {
+      if (this.invoice.total_price === this.invoice.amount_paid) {
         this.payment_due = "PAID IN FULL"
       } else {
         let dueDate
@@ -154,16 +155,16 @@ export default {
     },
     dateConvert() {
       let create
-      if (this.invoice.created) {
-        create = new Date(this.invoice.created)
+      if (this.invoice.createdAt) {
+        create = new Date(this.invoice.createdAt)
         this.create_date = create.toDateString()
       } else {
         create = ''
         this.create_date = create
       }
       let update
-      if (this.invoice.updated) {
-        update = new Date(this.invoice.updated)
+      if (this.invoice.updatedAt) {
+        update = new Date(this.invoice.updatedAt)
         this.update_date = update.toDateString()
       } else {
         update = ''
