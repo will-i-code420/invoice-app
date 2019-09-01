@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import invoiceService from '@/services/invoiceService'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 
@@ -93,30 +93,19 @@ export default {
        return this.$store.getters.getToken
      }
   },
-  created () {
-    let invoice_id = this.$route.params.invoice_id
-    axios.get(`http://localhost:3128/invoice/${this.user.id}/${invoice_id}`,
-    {
-      headers: { "x-access-token": this.token }
-    }).then(res => {
-      if (res.data.status === true) {
-        this.transactions = res.data.transactions
+  async created () {
+    try {
+      const id = this.$store.state.user.id
+      const invoiceId = this.$store.state.route.params.id
+      await invoiceService.invoice(id, invoiceId).then(res => {
         this.invoice = res.data.invoice
-        let total = 0
-        this.transactions.forEach(item => {
-          total += parseFloat(item.price * item.quantity)
-        })
-        this.total_price = total.toFixed(2)
-        let balance = 0
-        balance = this.total_price - this.invoice.paid
-        this.balance_due = balance.toFixed(2)
-        let amount = 0
-        amount = this.invoice.paid
-        this.amount_paid = amount.toFixed(2)
+        console.log(this.invoice)
         this.dateConvert()
         this.paymentDue()
-      }
-    })
+      })
+    } catch (err) {
+      alert(err.response.data.error)
+    }
   },
   methods: {
     addPayment() {

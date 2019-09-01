@@ -9,10 +9,29 @@ module.exports = {
           invoiceId: req.params.id
         }
       })
-      console.log(invoices)
       res.status(200).json({
         status: true,
         invoices: invoices
+      })
+    } catch (err) {
+      res.status(500).json({
+        error: err
+      })
+    }
+  },
+  async invoice (req,res) {
+    try {
+      console.log(req)
+      let fullInvoice = await Invoices.findByPk(req.params.invoiceId, {
+        include: [{
+          model: Transactions,
+          as: 'transactionId'
+        }]
+      })
+      console.log(fullInvoice)
+      res.status(200).json({
+        status: true,
+        invoice: fullInvoice
       })
     } catch (err) {
       console.log(err)
