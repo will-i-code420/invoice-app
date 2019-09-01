@@ -39,9 +39,9 @@ export default {
         {
           key: 'status',
           formatter: (value, key, item) => {
-            if (item.paid === 0) {
+            if (item.amount_paid === 0) {
               return "Unpaid"
-            } else if (item.paid === item.total_price) {
+            } else if (item.amount_paid === item.total_price) {
               return "Paid"
             } else {
               return "Partial Payment"
