@@ -4,18 +4,19 @@ const {Transactions} = require('../models');
 module.exports = {
   async index (req, res) {
     try {
-      const user = req.params.user_id
       const invoices = await Invoices.findAll({
         where: {
-          user_id: user
+          invoiceId: req.params.id
         }
       })
+      console.log(invoices)
       res.status(200).json({
         status: true,
         invoices: invoices
       })
     } catch (err) {
-      res.status().json({
+      console.log(err)
+      res.status(500).json({
         error: err
       })
     }

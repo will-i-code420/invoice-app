@@ -12,7 +12,7 @@
                 pill
                 variant="outline-success"
                 size="small"
-                :to="{ name: 'singleInvoice', params: { invoice_id: item.id } }"
+                :to="{ name: 'singleInvoice', params: { id: item.id } }"
                 >
                   View Invoice
                 </b-button>
@@ -58,7 +58,14 @@ export default {
     }
   },
   async created () {
-    this.invoices = await invoiceService.index()
+    try {
+      const id = this.$store.state.user.id
+      await invoiceService.index(id).then(res => {
+        this.invoices = res.data.invoices
+      })
+    } catch (err) {
+      alert(err.response.data.error)
+    }
   }
 }
 </script>

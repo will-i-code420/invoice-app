@@ -6,4 +6,5 @@ module.exports = (app) => {
   app.post('/register', authenticationControllerPolicy.register, authenticationController.register);
   app.post('/login', authenticationController.login);
   app.post('/invoices', invoiceController.create);
+  app.get('/invoices/:id', invoiceController.index);
 };
