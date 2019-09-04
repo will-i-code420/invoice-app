@@ -21,7 +21,7 @@
       <h3>Bill From:</h3>
       <h4>{{ user.company_name }}</h4>
       <h4>{{ user.name }}</h4>
-      <h4>{{ user.phone }}, {{ user.email }}</h4>
+      <h4>{{ user.phone }} | {{ user.email }}</h4>
       <h4>{{ user.company_address }}</h4>
       <h4>{{ user.company_city }}, {{ user.company_state }}, {{ user.company_zip }}</h4>
       </div>
@@ -126,7 +126,6 @@ export default {
         balance = this.invoice.total_due - this.invoice.amount_paid
         this.balance_due = balance.toFixed(2)
       })
-      this.dateConvert()
       this.paymentDue()
     },
     paymentDue() {
