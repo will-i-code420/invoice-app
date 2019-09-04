@@ -9,5 +9,8 @@ export default {
   },
   create (invoice) {
     return api().post('invoices', invoice)
+  },
+  put (invoice) {
+    return api().put(`invoices/${invoice.id}`, invoice)
   }
 }

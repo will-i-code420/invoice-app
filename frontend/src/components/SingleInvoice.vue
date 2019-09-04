@@ -51,7 +51,7 @@
       required
       >
       </b-form-input>
-    <b-button pill variant="outline-success" @click="newBalance">Apply Payment</b-button>
+    <b-button pill variant="outline-success" @click="addPayment">Apply Payment</b-button>
     </b-form>
       <b-button pill variant="outline-success" @click="createPdf">Create PDF</b-button>
   </div>
@@ -87,9 +87,9 @@ export default {
     user() {
       return this.$store.getters.getUser
     },
-     token() {
-       return this.$store.getters.getToken
-     }
+    token() {
+      return this.$store.getters.getToken
+    }
   },
   async created () {
     try {
@@ -98,44 +98,36 @@ export default {
       const invoiceId = this.$store.state.route.params.id
       await invoiceService.invoice(id, invoiceId).then(res => {
         this.invoice = res.data.invoice
-        console.log(this.invoice)
-        balance = this.invoice.total_due - this.invoice.amount_paid
-        this.balance_due = balance.toFixed(2)
-        this.dateConvert()
-        this.paymentDue()
       })
+      balance = this.invoice.total_due - this.invoice.amount_paid
+      this.balance_due = balance.toFixed(2)
+      this.dateConvert()
+      this.paymentDue()
     } catch (err) {
-      alert(err.response.data.error)
+      alert(err)
     }
   },
   methods: {
-    addPayment() {
+    async addPayment() {
+      let balance
+      let payment = Number(this.invoice.amount_paid) + Number(this.paid)
+      this.invoice.amount_paid = payment
       this.status = "Updating Invoice"
-      axios.patch(`http://localhost:3128/invoice`, this.invoice,
-      {
-        headers: {"x-access-token": localStorage.getItem("token")}
-      }).then(res => {
-        if (res.data.message === true) {
-          this.status = res.data.message
+      this.paid = ''
+      await invoiceService.put(this.invoice).then(res => {
+        if (res.data.status === true) {
+          this.status = ""
+          this.invoice = res.data.invoice
           alert(res.data.message)
         } else {
-          this.status = res.data.message
-          alert(res.data.message)
+          this.status = ""
+          alert(res.data.error)
         }
+        balance = this.invoice.total_due - this.invoice.amount_paid
+        this.balance_due = balance.toFixed(2)
       })
-      this.updatedDate()
+      this.dateConvert()
       this.paymentDue()
-    },
-    newBalance() {
-      let payment = Number(this.paid)
-      let invoicePaid = Number(this.invoice.paid)
-      this.invoice.paid = Number(invoicePaid) + Number(payment)
-      let amount = this.invoice.paid
-      this.amount_paid = amount.toFixed(2)
-      let balance = this.total_price - this.invoice.paid
-      this.balance_due = balance.toFixed(2)
-      this.paid = ''
-      this.addPayment()
     },
     paymentDue() {
       let date
@@ -144,7 +136,7 @@ export default {
       } else {
         date = new Date(this.invoice.updatedAt)
       }
-      if (this.invoice.total_price === this.invoice.amount_paid) {
+      if (this.invoice.total_due === this.invoice.amount_paid) {
         this.payment_due = "PAID IN FULL"
       } else {
         let dueDate
@@ -170,17 +162,6 @@ export default {
         update = ''
         this.update_date = update
       }
-    },
-    updatedDate() {
-      let invoice_id = this.$route.params.invoice_id
-      axios.get(`http://localhost:3128/invoice/user/${this.user.id}/${invoice_id}`,
-        {
-          headers: {"x-access-token": localStorage.getItem("token")}
-      }).then(res => {
-        if (res.data.status === true) {
-          this.invoice = res.data.invoice
-        }
-      })
     },
     createPdf() {
       const filename = `${this.invoice.name}_Invoice.pdf`

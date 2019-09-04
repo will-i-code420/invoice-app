@@ -65,5 +65,31 @@ module.exports = {
         error: err
       })
     }
+  },
+  async put (req, res) {
+    try {
+      await Invoices.update(req.body, {
+        where: {
+          id: req.params.id
+        }
+      })
+      const invoice = await Invoices.findByPk(req.params.id, {
+        include: [{
+          model: Transactions,
+          as: 'transactionId'
+        }]
+      })
+      res.status(200).json({
+        status: true,
+        message: "Payment Applied",
+        invoice: invoice
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(400).json({
+        status: false,
+        error: err
+      })
+    }
   }
 };
