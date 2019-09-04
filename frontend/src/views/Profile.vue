@@ -234,7 +234,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import businessService from '@services/businessService'
+import employeeService from '@services/employeeService'
 
 export default {
   name: 'profile',
