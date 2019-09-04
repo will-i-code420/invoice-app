@@ -5,7 +5,7 @@ export default {
     return api().get(`employee/${id}`)
   },
   employee(id, employeeId) {
-    return api().get(`employee/${id}/${businessId}`)
+    return api().get(`employee/${id}/${employeeId}`)
   },
   create(employee) {
     return api().post('employee', employee)

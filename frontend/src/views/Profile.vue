@@ -110,7 +110,7 @@
               pill
               variant="outline-success"
               size="small"
-              :to="{ name: 'singleBusiness', params: { business_id: item.id } }"
+              :to="{ name: 'singleBusiness', params: { id: item.id } }"
               >
               View Employee
               </b-button>
@@ -124,7 +124,7 @@
               pill
               variant="outline-success"
               size="small"
-              :to="{ name: 'singleEmployee', params: { employee_id: item.id } }"
+              :to="{ name: 'singleEmployee', params: { id: item.id } }"
               >
               View Employee
               </b-button>
@@ -289,16 +289,20 @@ export default {
       return this.$store.getters.getToken
     }
   },
-  created () {
-    this.getBusinessRolodex()
-    this.getEmployeeRolodex()
+  async created () {
+    try {
+      await this.getBusinessRolodex()
+      await this.getEmployeeRolodex()
+    } catch (err) {
+      alert(err.response.data.error)
+    }
   },
   methods: {
     editInfo() {
     },
-    submitBusiness() {
+    async submitBusiness() {
       this.status = "Saving New Business"
-      let json = {}
+      let business = {}
       const formData = new FormData()
       formData.append("business_name", this.businessInfo.business_name)
       formData.append("business_contact", this.businessInfo.business_contact)
@@ -308,24 +312,19 @@ export default {
       formData.append("business_city", this.businessInfo.business_city)
       formData.append("business_state", this.businessInfo.business_state)
       formData.append("business_zip", this.businessInfo.business_zip)
-      formData.append("user_id", this.user.id)
+      formData.append("userId", this.user.id)
       for (const [key, value] of formData.entries()) {
         json[key] = value
       }
-      axios.post('http://localhost:3128/business', json,
-      {
-        headers: {"x-access-token": this.token}
-      }).then(res => {
+      await businessService.create(business).then(res => {
         if (res.data.status === true) {
-          this.status = res.data.message
           alert(res.data.message)
           this.getBusinessRolodex()
+          this.clearBusinessForm()
         } else {
-          this.status = res.data.message
           alert(res.data.message)
         }
       })
-      this.clearBusinessForm()
     },
     clearBusinessForm() {
       this.businessInfo.business_name = '',
@@ -338,9 +337,9 @@ export default {
       this.businessInfo.business_zip = '',
       this.status = ''
     },
-    submitEmployee() {
+    async submitEmployee() {
       this.staus = "Saving Employee..."
-      let json = {}
+      let employee = {}
       const formData = new FormData()
       formData.append("name", this.employeeInfo.name),
       formData.append("phone", this.employeeInfo.phone),
@@ -351,24 +350,19 @@ export default {
       formData.append("zip", this.employeeInfo.zip),
       formData.append("state_tax", this.employeeInfo.state_tax),
       formData.append("fed_tax", this.employeeInfo.fed_tax),
-      formData.append("user_id", this.user.id)
+      formData.append("userId", this.user.id)
       for (const [key, value] of formData.entries()) {
-        json[key] = value
+        employee[key] = value
       }
-      axios.post('http://localhost:3128/employee', json,
-      {
-        headers: {"x-access-token": this.token}
-      }).then(res => {
+      await employeeService.create(employee).then(res => {
         if (res.data.status === true) {
-          this.status = res.data.message
           alert(res.data.message)
           this.getEmployeeRolodex()
+          this.clearEmployeeForm()
         } else {
-          this.status = res.data.message
           alert(res.data.message)
         }
       })
-      this.clearEmployeeForm()
     },
     clearEmployeeForm() {
       this.employeeInfo.name = ''
@@ -382,25 +376,29 @@ export default {
       this.employeeInfo.fed_tax = ''
       this.status = ''
     },
-    getBusinessRolodex() {
-      axios.get(`http://localhost:3128/business/${this.user.id}`,
-      {
-        headers: {"x-access-token": this.token}
-      }).then(res => {
-        if (res.data.status === true) {
-          this.business = res.data.business
-        }
-      })
+    async getBusinessRolodex() {
+      try {
+        const id = this.$store.state.user.id
+        await businessService.index(id).then(res => {
+          if (res.data.status === true) {
+            this.business = res.data.business
+          }
+        })
+      } catch (err) {
+        alert(err.response.data.error)
+      }
     },
-    getEmployeeRolodex() {
-      axios.get(`http://localhost:3128/employee/${this.user.id}`,
-      {
-        headers: {"x-access-token": this.token}
-      }).then(res => {
-        if (res.data.status === true) {
-          this.employee = res.data.employee
-        }
-      })
+    async getEmployeeRolodex() {
+      try {
+        const id = this.$store.state.user.id
+        await employeeService.index(id).then(res => {
+          if (res.data.status === true) {
+            this.employee = res.data.employee
+          }
+        })
+      } catch (err) {
+        alert(err.response.data.error)
+      }
     }
   }
 }
