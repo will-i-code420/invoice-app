@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     fed_tax: DataTypes.INTEGER
   }, {});
   Employee.associate = function(models) {
-    Invoices.belongsTo(models.Employee, {
+    Employee.belongsTo(models.User, {
       foreignKey: 'employeeId',
       onDelete: 'CASCADE'
     });

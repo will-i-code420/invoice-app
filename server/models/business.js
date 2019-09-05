@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     business_zip: DataTypes.STRING
   }, {});
   Business.associate = function(models) {
-    Invoices.belongsTo(models.Business, {
+    Business.belongsTo(models.User, {
       foreignKey: 'businessId',
       onDelete: 'CASCADE'
     });
