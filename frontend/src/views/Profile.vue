@@ -234,8 +234,8 @@
 </template>
 
 <script>
-import businessService from '@services/businessService'
-import employeeService from '@services/employeeService'
+import businessService from '@/services/businessService'
+import employeeService from '@/services/employeeService'
 
 export default {
   name: 'profile',
@@ -312,10 +312,11 @@ export default {
       formData.append("business_city", this.businessInfo.business_city)
       formData.append("business_state", this.businessInfo.business_state)
       formData.append("business_zip", this.businessInfo.business_zip)
-      formData.append("userId", this.user.id)
+      formData.append("businessId", this.user.id)
       for (const [key, value] of formData.entries()) {
-        json[key] = value
+        business[key] = value
       }
+      console.log(business)
       await businessService.create(business).then(res => {
         if (res.data.status === true) {
           alert(res.data.message)
@@ -350,10 +351,11 @@ export default {
       formData.append("zip", this.employeeInfo.zip),
       formData.append("state_tax", this.employeeInfo.state_tax),
       formData.append("fed_tax", this.employeeInfo.fed_tax),
-      formData.append("userId", this.user.id)
+      formData.append("employeeId", this.user.id)
       for (const [key, value] of formData.entries()) {
         employee[key] = value
       }
+      console.log(employee)
       await employeeService.create(employee).then(res => {
         if (res.data.status === true) {
           alert(res.data.message)
