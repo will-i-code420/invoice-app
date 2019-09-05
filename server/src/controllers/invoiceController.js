@@ -1,5 +1,5 @@
-const {Invoices} = require('../models');
-const {Transactions} = require('../models');
+const {Invoices} = require('../../models');
+const {Transactions} = require('../../models');
 
 module.exports = {
   async index (req, res) {
