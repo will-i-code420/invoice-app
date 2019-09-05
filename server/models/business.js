@@ -1,6 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Business = sequelize.define('Business', {
+    id: {
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
     business_name: DataTypes.STRING,
     business_contact: DataTypes.STRING,
     business_email: DataTypes.STRING,
@@ -11,7 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     business_zip: DataTypes.STRING
   }, {});
   Business.associate = function(models) {
-    // associations can be defined here
+    Invoices.belongsTo(models.Business, {
+      foreignKey: 'businessId',
+      onDelete: 'CASCADE'
+    });
   };
   return Business;
 };

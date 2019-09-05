@@ -6,7 +6,8 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4
       },
       business_name: {
         type: Sequelize.STRING
@@ -31,6 +32,15 @@ module.exports = {
       },
       business_zip: {
         type: Sequelize.STRING
+      },
+      businessId: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'businessId'
+        }
       },
       createdAt: {
         allowNull: false,

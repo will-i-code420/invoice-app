@@ -6,7 +6,8 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4
       },
       name: {
         type: Sequelize.STRING
@@ -34,6 +35,15 @@ module.exports = {
       },
       fed_tax: {
         type: Sequelize.INTEGER
+      },
+      employeeId: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'employeeId'
+        }
       },
       createdAt: {
         allowNull: false,
