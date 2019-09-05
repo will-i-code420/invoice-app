@@ -8,9 +8,11 @@ module.exports = (app) => {
   app.post('/register', authenticationControllerPolicy.register, authenticationController.register);
   app.post('/login', authenticationController.login);
   app.post('/invoices', invoiceController.create);
-  app.put('/invoices/:id', invoiceController.put)
+  app.post ('./business', businessController.create);
+  app.post ('./employee', employeeController.create);
+  app.put('/invoices/:id', invoiceController.put);
   app.get('/invoices/:id', invoiceController.index);
-  app.get('/invoices/:id/:invoiceId', invoiceController.invoice)
-  app.get('/business/:id', businessController.index)
-  app.get('/employee/:id', employeeController.index)
+  app.get('/invoices/:id/:invoiceId', invoiceController.invoice);
+  app.get('/business/:id', businessController.index);
+  app.get('/employee/:id', employeeController.index);
 };

@@ -17,5 +17,19 @@ module.exports = {
         error: err
       })
     }
+  },
+  async create (req, res) {
+    try {
+      await Employee.create(req.body)
+      res.status(201).json({
+        status: true,
+        message: 'Employee added'
+      })
+    } catch (err) {
+      res.status(409).json({
+        status: false,
+        error: err
+      })
+    }
   }
 };
