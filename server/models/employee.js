@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'employeeId',
       onDelete: 'CASCADE'
     });
+    Employee.hasMany(models.File, {
+      foreignKey: 'fileId',
+      as: 'transactionId'
+    });
   };
   return Employee;
 };

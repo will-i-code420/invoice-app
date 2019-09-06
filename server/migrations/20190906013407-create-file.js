@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Employees', {
+    return queryInterface.createTable('Files', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -11,37 +11,19 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      phone: {
+      size: {
         type: Sequelize.STRING
       },
-      email: {
+      type: {
         type: Sequelize.STRING
       },
-      address: {
-        type: Sequelize.STRING
-      },
-      city: {
-        type: Sequelize.STRING
-      },
-      state: {
-        type: Sequelize.STRING
-      },
-      zip: {
-        type: Sequelize.STRING
-      },
-      state_tax: {
-        type: Sequelize.INTEGER
-      },
-      fed_tax: {
-        type: Sequelize.INTEGER
-      },
-      employeeId: {
+      fileId: {
         type: Sequelize.UUID,
         onDelete: 'CASCADE',
         references: {
-          model: 'Users',
+          model: 'Employees',
           key: 'id',
-          as: 'employeeId'
+          as: 'fileId'
         }
       },
       createdAt: {
@@ -55,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Employees');
+    return queryInterface.dropTable('Files');
   }
 };
