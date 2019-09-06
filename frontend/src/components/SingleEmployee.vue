@@ -7,7 +7,7 @@
 
 <script>
 import FileUpload from '@/components/FileUpload'
-import axios from 'axios'
+import employeeService from '@/services/employeeService'
 
 export default {
   name: 'singleEmployee',
@@ -27,12 +27,10 @@ export default {
       return this.$store.getters.getToken
     }
   },
-  created () {
-    let employee_id = this.$route.params.employee_id
-    axios.get(`http://localhost:3128/employee/${this.user.id}/${employee_id}`,
-    {
-      headers: { "x-access-token": this.token }
-    }).then(res => {
+  async created () {
+    const id = this.$store.state.user.id
+    const employeeId = this.$store.state.route.params.id
+    await employeeService.employee(id, employeeId).then(res => {
       if (res.data.status === true) {
         this.employee = res.data.employee
       }

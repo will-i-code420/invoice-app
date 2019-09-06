@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import businessService from '@/services/businessService'
 
 export default {
   name: 'singleBusiness',
@@ -23,12 +23,10 @@ export default {
       return this.$store.getters.getToken
     }
   },
-  created () {
-    let business_id = this.$route.params.business_id
-    axios.get(`http://localhost:3128/business/${this.user.id}/${business_id}`,
-    {
-      headers: { "x-access-token": this.token }
-    }).then(res => {
+  async created () {
+    const id = this.$store.state.user.id
+    const businessId = this.$store.state.route.params.id
+    await businessService.business(id, businessId).then(res => {
       if (res.data.status === true) {
         this.business = res.data.business
       }
