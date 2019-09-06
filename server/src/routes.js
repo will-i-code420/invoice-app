@@ -15,4 +15,6 @@ module.exports = (app) => {
   app.get('/invoices/:id/:invoiceId', invoiceController.invoice);
   app.get('/business/:id', businessController.index);
   app.get('/employee/:id', employeeController.index);
+  app.get('/employee/:id/:employeeId', employeeController.employee);
+  app.get('/business/:id/:businessId', businessController.business);
 };

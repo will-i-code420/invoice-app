@@ -18,6 +18,19 @@ module.exports = {
       })
     }
   },
+  async employee (req,res) {
+    try {
+      let employee = await Employee.findByPk(req.params.employeeId)
+      res.status(200).json({
+        status: true,
+        employee: employee
+      })
+    } catch (err) {
+      res.status(500).json({
+        error: err
+      })
+    }
+  },
   async create (req, res) {
     try {
       await Employee.create(req.body)

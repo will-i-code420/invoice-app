@@ -18,6 +18,19 @@ module.exports = {
       })
     }
   },
+  async business (req,res) {
+    try {
+      let business = await Business.findByPk(req.params.businessId)
+      res.status(200).json({
+        status: true,
+        business: business
+      })
+    } catch (err) {
+      res.status(500).json({
+        error: err
+      })
+    }
+  },
   async create (req, res) {
     try {
       await Business.create(req.body)
