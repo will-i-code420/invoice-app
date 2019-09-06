@@ -143,7 +143,6 @@ export default {
         dueDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()+21)
         this.payment_due = dueDate.toDateString()
       }
-      this.status= ''
     },
     dateConvert() {
       let create = new Date(this.invoice.createdAt)
