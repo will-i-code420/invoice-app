@@ -101,6 +101,7 @@ export default {
       })
       balance = this.invoice.total_due - this.invoice.amount_paid
       this.balance_due = balance.toFixed(2)
+      this.splitTransactions()
       this.dateConvert()
       this.paymentDue()
     } catch (err) {
@@ -145,22 +146,10 @@ export default {
       this.status= ''
     },
     dateConvert() {
-      let create
-      if (this.invoice.createdAt) {
-        create = new Date(this.invoice.createdAt)
-        this.create_date = create.toDateString()
-      } else {
-        create = ''
-        this.create_date = create
-      }
-      let update
-      if (this.invoice.updatedAt) {
-        update = new Date(this.invoice.updatedAt)
-        this.update_date = update.toDateString()
-      } else {
-        update = ''
-        this.update_date = update
-      }
+      let create = new Date(this.invoice.createdAt)
+      this.create_date = create.toDateString()
+      let update = new Date(this.invoice.updatedAt)
+      this.update_date = update.toDateString()
     },
     createPdf() {
       const filename = `${this.invoice.name}_Invoice.pdf`
@@ -173,6 +162,23 @@ export default {
         doc.addImage(img, 'PNG', 0, 0, 8.5, 11)
         doc.save(filename)
       })
+    },
+    splitTransactions() {
+      const transactionList = this.invoice.transactionId
+      let tempTransactions
+      if (transactionList[0].item_id.length === 1) {
+        return this.transactions = transactionList
+      } else {
+        Object.keys(transactionList[0]).forEach(key => {
+          transactionList[0][key].forEach((value, index) => {
+            if (!tempTransactions[index]) {
+              tempTransactions[index] = {}
+            }
+            tempTransactions[index][key] = value
+          })
+        })
+        this.transactions = tempTransactions
+      }
     }
   },
   watch: {

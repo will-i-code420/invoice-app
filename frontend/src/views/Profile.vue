@@ -247,7 +247,7 @@ export default {
         { key: 'name' },
         { key: 'phone', label: 'Phone #' },
         { key: 'email' },
-        { key: 'created_on', label: 'Hire Date' },
+        { key: 'createdAt', label: 'Hire Date' },
         { key: 'view' }
       ],
       bfields: [
@@ -316,7 +316,6 @@ export default {
       for (const [key, value] of formData.entries()) {
         business[key] = value
       }
-      console.log(business)
       await businessService.create(business).then(res => {
         if (res.data.status === true) {
           alert(res.data.message)
@@ -355,7 +354,6 @@ export default {
       for (const [key, value] of formData.entries()) {
         employee[key] = value
       }
-      console.log(employee)
       await employeeService.create(employee).then(res => {
         if (res.data.status === true) {
           alert(res.data.message)

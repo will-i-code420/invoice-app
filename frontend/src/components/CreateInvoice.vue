@@ -294,7 +294,7 @@ export default {
         price.push(element.price)
       })
       if (this.invoice.amount_paid === '') {
-        this.invoice.amount_paid = 0
+        this.invoice.amount_paid = 0.00
       }
       formData.append("name", this.invoice.name)
       formData.append("item_id", item_id)
