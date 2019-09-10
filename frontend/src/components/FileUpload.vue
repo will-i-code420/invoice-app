@@ -1,53 +1,50 @@
 <template>
   <div class="file">
-    <b-form enctype="multipart/form-data" @submit.prevent="fileUpload">
+    <form enctype="multipart/form-data" @submit.prevent="fileUpload">
       <label>Upload File</label>
-      <b-form-file
-      class="mt-3 file-form"
-      v-model="file"
-      ref="file"
-      @change="selectedFile"
-      multiple
-      placeholder="Drag Files Here Or Click To Add Files"
-      browse-text=""
-      >
-      </b-form-file>
+      <input type="file" ref="files" multiple @change="selectedFiles"/>
+      <div class="file-list" v-for="(file, index) in files" :key="index">
+        {{file.name}}
+      </div>
+      <br>
       <b-button pill variant="outline-primary" type="submit">
         Add
       </b-button>
-    </b-form>
+    </form>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import fileService from '@/services/fileService'
+import _ from 'lodash'
 
 export default {
   name: 'FileUpload',
   data () {
     return {
-      file: []
+      files: []
     }
   },
   methods: {
-    selectedFile() {
-      const form = this.$refs.file.files[0]
-      this.file = form
+    selectedFiles() {
+      const files = this.$refs.files.files
+      this.files = [...this.files, ...files]
     },
     async fileUpload() {
-      let user = JSON.parse(localStorage.getItem('user'))
       const formData = new FormData()
-      formData.append('file', this.file)
-      formData.append('user_id', user.id)
+      _.forEach(this.files, file => {
+        formData.append('files', file)
+      })
+      formData.append('fileId', this.$store.state.route.params.id)
       try {
-        await axios.post('http://localhost:3128/uploads', formData,
-        {
-          headers: {"x-access-token": localStorage.getItem("token")}
+        await fileService.upload(formData).then(res => {
+          if (res.data.status === true) {
+            alert(res.data.message)
+            this.files = []
+          }
         })
-        alert("Upload Successful!")
-      }
-      catch(err) {
-        alert(err)
+      } catch(err) {
+          alert(err.response.data.error)
       }
     }
   }
@@ -55,12 +52,4 @@ export default {
 </script>
 
 <style scoped>
-.file {
-}
-.file-form {
-  color: aqua;
-  border: 1px dashed black;
-  width: 400px;
-  height: 200px;
-}
 </style>

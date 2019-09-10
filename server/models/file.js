@@ -1,4 +1,5 @@
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const File = sequelize.define('File', {
     id: {
@@ -8,12 +9,13 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     name: DataTypes.STRING,
-    size: DataTypes.STRING,
-    type: DataTypes.STRING
+    size: DataTypes.INTEGER,
+    type: DataTypes.STRING,
+    path: DataTypes.STRING
   }, {});
   File.associate = function(models) {
     File.belongsTo(models.Employee, {
-      foreignKey: 'employeeId',
+      foreignKey: 'fileId',
       onDelete: 'CASCADE'
     });
   };

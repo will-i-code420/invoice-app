@@ -1,0 +1,109 @@
+trying to create:
+
+splitTransactions() {
+      const transactionList = this.invoice.transactionId
+      let tempTransactions
+      if (transactionList[0].item_id.length === 1) {
+        return this.transactions = transactionList
+      } else {
+        Object.keys(transactionList[0]).forEach(key => {
+          transactionList[0][key].forEach((value, index) => {
+            if (!tempTransactions[index]) {
+              tempTransactions[index] = {}
+            }
+            tempTransactions[index][key] = value
+          })
+        })
+        this.transactions = tempTransactions
+      }
+    }
+
+
+transactionList[key].forEach is not a function
+
+server side upload code:
+
+server.js 
+
+const multer = require('multer');
+const moment = require('moment');
+
+const dir = './uploads';
+let date = moment().format('lll')
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, dir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname + '-' + date + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({storage: storage});
+
+
+
+app.post('/uploads', upload.array('file', 10), (req, res) => {
+  let db = new sqlite3.Database("./database/InvoiceApp.db");
+  let sql = `INSERT INTO file(name, size, type, user_id, created_on, employee_id) VALUES('${req.file.filename}','${req.file.size}','${req.file.mimetype}','${req.body.user_id}',datetime('now', 'localtime'))`;
+  db.run(sql, (err) => {
+    if (err) {
+      return res.json({
+        status: false,
+        message: "Error Uploading File(s)"
+      });
+    }
+    return res.json({
+      status: true,
+      message: "File(s) Uploaded"
+    });
+  });
+});
+
+
+const multer = require('multer');
+const moment = require('moment');
+const path = require('path');
+const date = moment().format('lll');
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, '../employeeFiles');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname + '-' + date + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({storage: storage});
+
+
+FileUpload with validation:
+
+import _ from 'lodash'
+
+selectedFiles() {
+      const files = this.$refs.files.files
+      this.files = [...this.files, ...files]
+      this.files = [
+        ...this.files,
+        ..._.map(files, file => ({
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          invalidMessage: this.validate(file)
+        }))
+      ]
+    },
+    validate(file) {
+      const MAX_SIZE = 200000
+      if(file.size > MAX_SIZE) {
+        return `Max allowed size is: ${MAX_SIZE/1000}KB`
+      }
+      return
+    },
+
+
+
+

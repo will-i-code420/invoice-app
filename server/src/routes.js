@@ -4,6 +4,7 @@ const invoiceController = require('./controllers/invoiceController');
 const businessController = require('./controllers/businessController');
 const employeeController = require('./controllers/employeeController');
 const fileController = require('./controllers/fileController');
+const uploadController = require('./controllers/uploadController');
 
 module.exports = (app) => {
   app.post('/register', authenticationControllerPolicy.register, authenticationController.register);
@@ -11,7 +12,7 @@ module.exports = (app) => {
   app.post('/invoices', invoiceController.create);
   app.post('/business', businessController.create);
   app.post('/employee', employeeController.create);
-  app.post('/employeeFiles', fileController.upload)
+  app.post('/employeeFiles', uploadController.addFile, fileController.upload);
   app.put('/invoices/:id', invoiceController.put);
   app.get('/invoices/:id', invoiceController.index);
   app.get('/invoices/:id/:invoiceId', invoiceController.invoice);

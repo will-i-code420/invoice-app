@@ -1,0 +1,73 @@
+
+uploadController.js:
+
+const multer = require('multer');
+const moment = require('moment');
+const path = require('path');
+const date = moment().format('lll');
+
+
+exports.addFile = function(req, res, next) {
+  const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, path.join(__dirname, '../../employeeFiles'));
+    },
+    filename: function(req, file, cb) {
+      cb(null, file.originalname + '-' + date + path.extname(file.originalname));
+    }
+  })
+  const upload = multer({storage: storage}).array('file', 10)
+  try {
+    upload(req, res, (err) => {
+      console.log(req.file)
+      if (err) {
+        console.log(err)
+      }
+    })
+  } catch (err) {
+    console.log(err)
+  }
+  console.log(req.file)
+  next()
+}
+
+uploads file but does not pass req.file into next function
+
+
+fileController.js:
+
+async upload (req, res) {
+    const storage = multer.diskStorage({
+      destination: function(req, file, cb) {
+        cb(null, path.join(__dirname, '../../employeeFiles'));
+      },
+      filename: function(req, file, cb) {
+        cb(null, file.originalname + '-' + date + path.extname(file.originalname));
+      }
+    })
+    const upload = multer({storage: storage}).array('file', 10)
+    try {
+      //console.log(req.file)
+      //console.log(req.body)
+      await upload(req, res, (err) => {
+        if (err) {
+          console.log(err)
+        }
+        console.log(req.file)
+        console.log(req.body)
+        File.create(req.file)
+        res.status(200).json({
+          status: true,
+          message: "File(s) Uploaded"
+        })
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(500).json({
+        error: err
+      })
+    }
+  }
+
+
+uploads file but req.file undefined

@@ -12,9 +12,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       size: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       type: {
+        type: Sequelize.STRING
+      },
+      path: {
         type: Sequelize.STRING
       },
       fileId: {
