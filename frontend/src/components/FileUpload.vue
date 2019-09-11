@@ -1,15 +1,26 @@
 <template>
   <div class="file">
     <form enctype="multipart/form-data" @submit.prevent="fileUpload">
-      <label>Upload File</label>
-      <input type="file" ref="files" multiple @change="selectedFiles"/>
-      <div class="file-list" v-for="(file, index) in files" :key="index">
-        {{file.name}}
+      <div class="dropzone">
+        <input class="input-file" type="file" ref="files" multiple @change="selectedFiles"/>
+          <p v-if="!uploading" class="file-box">
+            Drag your files here or click to select...
+          </p>
+          <p v-if="uploading" class="uploading-files">
+            Uploading: {{ progress }}%
+          </p>
       </div>
-      <br>
       <b-button pill variant="outline-primary" type="submit">
-        Add
+        Submit Files
       </b-button>
+      <div class="file-list" v-if="files.length >= 1">
+        <ul>
+          <h3>Files To Upload:</h3>
+          <li v-for="(file, index) in files" :key="index">
+            {{file.name}}
+          </li>
+        </ul>
+      </div>
     </form>
   </div>
 </template>
@@ -22,7 +33,9 @@ export default {
   name: 'FileUpload',
   data () {
     return {
-      files: []
+      files: [],
+      uploading: false,
+      progress: 0
     }
   },
   methods: {
@@ -31,20 +44,26 @@ export default {
       this.files = [...this.files, ...files]
     },
     async fileUpload() {
+      this.uploading = true
       const formData = new FormData()
       _.forEach(this.files, file => {
         formData.append('files', file)
       })
       formData.append('fileId', this.$store.state.route.params.id)
       try {
-        await fileService.upload(formData).then(res => {
+        await fileService.upload(formData, {
+          onUploadProgress: event => this.progress = Math.round(event.loaded * 100 / event.total)
+        }).then(res => {
           if (res.data.status === true) {
             alert(res.data.message)
             this.files = []
+            this.uploading = false
+            this.progress = 0
           }
         })
       } catch(err) {
-          alert(err.response.data.error)
+        this.uploading = false
+        alert(err.response.data.error)
       }
     }
   }
@@ -52,4 +71,40 @@ export default {
 </script>
 
 <style scoped>
+.dropzone {
+  min-height: 200px;
+  width: 350px;
+  margin: 0 auto;
+  padding: 10px 10px;
+  position: relative;
+  cursor: pointer;
+  border: 2px dashed gray;
+  border-radius: 25px;
+  background: lightcyan;
+}
+
+.dropzone:hover {
+  background: lightblue;
+}
+
+.input-file {
+  min-height: 200px;
+  width: 100%;
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+}
+
+.file-box, .uploading-files {
+  font-size: 1.3rem;
+  padding-top: 3.5rem;
+}
+
+.file-list {
+  margin-top: 10px;
+}
+
+.btn {
+  margin-top: 10px;
+}
 </style>
