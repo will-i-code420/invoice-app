@@ -247,7 +247,14 @@ export default {
         { key: 'name' },
         { key: 'phone', label: 'Phone #' },
         { key: 'email' },
-        { key: 'createdAt', label: 'Hire Date' },
+        { key: 'hire date',
+          formatter: (value, key, item) => {
+            if(item.createdAt) {
+              const date = new Date(item.createdAt)
+              return item.createdAt = date.toDateString()
+            }
+          }
+        },
         { key: 'view' }
       ],
       bfields: [

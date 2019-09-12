@@ -97,8 +97,6 @@ export default {
       const id = this.$store.state.user.id
       const invoiceId = this.$store.state.route.params.id
       await invoiceService.invoice(id, invoiceId).then(res => {
-        console.log(res.data.invoice)
-        console.log(JSON.stringify(data, null, 2))
         this.invoice = res.data.invoice
       })
       balance = this.invoice.total_due - this.invoice.amount_paid
