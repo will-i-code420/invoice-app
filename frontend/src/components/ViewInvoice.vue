@@ -71,7 +71,4 @@ export default {
 </script>
 
 <style scoped>
-.invoices {
-  padding-top: 65px;
-}
 </style>

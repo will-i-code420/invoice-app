@@ -72,7 +72,7 @@ export default {
 
 <style scoped>
 .dropzone {
-  min-height: 200px;
+  max-height: 200px;
   width: 350px;
   margin: 0 auto;
   padding: 10px 10px;
@@ -88,7 +88,7 @@ export default {
 }
 
 .input-file {
-  min-height: 200px;
+  max-height: 200px;
   width: 100%;
   opacity: 0;
   position: absolute;
@@ -97,7 +97,7 @@ export default {
 
 .file-box, .uploading-files {
   font-size: 1.3rem;
-  padding-top: 3.5rem;
+  padding-top: 1.5rem;
 }
 
 .file-list {

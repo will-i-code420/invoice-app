@@ -112,7 +112,7 @@
               size="small"
               :to="{ name: 'singleBusiness', params: { id: item.id } }"
               >
-              View Employee
+              View Business
               </b-button>
             </template>
           </b-table>
@@ -405,9 +405,7 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  padding-top: 70px;
-}
+
 .profile-tabs {
   margin-top: 50px;
 }

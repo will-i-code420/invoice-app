@@ -16,7 +16,4 @@ export default {
 </script>
 
 <style>
-.about {
-  padding-top: 65px;
-}
 </style>
