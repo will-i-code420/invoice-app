@@ -2,18 +2,25 @@ const {File} = require('../../models');
 
 module.exports = {
   async upload (req, res) {
-    const names = req.files.map(file => file.filename)
-    const sizes = req.files.map(file => file.size)
-    const types = req.files.map(file => file.mimetype)
-    const paths = req.files.map(file => file.path)
+    console.log(req.files)
+    const name = req.files.map(file => file.originalname.split(","))
+    const size = req.files.map(file => file.size.toString().split(","))
+    const type = req.files.map(file => file.mimetype.split(","))
+    const path = req.files.map(file => file.path.split(","))
+    const names = [].concat(...name)
+    const sizes = [].concat(...size)
+    const types = [].concat(...type)
+    const paths = [].concat(...path)
     try {
-      await File.create({
-        name: names.join(','),
-        size: sizes.join(','),
-        type: types.join(','),
-        path: paths.join(','),
-        fileId: req.body.fileId
-      })
+      for (let i = 0; i < name.length; i++) {
+        await File.create({
+          name: names[i],
+          size: sizes[i],
+          type: types[i],
+          path: paths[i],
+          fileId: req.body.fileId
+        })
+      }
       res.status(200).json({
         status: true,
         message: "File(s) Uploaded"
