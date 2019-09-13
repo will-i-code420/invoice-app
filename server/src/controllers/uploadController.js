@@ -9,7 +9,7 @@ exports.addFile = function(req, res, next) {
       cb(null, path.join(__dirname, '../../employeeFiles'));
     },
     filename: function(req, file, cb) {
-      cb(null, file.originalname + '-' + date + path.extname(file.originalname));
+      cb(null, file.originalname + path.extname(file.originalname));
     }
   })
   const upload = multer({storage: storage}).array('files', 10)
