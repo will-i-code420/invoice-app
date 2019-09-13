@@ -2,15 +2,14 @@ const {File} = require('../../models');
 
 module.exports = {
   async upload (req, res) {
-    console.log(req.files)
-    const name = req.files.map(file => file.originalname.split(","))
-    const size = req.files.map(file => file.size.toString().split(","))
-    const type = req.files.map(file => file.mimetype.split(","))
-    const path = req.files.map(file => file.path.split(","))
-    const names = [].concat(...name)
-    const sizes = [].concat(...size)
-    const types = [].concat(...type)
-    const paths = [].concat(...path)
+    const name = req.files.map(file => file.originalname.split(","));
+    const size = req.files.map(file => file.size.toString().split(","));
+    const type = req.files.map(file => file.mimetype.split(","));
+    const path = req.files.map(file => file.path.split(","));
+    const names = [].concat(...name);
+    const sizes = [].concat(...size);
+    const types = [].concat(...type);
+    const paths = [].concat(...path);
     try {
       for (let i = 0; i < name.length; i++) {
         await File.create({
