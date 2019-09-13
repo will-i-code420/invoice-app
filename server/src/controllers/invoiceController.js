@@ -47,13 +47,19 @@ module.exports = {
         invoiceId: req.body.invoiceId
       }).then((invoice) => {
         newInvoice = invoice
-         Transactions.create({
-           item_id: req.body.item_id,
-           description: req.body.description,
-           quantity: req.body.quantity,
-           price: req.body.price,
-           transactionId: newInvoice['id']
-         })
+        const item_id = req.body.item_id.split(",")
+        const description = req.body.description.split(",")
+        const quantity = req.body.quantity.split(",")
+        const price = req.body.price.split(",")
+        for (let i = 0; i < item_id.length; i++) {
+          Transactions.create({
+            item_id: item_id[i],
+            description: description[i],
+            quantity: quantity[i],
+            price: price[i],
+            transactionId: newInvoice['id']
+          })
+        }
       })
       res.status(201).json({
         status: true,

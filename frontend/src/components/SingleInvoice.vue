@@ -76,10 +76,10 @@ export default {
       status: '',
       loading: '',
       fields: [
-        { key: 'item_id', label: 'Item #' },
+        { key: 'item_id', label: 'Item #'},
         { key: 'description' },
         { key: 'quantity' },
-        { key: 'price' },
+        { key: 'price' }
       ],
     }
   },
@@ -98,10 +98,10 @@ export default {
       const invoiceId = this.$store.state.route.params.id
       await invoiceService.invoice(id, invoiceId).then(res => {
         this.invoice = res.data.invoice
+        this.transactions = res.data.invoice.transactionId
       })
       balance = this.invoice.total_due - this.invoice.amount_paid
       this.balance_due = balance.toFixed(2)
-      this.splitTransactions()
       this.dateConvert()
       this.paymentDue()
     } catch (err) {
@@ -161,23 +161,6 @@ export default {
         doc.addImage(img, 'PNG', 0, 0, 8.5, 11)
         doc.save(filename)
       })
-    },
-    splitTransactions() {
-      const transactionList = this.invoice.transactionId
-      let tempTransactions
-      if (transactionList[0].item_id.length === 1) {
-        return this.transactions = transactionList
-      } else {
-        Object.keys(transactionList[0]).forEach(key => {
-          transactionList[0][key].forEach((value, index) => {
-            if (!tempTransactions[index]) {
-              tempTransactions[index] = {}
-            }
-            tempTransactions[index][key] = value
-          })
-        })
-        this.transactions = tempTransactions
-      }
     }
   },
   watch: {
