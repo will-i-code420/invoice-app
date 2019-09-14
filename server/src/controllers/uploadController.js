@@ -1,7 +1,7 @@
 const multer = require('multer');
-const moment = require('moment');
+//const moment = require('moment');
 const path = require('path');
-const date = moment().format('lll');
+//const date = moment().format('lll');
 
 exports.addFile = function(req, res, next) {
   const storage = multer.diskStorage({

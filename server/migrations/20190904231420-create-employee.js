@@ -29,6 +29,9 @@ module.exports = {
       zip: {
         type: Sequelize.STRING
       },
+      marital_status: {
+        type: Sequelize.STRING
+      },
       state_tax: {
         type: Sequelize.INTEGER
       },
@@ -37,6 +40,7 @@ module.exports = {
       },
       employeeId: {
         type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         onDelete: 'CASCADE',
         references: {
           model: 'Users',

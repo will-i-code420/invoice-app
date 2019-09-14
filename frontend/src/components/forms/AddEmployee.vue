@@ -73,6 +73,17 @@
     </b-form-group>
     <b-form-group
     id="input-group-16"
+    label="Marital Status"
+    label-for="input-16">
+    <b-form-radio-group
+    id="input-16"
+    v-model="employeeInfo.marital_status"
+    :options="options"
+    required
+    ></b-form-radio-group>
+    </b-form-group>
+    <b-form-group
+    id="input-group-16"
     label="State Tax %:"
     label-for="input-16">
     <b-form-input
@@ -112,9 +123,14 @@ export default {
         city: '',
         state: '',
         zip: '',
+        marital_status: '',
         state_tax: '',
         fed_tax: ''
-      }
+      },
+      options: [
+        {text: 'Single', value: 'single'},
+        {text: 'Married', value: 'married'}
+      ]
     }
   },
   computed: {
@@ -131,15 +147,17 @@ export default {
       formData.append("city", this.employeeInfo.city),
       formData.append("state", this.employeeInfo.state),
       formData.append("zip", this.employeeInfo.zip),
+      formData.append("marital_status", this.employeeInfo.marital_status),
       formData.append("state_tax", this.employeeInfo.state_tax),
       formData.append("fed_tax", this.employeeInfo.fed_tax),
-      formData.append("employeeId", this.user.id)
+      formData.append("employeeId", this.$store.state.user.id)
       for (const [key, value] of formData.entries()) {
         employee[key] = value
       }
       await employeeService.create(employee).then(res => {
         if (res.data.status === true) {
           alert(res.data.message)
+          this.getEmployeeRolodex()
           this.clearEmployeeForm()
         } else {
           alert(res.data.message)
@@ -154,9 +172,22 @@ export default {
       this.employeeInfo.city = ''
       this.employeeInfo.state = ''
       this.employeeInfo.zip = ''
+      this.employeeInfo.marital_status = ''
       this.employeeInfo.state_tax = ''
       this.employeeInfo.fed_tax = ''
       this.status = ''
+    },
+    async getEmployeeRolodex() {
+      try {
+        const id = this.$store.state.user.id
+        await employeeService.index(id).then(res => {
+          if (res.data.status === true) {
+            this.employee = res.data.employee
+          }
+        })
+      } catch (err) {
+        alert(err.response.data.error)
+      }
     }
   }
 }

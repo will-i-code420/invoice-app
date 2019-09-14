@@ -47,13 +47,13 @@ export default new Router({
       path: '/employee/:id',
       name: 'singleEmployee',
       component: () =>
-        import('@/components/SingleEmployee.vue')
+        import('@/components/employee/SingleEmployee.vue')
     },
     {
       path: '/business/:id',
       name: 'singleBusiness',
       component: () =>
-        import('@/components/SingleBusiness.vue')
+        import('@/components/business/SingleBusiness.vue')
     },
     {
       path: '/profile',

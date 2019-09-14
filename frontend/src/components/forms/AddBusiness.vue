@@ -130,6 +130,7 @@ export default {
       await businessService.create(business).then(res => {
         if (res.data.status === true) {
           alert(res.data.message)
+          this.getBusinessRolodex()
           this.clearBusinessForm()
         } else {
           alert(res.data.message)
@@ -146,6 +147,18 @@ export default {
       this.businessInfo.business_state = '',
       this.businessInfo.business_zip = '',
       this.status = ''
+    },
+    async getBusinessRolodex() {
+      try {
+        const id = this.$store.state.user.id
+        await businessService.index(id).then(res => {
+          if (res.data.status === true) {
+            this.business = res.data.business
+          }
+        })
+      } catch (err) {
+        alert(err.response.data.error)
+      }
     }
   }
 }
