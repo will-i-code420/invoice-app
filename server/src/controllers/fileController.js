@@ -33,8 +33,6 @@ module.exports = {
   },
   async logo (req, res) {
     try {
-      console.log(req.body)
-      console.log(req.file)
       await Logo.create({
         name: req.file.filename,
         size: req.file.size,
