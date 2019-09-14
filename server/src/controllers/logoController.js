@@ -3,16 +3,16 @@ const multer = require('multer');
 const path = require('path');
 //const date = moment().format('lll');
 
-exports.addFile = function(req, res, next) {
+exports.addLogo = function(req, res, next) {
   const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-      cb(null, path.join(__dirname, '../../employeeFiles'));
+      cb(null, path.join(__dirname, '../../businessLogo'));
     },
     filename: function(req, file, cb) {
       cb(null, file.originalname + path.extname(file.originalname));
     }
   })
-  const upload = multer({storage: storage}).array('files', 10)
+  const upload = multer({storage: storage}).single('image')
   try {
     upload(req, res, (err) => {
       if (err) {

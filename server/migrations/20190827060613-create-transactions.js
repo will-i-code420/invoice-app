@@ -22,6 +22,7 @@ module.exports = {
       },
       transactionId: {
         type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         onDelete: 'CASCADE',
         references: {
           model: 'Invoices',

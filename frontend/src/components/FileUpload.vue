@@ -2,7 +2,7 @@
   <div class="file">
     <form enctype="multipart/form-data" @submit.prevent="fileUpload">
       <div class="dropzone">
-        <input class="input-file" type="file" ref="files" multiple @change="selectedFiles"/>
+        <input class="input-file" type="file" ref="files" multiple @change="selectedFiles" @drop.prevent="selectedFiles" @dragover.prevent/>
           <p v-if="!uploading" class="file-box">
             Drag your files here or click to select...
           </p>

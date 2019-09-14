@@ -1,8 +1,8 @@
 <template>
   <div class="image">
-    <form enctype="multipart/form-data" @submit.prevent="fileUpload">
+    <form enctype="multipart/form-data" @submit.prevent="imageUpload">
       <div class="dropzone">
-        <input class="input-image" type="file" ref="image" multiple @change="selectedImage"/>
+        <input class="input-image" type="file" ref="image" multiple @change="selectedImage" @drop.prevent="selectedImage" @dragover.prevent/>
           <p v-if="!uploading" class="image-box">
             Drag image or click...
           </p>
@@ -21,7 +21,7 @@
 import fileService from '@/services/fileService'
 
 export default {
-  name: 'FileUpload',
+  name: 'imageUpload',
   data () {
     return {
       image: '',
@@ -40,7 +40,7 @@ export default {
       formData.append('image', this.image)
       formData.append('imageId', this.$store.state.user.id)
       try {
-        await fileService.image(formData, {
+        await fileService.logo(formData, {
           onUploadProgress: event => this.progress = Math.round(event.loaded * 100 / event.total)
         }).then(res => {
           if (res.data.status === true) {

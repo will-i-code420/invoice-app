@@ -52,6 +52,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'businessId',
       as: 'businessId'
     });
+    User.hasMany(models.Logo, {
+      foreignKey: 'imageId',
+      as: 'imageId'
+    });
   };
   User.prototype.comparePassword = function (password) {
     return bcrypt.compare(password, this.password)

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Files', {
+    return queryInterface.createTable('Logos', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -20,14 +20,14 @@ module.exports = {
       path: {
         type: Sequelize.STRING
       },
-      fileId: {
+      imageId: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         onDelete: 'CASCADE',
         references: {
-          model: 'Employees',
+          model: 'Users',
           key: 'id',
-          as: 'fileId'
+          as: 'imageId'
         }
       },
       createdAt: {
@@ -41,6 +41,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Files');
+    return queryInterface.dropTable('Logos');
   }
 };

@@ -4,7 +4,7 @@ export default {
   upload(file) {
     return api().post('employeeFiles', file)
   },
-  image(image) {
-    return api().post('images', image)
+  logo(image) {
+    return api().post('businessLogo', image)
   }
 };

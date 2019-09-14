@@ -1,4 +1,5 @@
 const {File} = require('../../models');
+const {Logo} = require('../../models');
 
 module.exports = {
   async upload (req, res) {
@@ -23,6 +24,27 @@ module.exports = {
       res.status(200).json({
         status: true,
         message: "File(s) Uploaded"
+      })
+    } catch (err) {
+      res.status(500).json({
+        error: err
+      })
+    }
+  },
+  async logo (req, res) {
+    try {
+      console.log(req.body)
+      console.log(req.file)
+      await Logo.create({
+        name: req.file.filename,
+        size: req.file.size,
+        type: req.file.mimetype,
+        path: req.file.path,
+        imageId: req.body.imageId
+      })
+      res.status(200).json({
+        status: true,
+        message: "Logo Uploaded"
       })
     } catch (err) {
       console.log(err)
