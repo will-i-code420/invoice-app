@@ -1,11 +1,11 @@
 <template>
   <div class="image">
     <form enctype="multipart/form-data" @submit.prevent="imageUpload">
-      <div class="dropzone">
-        <input class="input-image" type="file" ref="image" multiple @change="selectedImage" @drop.prevent="selectedImage" @dragover.prevent/>
-          <p v-if="!uploading" class="image-box">
+      <div class="dropzone" :style="{'background-image': `url(${imagePreview})`}">
+        <input class="input-image" type="file" ref="image" @change="selectedImage" @drop.prevent="selectedImage" @dragover.prevent/>
+          <span v-if="!uploading && !showPreview" class="image-box">
             Drag image or click...
-          </p>
+          </span>
           <p v-if="uploading" class="uploading-image">
             Uploading: {{ progress }}%
           </p>
@@ -26,13 +26,22 @@ export default {
     return {
       image: '',
       uploading: false,
-      progress: 0
+      progress: 0,
+      showPreview: false,
+      imagePreview: ''
     }
   },
   methods: {
     selectedImage() {
-      const image = this.$refs.image.files[0]
-      this.image = image
+      this.image = this.$refs.image.files[0]
+       let reader = new FileReader()
+       if (this.image) {
+         this.showPreview = true
+         reader.onload = e => {
+           this.imagePreview = e.target.result
+         }
+         reader.readAsDataURL(this.image)
+       }
     },
     async imageUpload() {
       this.uploading = true
@@ -65,15 +74,18 @@ export default {
 }
 
 .dropzone {
-  max-height: 125px;
+  height: 125px;
   width: 125px;
   margin: 0 auto;
   padding: 10px 10px;
   position: relative;
+  display: block;
   cursor: pointer;
   border: 2px dashed gray;
-  border-radius: 60px;
+  border-radius: 50%;
   background: lightcyan;
+  background-size: cover;
+  background-position: center center;
 }
 
 .dropzone:hover {
@@ -81,7 +93,7 @@ export default {
 }
 
 .input-image {
-  max-height: 100px;
+  height: 125px;
   width: 100%;
   opacity: 0;
   position: absolute;
