@@ -10,9 +10,11 @@
           <li>{{ user.phone }}</li>
         </b-card-text></b-tab>
         <b-tab title="Company Info"><b-card-text>
+          <h3>Placeholder for Company Logo</h3>
           <li>{{ user.company_name }}</li>
           <li>{{ user.company_address }}</li>
           <li>{{ user.company_city }}, {{ user.company_state }}, {{ user.company_zip }}</li>
+          <ImageUpload/>
         </b-card-text></b-tab>
         <b-tab title="Business Rolodex"><b-card-text>
           <AllBusinesses/>
@@ -37,6 +39,7 @@ import AddBusiness from '@/components/forms/AddBusiness'
 import AddEmployee from '@/components/forms/AddEmployee'
 import AllBusinesses from '@/components/business/AllBusinesses'
 import AllEmployees from '@/components/employee/AllEmployees'
+import ImageUpload from '@/components/ImageUpload'
 
 export default {
   name: 'profile',
@@ -45,6 +48,7 @@ export default {
     AddEmployee,
     AllBusinesses,
     AllEmployees,
+    ImageUpload
   },
   data () {
     return {

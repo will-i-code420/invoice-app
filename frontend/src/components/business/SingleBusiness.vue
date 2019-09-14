@@ -1,8 +1,14 @@
 <template>
-  <div class="single-business">
-    <h1>Business</h1>
-    <p>{{ business.business_name }}</p>
-  </div>
+  <b-container fluid class="single-business">
+    <b-row>
+      <b-col>
+        <div>
+          <h1>Business</h1>
+          <p>{{ business.business_name }}</p>
+        </div>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -36,7 +42,7 @@ export default {
 </script>
 
 <style scoped>
-h1 {
+.single-business {
   margin-top: 70px;
 }
 </style>

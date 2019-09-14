@@ -205,12 +205,6 @@ export default {
     }
   },
   computed: {
-    user() {
-      return this.$store.getters.getUser
-    },
-    token() {
-      return this.$store.getters.getToken
-    }
   },
   methods: {
     checkFormValidity () {
@@ -303,7 +297,7 @@ export default {
       formData.append("price", price)
       formData.append("amount_paid", this.invoice.amount_paid)
       formData.append("total_due", this.invoice.total_due)
-      formData.append("invoiceId", this.user.id)
+      formData.append("invoiceId", this.$store.state.user.id)
       for (const [key, value] of formData.entries()) {
         invoiceForm[key] = value
       }

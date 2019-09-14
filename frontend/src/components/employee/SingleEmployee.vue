@@ -16,7 +16,10 @@
                 Address: {{ employee.address }}
               </b-list-group-item>
               <b-list-group-item>
-                City/State/ZIP {{ employee.city }}, {{ employee.state }} {{ employee.zip }}
+                City/State/ZIP: {{ employee.city }}, {{ employee.state }} {{ employee.zip }}
+              </b-list-group-item>
+              <b-list-group-item>
+                Marital Status: {{ employee.marital_status }} &#37;
               </b-list-group-item>
               <b-list-group-item>
                 State Tax: {{ employee.state_tax }} &#37;
@@ -25,7 +28,7 @@
                 Federal Deductions: {{ employee.fed_tax }}
               </b-list-group-item>
             </b-list-group>
-            <b-button variant="outline-danger">
+            <b-button variant="outline-danger" @click="editEmployee">
               Edit Info
             </b-button>
           </b-card>
@@ -62,10 +65,12 @@ export default {
         {key: 'city'},
         {key: 'state'},
         {key: 'zip'},
+        {key: 'marital_status'},
         {key: 'fed_tax', label: 'Federal Deductions'},
         {key: 'state_tax', label: 'State Tax Rate'},
         {key: 'edit'},
-      ]
+      ],
+      editing: false
     }
   },
   computed: {
@@ -80,6 +85,9 @@ export default {
     })
   },
   methods: {
+    editEmployee() {
+      this.editing = true
+    }
   }
 }
 </script>
