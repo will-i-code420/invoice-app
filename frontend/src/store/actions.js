@@ -1,6 +1,6 @@
 export default {
-  setToken ({commit}, token) {
-    commit('setToken', token)
+  setToken ({commit}) {
+    commit('setToken')
   },
   setUser ({commit}, user) {
     commit('setUser', user)

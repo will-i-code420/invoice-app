@@ -1,6 +1,6 @@
 export default {
-  setToken (state, token) {
-    state.token = token
+  setToken (state) {
+    state.token = this.$cookies.get(token)
     if (token) {
       state.isLoggedIn = true
     } else {
@@ -17,7 +17,7 @@ export default {
   },
   logout(state) {
     state.user = false,
-    state.token = '',
+    state.token = this.$cookies.remove(token),
     state.admin = false,
     state.isLoggedIn = false
   }

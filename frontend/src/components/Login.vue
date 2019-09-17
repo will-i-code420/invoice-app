@@ -48,7 +48,8 @@ export default {
       await authenticationService.login(this.userLogin).then(res => {
         this.loading = ''
         if (res.data.status === true) {
-          this.$store.dispatch('setToken', res.data.token)
+          this.$cookies.set('token', res.data.token)
+          this.$store.dispatch('setToken')
           this.$store.dispatch('setUser', res.data.user)
           this.$router.push ({ name: 'dashboard' })
         }
