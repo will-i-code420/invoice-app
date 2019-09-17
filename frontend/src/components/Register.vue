@@ -130,8 +130,7 @@ export default {
         await authenticationService.register(this.createUser).then(res => {
           this.loading = ''
           if (res.data.status === true) {
-            this.$cookies.set('token', res.data.token)
-            this.$store.dispatch('setToken')
+            this.$store.dispatch('setToken', res.data.token)
             this.$store.dispatch('setUser', res.data.user)
             this.$router.push ({ name: 'dashboard' })
           }
