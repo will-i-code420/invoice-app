@@ -1,8 +1,8 @@
 import api from '@/services/api'
 
 export default {
-  index (id) {
-    return api().get(`invoices/${id}`)
+  index () {
+    return api().get('invoices')
   },
   invoice (id, invoiceId) {
     return api().get(`invoices/${id}/${invoiceId}`)

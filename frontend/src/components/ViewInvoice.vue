@@ -59,8 +59,7 @@ export default {
   },
   async created () {
     try {
-      const id = this.$store.state.user.id
-      await invoiceService.index(id).then(res => {
+      await invoiceService.index().then(res => {
         this.invoices = res.data.invoices
       })
     } catch (err) {

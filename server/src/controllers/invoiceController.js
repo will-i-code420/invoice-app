@@ -6,7 +6,7 @@ module.exports = {
     try {
       const invoices = await Invoices.findAll({
         where: {
-          invoiceId: req.params.id
+          invoiceId: req.user.id
         }
       })
       res.status(200).json({
