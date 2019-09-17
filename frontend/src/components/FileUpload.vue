@@ -52,7 +52,7 @@ export default {
       formData.append('fileId', this.$store.state.route.params.id)
       try {
         await fileService.upload(formData, {
-          onUploadProgress: event => this.progress = Math.round(event.loaded * 100 / event.total)
+          onUploadProgress: event => this.progress = Math.round(event.loaded / event.total * 100)
         }).then(res => {
           if (res.data.status === true) {
             alert(res.data.message)

@@ -50,7 +50,7 @@ export default {
       formData.append('imageId', this.$store.state.user.id)
       try {
         await fileService.logo(formData, {
-          onUploadProgress: event => this.progress = Math.round(event.loaded * 100 / event.total)
+          onUploadProgress: event => this.progress = Math.round(event.loaded / event.total * 100)
         }).then(res => {
           if (res.data.status === true) {
             alert(res.data.message)
