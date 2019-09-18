@@ -1,6 +1,7 @@
 export default {
   setToken (state, token) {
-    state.token = window.$cookies.set('token', token)
+    window.$cookies.set('token', token)
+    state.token = window.$cookies.get('token')
     if (token) {
       state.isLoggedIn = true
     } else {

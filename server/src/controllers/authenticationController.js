@@ -13,13 +13,13 @@ module.exports = {
     try {
       const user = await User.create(req.body)
       delete user.dataValues.password
-      let selectedUser = user[0]
+      let selectedUser = user.dataValues
       let userPayload ={user: selectedUser}
       let token = jwtSignUser(userPayload)
       res.status(201).json({
         status: true,
         user: user,
-        token: token
+        token: 'Bearer ' + token
       })
     } catch (err) {
       res.status(409).json({
@@ -42,13 +42,13 @@ module.exports = {
           error: 'Incorrect login credentials'
         })
       }
-      let selectedUser = user[0]
+      let selectedUser = user.dataValues
       let userPayload ={user: selectedUser}
       let token = jwtSignUser(userPayload)
       res.status(201).json({
         status: true,
         user: user,
-        token: token
+        token: 'Bearer ' + token
       })
     } catch (err) {
       res.status(500).json({

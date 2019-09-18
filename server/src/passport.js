@@ -12,7 +12,7 @@ passport.use(
     try {
       const user = await User.findOne({
         where: {
-          id: jwtPayload.id
+          id: jwtPayload.user.id
         }
       })
       if (!user) {
