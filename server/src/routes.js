@@ -17,7 +17,7 @@ module.exports = (app) => {
   app.post('/employeeFiles', isAuthenticated, uploadController.addFile, fileController.upload);
   app.post('/businessLogo', isAuthenticated, logoController.addLogo, fileController.logo);
   app.put('/invoices/:id', isAuthenticated, invoiceController.put);
-  app.get('/invoices/', isAuthenticated, invoiceController.index);
+  app.get('/invoices', isAuthenticated, invoiceController.index);
   app.get('/invoices/:id/:invoiceId', isAuthenticated, invoiceController.invoice);
   app.get('/business/:id', isAuthenticated, businessController.index);
   app.get('/employee/:id', isAuthenticated, employeeController.index);
