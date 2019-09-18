@@ -4,8 +4,8 @@ export default {
   index () {
     return api().get('invoices')
   },
-  invoice (id, invoiceId) {
-    return api().get(`invoices/${id}/${invoiceId}`)
+  invoice (invoiceId) {
+    return api().get(`invoices/${invoiceId}`)
   },
   create (invoice) {
     return api().post('invoices', invoice)

@@ -86,17 +86,13 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUser
-    },
-    token() {
-      return this.$store.getters.getToken
     }
   },
   async created () {
     try {
       let balance
-      const id = this.$store.state.user.id
       const invoiceId = this.$store.state.route.params.id
-      await invoiceService.invoice(id, invoiceId).then(res => {
+      await invoiceService.invoice(invoiceId).then(res => {
         this.invoice = res.data.invoice
         this.transactions = res.data.invoice.transactionId
       })
