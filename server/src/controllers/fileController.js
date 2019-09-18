@@ -38,7 +38,7 @@ module.exports = {
         size: req.file.size,
         type: req.file.mimetype,
         path: req.file.path,
-        imageId: req.body.imageId
+        imageId: req.user.id
       })
       res.status(200).json({
         status: true,

@@ -47,7 +47,6 @@ export default {
       this.uploading = true
       const formData = new FormData()
       formData.append('image', this.image)
-      formData.append('imageId', this.$store.state.user.id)
       try {
         await fileService.logo(formData, {
           onUploadProgress: event => this.progress = Math.round(event.loaded / event.total * 100)
