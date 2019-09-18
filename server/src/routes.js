@@ -19,8 +19,8 @@ module.exports = (app) => {
   app.put('/invoices/:id', isAuthenticated, invoiceController.put);
   app.get('/invoices', isAuthenticated, invoiceController.index);
   app.get('/invoices/:id/:invoiceId', isAuthenticated, invoiceController.invoice);
-  app.get('/business/:id', isAuthenticated, businessController.index);
+  app.get('/business', isAuthenticated, businessController.index);
   app.get('/employee/:id', isAuthenticated, employeeController.index);
   app.get('/employee/:id/:employeeId', isAuthenticated, employeeController.employee);
-  app.get('/business/:id/:businessId', isAuthenticated, businessController.business);
+  app.get('/business/:businessId', isAuthenticated, businessController.business);
 };

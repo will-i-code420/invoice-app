@@ -32,25 +32,17 @@ export default {
   },
   async created () {
     try {
-      await this.getBusinessRolodex()
+      await businessService.index().then(res => {
+        if (res.data.status === true) {
+          this.business = res.data.business
+        }
+      })
     } catch (err) {
       alert(err.response.data.error)
     }
   },
   methods: {
-    async getBusinessRolodex() {
-      try {
-        const id = this.$store.state.user.id
-        await businessService.index(id).then(res => {
-          if (res.data.status === true) {
-            this.business = res.data.business
-          }
-        })
-      } catch (err) {
-        alert(err.response.data.error)
-      }
-    }
-  }
+  },
 }
 </script>
 

@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import AddBusiness from '@/components/forms/AddBusiness'
+import AddBusiness from '@/components/business/AddBusiness'
 import AddEmployee from '@/components/forms/AddEmployee'
 import AllBusinesses from '@/components/business/AllBusinesses'
 import AllEmployees from '@/components/employee/AllEmployees'
@@ -62,8 +62,6 @@ export default {
   async created () {
   },
   methods: {
-    editInfo() {
-    }
   }
 }
 </script>

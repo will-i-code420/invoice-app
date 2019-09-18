@@ -1,11 +1,11 @@
 import api from '@/services/api'
 
 export default {
-  index(id) {
-    return api().get(`business/${id}`)
+  index() {
+    return api().get('business')
   },
-  business(id, businessId) {
-    return api().get(`business/${id}/${businessId}`)
+  business(businessId) {
+    return api().get(`business/${businessId}`)
   },
   create(business) {
     return api().post('business', business)

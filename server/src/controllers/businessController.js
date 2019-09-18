@@ -5,7 +5,7 @@ module.exports = {
     try {
       const business = await Business.findAll({
         where: {
-          businessId: req.params.id
+          businessId: req.user.id
         }
       })
       res.status(200).json({
