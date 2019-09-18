@@ -5,7 +5,7 @@ module.exports = {
     try {
       const employees = await Employee.findAll({
         where: {
-          employeeId: req.params.id
+          employeeId: req.user.id
         }
       })
       res.status(200).json({

@@ -76,9 +76,8 @@ export default {
   computed: {
   },
   async created () {
-    const id = this.$store.state.user.id
     const employeeId = this.$store.state.route.params.id
-    await employeeService.employee(id, employeeId).then(res => {
+    await employeeService.employee(employeeId).then(res => {
       if (res.data.status === true) {
         this.employee = res.data.employee
       }

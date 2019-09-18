@@ -49,8 +49,7 @@ export default {
   methods: {
     async getEmployeeRolodex() {
       try {
-        const id = this.$store.state.user.id
-        await employeeService.index(id).then(res => {
+        await employeeService.index().then(res => {
           if (res.data.status === true) {
             this.employee = res.data.employee
           }
