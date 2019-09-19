@@ -93,6 +93,9 @@ import businessService from '@/services/businessService'
 
 export default {
   name: 'add-business',
+  props: {
+    getBusinessRolodex: Function
+  },
   data() {
     return {
       status: '',
@@ -107,8 +110,6 @@ export default {
         business_zip: ''
       }
     }
-  },
-  computed: {
   },
   methods: {
     async submitBusiness() {
@@ -130,6 +131,7 @@ export default {
       await businessService.create(business).then(res => {
         if (res.data.status === true) {
           alert(res.data.message)
+          this.getBusinessRolodex()
           this.clearBusinessForm()
         } else {
           alert(res.data.message)

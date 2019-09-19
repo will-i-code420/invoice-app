@@ -7,20 +7,20 @@
       size="small"
       :to="{ name: 'singleEmployee', params: { id: item.id } }"
       >
-      View Employee
+      View Details
       </b-button>
     </template>
   </b-table>
 </template>
 
 <script>
-import employeeService from '@/services/employeeService'
-
 export default {
   name: 'all-employees',
+  props: {
+    employee: Array
+  },
   data() {
     return {
-      employee: [],
       fields: [
         { key: 'name' },
         { key: 'phone', label: 'Phone #' },
@@ -35,28 +35,6 @@ export default {
         },
         { key: 'view' }
       ]
-    }
-  },
-  computed: {
-  },
-  async created () {
-    try {
-      await this.getEmployeeRolodex()
-    } catch (err) {
-      alert(err.response.data.error)
-    }
-  },
-  methods: {
-    async getEmployeeRolodex() {
-      try {
-        await employeeService.index().then(res => {
-          if (res.data.status === true) {
-            this.employee = res.data.employee
-          }
-        })
-      } catch (err) {
-        alert(err.response.data.error)
-      }
     }
   }
 }

@@ -17,16 +17,24 @@
           <ImageUpload/>
         </b-card-text></b-tab>
         <b-tab title="Business Rolodex"><b-card-text>
-          <AllBusinesses/>
+          <AllBusinesses
+          :business="business"
+          />
         </b-card-text></b-tab>
         <b-tab title="Employee Rolodex"><b-card-text>
-          <AllEmployees/>
+          <AllEmployees
+          :employee="employee"
+          />
         </b-card-text></b-tab>
         <b-tab title="Add Business"><b-card-text>
-          <AddBusiness/>
+          <AddBusiness
+          :getBusinessRolodex="getBusinessRolodex"
+          />
         </b-card-text></b-tab>
         <b-tab title="Add Employee"><b-card-text>
-          <AddEmployee/>
+          <AddEmployee
+          :getEmployeeRolodex="getEmployeeRolodex"
+          />
         </b-card-text></b-tab>
       </b-tabs>
     </b-card>
@@ -40,6 +48,8 @@ import AddEmployee from '@/components/employee/AddEmployee'
 import AllBusinesses from '@/components/business/AllBusinesses'
 import AllEmployees from '@/components/employee/AllEmployees'
 import ImageUpload from '@/components/ImageUpload'
+import businessService from '@/services/businessService'
+import employeeService from '@/services/employeeService'
 
 export default {
   name: 'profile',
@@ -52,6 +62,8 @@ export default {
   },
   data () {
     return {
+      business: [],
+      employee: []
     }
   },
   computed: {
@@ -60,8 +72,36 @@ export default {
     }
   },
   async created () {
+    try {
+      await this.getEmployeeRolodex()
+      await this.getBusinessRolodex()
+    } catch (err) {
+      alert(err.response.data.error)
+    }
   },
   methods: {
+    async getEmployeeRolodex() {
+      try {
+        await employeeService.index().then(res => {
+          if (res.data.status === true) {
+            this.employee = res.data.employee
+          }
+        })
+      } catch (err) {
+        alert(err.response.data.error)
+      }
+    },
+    async getBusinessRolodex() {
+      try {
+        await businessService.index().then(res => {
+          if (res.data.status === true) {
+            this.business = res.data.business
+          }
+        })
+      } catch (err) {
+        alert(err.response.data.error)
+      }
+    }
   }
 }
 </script>

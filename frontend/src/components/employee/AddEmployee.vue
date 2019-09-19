@@ -112,6 +112,9 @@ import employeeService from '@/services/employeeService'
 
 export default {
   name: 'add-employee',
+  props: {
+    getEmployeeRolodex: Function
+  },
   data() {
     return {
       status: '',
@@ -132,8 +135,6 @@ export default {
         {text: 'Married', value: 'married'}
       ]
     }
-  },
-  computed: {
   },
   methods: {
     async submitEmployee() {
@@ -176,17 +177,6 @@ export default {
       this.employeeInfo.state_tax = ''
       this.employeeInfo.fed_tax = ''
       this.status = ''
-    },
-    async getEmployeeRolodex() {
-      try {
-        await employeeService.index().then(res => {
-          if (res.data.status === true) {
-            this.employee = res.data.employee
-          }
-        })
-      } catch (err) {
-        alert(err.response.data.error)
-      }
     }
   }
 }
