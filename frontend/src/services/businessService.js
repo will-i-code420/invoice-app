@@ -12,5 +12,8 @@ export default {
   },
   put(business) {
     return api().put(`business/${business.id}`, business)
+  },
+  destroy(businessId) {
+    return api().delete(`business/${businessId}`)
   }
 }

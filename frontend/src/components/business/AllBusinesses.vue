@@ -1,6 +1,6 @@
 <template>
   <b-table bordered hover :items="business" :fields="fields">
-    <template slot="view" slot-scope="{ item }">
+    <template slot="actions" slot-scope="{ item }">
       <b-button
       pill
       variant="outline-success"
@@ -9,15 +9,26 @@
       >
       View Details
       </b-button>
+      <b-button
+      pill
+      variant="outline-success"
+      size="small"
+      @click="deleteBusiness(item.id)"
+      >
+      Delete
+      </b-button>
     </template>
   </b-table>
 </template>
 
 <script>
+import businessService from '@/services/businessService'
+
 export default {
   name: 'all-business',
   props: {
-    business: Array
+    business: Array,
+    getBusinessRolodex: Function
   },
   data() {
     return {
@@ -26,8 +37,23 @@ export default {
         { key: 'business_contact', label: 'Contact' },
         { key: 'business_phone', label: 'Phone #' },
         { key: 'business_email', label: 'Email' },
-        { key: 'view' },
+        { key: 'actions' },
       ]
+    }
+  },
+  methods: {
+    async deleteBusiness(businessId) {
+      try {
+        console.log(businessId)
+        await businessService.destroy(businessId).then(res => {
+          if(res.data.status === true) {
+            this.getBusinessRolodex()
+            alert(res.data.message)
+          }
+        })
+      } catch (err) {
+        alert(err)
+      }
     }
   }
 }

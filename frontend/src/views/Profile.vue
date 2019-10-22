@@ -19,6 +19,7 @@
         <b-tab title="Business Rolodex"><b-card-text>
           <AllBusinesses
           :business="business"
+          :getBusinessRolodex="getBusinessRolodex"
           />
         </b-card-text></b-tab>
         <b-tab title="Employee Rolodex"><b-card-text>

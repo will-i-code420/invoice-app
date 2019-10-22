@@ -44,5 +44,24 @@ module.exports = {
         error: err
       })
     }
+  },
+  async destroy (req, res) {
+    try {
+      await Business.destroy({
+        where: {
+          id: req.params.businessId
+        }
+      })
+      res.status(200).json({
+        status: true,
+        message: 'Business deleted'
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(409).json({
+        status: false,
+        error: err
+      })
+    }
   }
 };

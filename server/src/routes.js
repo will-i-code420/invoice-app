@@ -23,4 +23,5 @@ module.exports = (app) => {
   app.get('/employee', isAuthenticated, employeeController.index);
   app.get('/employee/:employeeId', isAuthenticated, employeeController.employee);
   app.get('/business/:businessId', isAuthenticated, businessController.business);
+  app.delete('/business/:businessId', isAuthenticated, businessController.destroy)
 };

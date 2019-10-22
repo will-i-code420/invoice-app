@@ -1,6 +1,6 @@
 <template>
   <b-table bordered hover :items="employee" :fields="fields">
-    <template slot="view" slot-scope="{ item }">
+    <template slot="actions" slot-scope="{ item }">
       <b-button
       pill
       variant="outline-success"
@@ -33,7 +33,7 @@ export default {
             }
           }
         },
-        { key: 'view' }
+        { key: 'actions' },
       ]
     }
   }
