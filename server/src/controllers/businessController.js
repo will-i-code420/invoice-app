@@ -57,7 +57,6 @@ module.exports = {
         message: 'Business deleted'
       })
     } catch (err) {
-      console.log(err)
       res.status(409).json({
         status: false,
         error: err
