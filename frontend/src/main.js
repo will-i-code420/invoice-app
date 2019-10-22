@@ -9,6 +9,8 @@ import router from './router'
 import { sync } from 'vuex-router-sync'
 import store from './store'
 
+import '@/plugins/echarts'
+
 Vue.use(BootstrapVue)
 Vue.use(VueCookies)
 
