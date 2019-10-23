@@ -82,18 +82,13 @@ export default {
           }, {})
         let invoicePayments = invoices.map(invoice => ({paid: invoice.amount_paid, due: invoice.total_due, date: new Date(invoice.createdAt).toLocaleString('en-us', { month: 'short' })}))
         .sort((a, b) => a.date < b.date)
-        console.table(invoicePayments)
         let total_paid = invoicePayments.reduce((obj, data) => {
-          console.table(obj)
-          console.log(data)
-          console.log(data.due - data.paid)
           if(!obj[data.date]) { obj[data.date] = 0}
           if (data.due - data.paid === 0) {
             obj[data.date]++
           }
           return obj
         }, {})
-        console.table(total_paid)
         this.totalInvoice.xAxis.data = [...Object.keys(numAndDate)]
         this.totalInvoice.series[0].data = [...Object.values(numAndDate)]
         this.totalInvoice.series[1].data = [...Object.values(total_paid)]
