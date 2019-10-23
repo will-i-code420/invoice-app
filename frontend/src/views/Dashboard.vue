@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="bar-chart">
+      <h2>Total Invoices</h2>
       <chart
       :options="totalInvoice"
       />
@@ -23,14 +24,10 @@ export default {
     return {
       loading: true,
       totalInvoice: {
-        title: {
-          text: 'Total Invoices',
-          x: 'center',
-          textStyle: {
-            fontSize: 28
-          }
+        color: ['#127ac2', '#047513', '#b50915'],
+        legend: {
+          data: ['Total Invoices', 'Total Invoices Paid', 'Total Invoices Late']
         },
-        color: ['#127ac2'],
         xAxis: {
           data: []
         },
@@ -39,10 +36,16 @@ export default {
         {
           name: 'Total Invoices',
           type: 'bar',
+          barGap: 0,
           data: []
         },
         {
           name: 'Total Invoices Paid',
+          type: 'bar',
+          data: []
+        },
+        {
+          name: 'Total Invoices Late',
           type: 'bar',
           data: []
         }
