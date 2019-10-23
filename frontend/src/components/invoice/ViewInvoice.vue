@@ -7,14 +7,14 @@
           <hr>
           <div>
             <b-table bordered hover :items="invoices" :fields="fields">
-              <template slot="view" slot-scope="{ item }">
+              <template v-slot:cell(view)="data">
                 <b-button
                 pill
                 variant="outline-success"
-                size="small"
-                :to="{ name: 'singleInvoice', params: { id: item.id } }"
+                size="sm"
+                :to="{ name: 'singleInvoice', params: { id: data.item.id } }"
                 >
-                  View Invoice
+                  Details
                 </b-button>
               </template>
             </b-table>
@@ -70,4 +70,9 @@ export default {
 </script>
 
 <style scoped>
+
+.view-inovices-container {
+  padding-top: 65px;
+}
+
 </style>

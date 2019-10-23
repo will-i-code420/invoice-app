@@ -1,11 +1,11 @@
 <template>
   <b-table bordered hover :items="employee" :fields="fields">
-    <template slot="actions" slot-scope="{ item }">
+    <template v-slot:cell(actions)="data">
       <b-button
       pill
       variant="outline-success"
       size="small"
-      :to="{ name: 'singleEmployee', params: { id: item.id } }"
+      :to="{ name: 'singleEmployee', params: { id: data.item.id } }"
       >
       View Details
       </b-button>

@@ -84,8 +84,8 @@
           <h2>Invoice Info:</h2>
           <div>
             <b-table bordered hover :items="transactions" :fields="fields">
-              <template slot="modify" slot-scope="{ item }">
-                <b-button squared @click="selectTrans(item)">
+              <template v-slot:cell(modify)="data">
+                <b-button squared @click="selectTrans(data.item)">
                   Edit
                 </b-button>
                 <b-modal
@@ -142,7 +142,7 @@
             </b-form-group>
           </form>
         </b-modal>
-                <b-button squared @click="deleteTransaction(item.id)">
+                <b-button squared @click="deleteTransaction(data.item.id)">
                   X
                 </b-button>
               </template>

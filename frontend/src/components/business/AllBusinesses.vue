@@ -1,11 +1,11 @@
 <template>
   <b-table bordered hover :items="business" :fields="fields">
-    <template slot="actions" slot-scope="{ item }">
+    <template v-slot:cell(actions)="data">
       <b-button
       pill
       variant="outline-success"
       size="small"
-      :to="{ name: 'singleBusiness', params: { id: item.id } }"
+      :to="{ name: 'singleBusiness', params: { id: data.item.id } }"
       >
       View Details
       </b-button>
@@ -13,7 +13,7 @@
       pill
       variant="outline-success"
       size="small"
-      @click="deleteBusiness(item.id)"
+      @click="deleteBusiness(data.item.id)"
       >
       Delete
       </b-button>
