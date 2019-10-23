@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import invoiceService from '@/services/invoiceService'
+
 export default {
   name: 'dashboard',
   data () {
@@ -28,13 +30,13 @@ export default {
         },
         color: ['#127ac2'],
         xAxis: {
-          data: ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+          data: []
         },
         yAxis: {type: 'value'},
         series: [{
           name: 'Total Invoices',
           type: 'bar',
-          data: [10, 20, 30, 40]
+          data: []
         }]
       },
       income: {
@@ -56,6 +58,21 @@ export default {
           data: [10, 20, 30, 40]
         }]
       }
+    }
+  },
+  async created () {
+    try {
+      await invoiceService.index().then(res => {
+        let invoices = res.data.invoices
+        let dates = invoices.map(invoice => new Date(invoice.createdAt).toLocaleString('en-us', { month: 'short' })
+          ).sort((a, b) => a > b)
+        let numOfInvoices = invoices.length
+        console.log(numOfInvoices)
+        this.totalInvoice.xAxis.data = [...new Set(dates)]
+        //this.totalInvoice.series.data = numOfInvoices
+      })
+    } catch (err) {
+      alert(err)
     }
   }
 }

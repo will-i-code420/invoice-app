@@ -29,19 +29,19 @@ export default new Router({
       path: '/create',
       name: 'createInvoice',
       component: () =>
-        import('@/components/CreateInvoice.vue')
+        import('@/components/invoice/CreateInvoice.vue')
     },
     {
       path: '/invoices',
       name: 'viewInvoices',
       component: () =>
-        import('@/components/ViewInvoice.vue')
+        import('@/components/invoice/ViewInvoice.vue')
     },
     {
       path: '/invoices/:id',
       name: 'singleInvoice',
       component: () =>
-        import('@/components/SingleInvoice.vue')
+        import('@/components/invoice/SingleInvoice.vue')
     },
     {
       path: '/employee/:id',
