@@ -8,6 +8,7 @@
     <div class="line-chart">
       <chart
       :options="income"
+      :loading="loading"
       />
     </div>
   </div>
@@ -20,6 +21,7 @@ export default {
   name: 'dashboard',
   data () {
     return {
+      loading: true,
       totalInvoice: {
         title: {
           text: 'Total Invoices',
@@ -33,11 +35,18 @@ export default {
           data: []
         },
         yAxis: {type: 'value'},
-        series: [{
+        series: [
+        {
           name: 'Total Invoices',
           type: 'bar',
           data: []
-        }]
+        },
+        {
+          name: 'Total Invoices Paid',
+          type: 'bar',
+          data: []
+        }
+      ]
       },
       income: {
         title: {
@@ -64,12 +73,31 @@ export default {
     try {
       await invoiceService.index().then(res => {
         let invoices = res.data.invoices
-        let dates = invoices.map(invoice => new Date(invoice.createdAt).toLocaleString('en-us', { month: 'short' })
-          ).sort((a, b) => a > b)
-        let numOfInvoices = invoices.length
-        console.log(numOfInvoices)
-        this.totalInvoice.xAxis.data = [...new Set(dates)]
-        //this.totalInvoice.series.data = numOfInvoices
+        let numAndDate = invoices.map(invoice => new Date(invoice.createdAt).toLocaleString('en-us', { month: 'short' }))
+        .sort((a, b) => a < b)
+        .reduce((obj, data) => {
+          if (!obj[data]) { obj[data] = 0 }
+          obj[data]++
+          return obj
+          }, {})
+        let invoicePayments = invoices.map(invoice => ({paid: invoice.amount_paid, due: invoice.total_due, date: new Date(invoice.createdAt).toLocaleString('en-us', { month: 'short' })}))
+        .sort((a, b) => a.date < b.date)
+        console.table(invoicePayments)
+        let total_paid = invoicePayments.reduce((obj, data) => {
+          console.table(obj)
+          console.log(data)
+          console.log(data.due - data.paid)
+          if(!obj[data.date]) { obj[data.date] = 0}
+          if (data.due - data.paid === 0) {
+            obj[data.date]++
+          }
+          return obj
+        }, {})
+        console.table(total_paid)
+        this.totalInvoice.xAxis.data = [...Object.keys(numAndDate)]
+        this.totalInvoice.series[0].data = [...Object.values(numAndDate)]
+        this.totalInvoice.series[1].data = [...Object.values(total_paid)]
+        this.loading = false
       })
     } catch (err) {
       alert(err)
