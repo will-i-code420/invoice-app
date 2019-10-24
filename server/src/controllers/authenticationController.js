@@ -60,11 +60,17 @@ module.exports = {
           error: 'Incorrect login credentials'
         })
       }
+      const company = await Company.findOne({
+        where: {
+          id: user.companyId
+        }
+      })
       let selectedUser = user.dataValues
       let userPayload ={user: selectedUser}
       let token = jwtSignUser(userPayload)
       res.status(201).json({
         status: true,
+        company: company,
         user: user,
         token: 'Bearer ' + token
       })

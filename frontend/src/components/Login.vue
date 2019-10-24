@@ -54,6 +54,7 @@ export default {
         if (res.data.status === true) {
           this.$store.dispatch('setToken', res.data.token)
           this.$store.dispatch('setUser', res.data.user)
+          this.$store.dispatch('setCompany', res.data.company)
           this.$router.push ({ name: 'dashboard' })
         } else {
           alert(res.data.error)
