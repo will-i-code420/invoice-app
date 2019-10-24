@@ -11,6 +11,6 @@ export default {
     return api().post('employee', employee)
   },
   put(employee) {
-    return api().put(`invoices/${employee.id}`, employee)
+    return api().put(`employee/${employee.id}`, employee)
   }
 }

@@ -44,5 +44,23 @@ module.exports = {
         error: err
       })
     }
+  },
+  async put (req, res) {
+    try {
+      await Employee.update(req.body, {
+        where: {
+          id: req.params.id
+        }
+      })
+      res.status(200).json({
+        status: true,
+        message: 'Employee Info Updated'
+      })
+    } catch (err) {
+      res.status(409).json({
+        status: false,
+        error: err
+      })
+    }
   }
 };

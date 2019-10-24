@@ -175,6 +175,16 @@ export default {
   methods: {
     editEmployee() {
       this.editing = true
+    },
+    async saveChanges() {
+      await employeeService.put(this.employee).then(res => {
+        if (res.data.status === true) {
+          alert(res.data.message)
+          this.editing = false
+        } else {
+          alert(res.data.error)
+        }
+      })
     }
   }
 }
