@@ -76,6 +76,7 @@ export default {
     try {
       await invoiceService.index().then(res => {
         let invoices = res.data.invoices
+        // find all invoices by month
         let numAndDate = invoices.map(invoice => new Date(invoice.createdAt).toLocaleString('en-us', { month: 'short' }))
         .sort((a, b) => a < b)
         .reduce((obj, data) => {
@@ -83,6 +84,7 @@ export default {
           obj[data]++
           return obj
           }, {})
+          // sort paid invoices
         let invoicePayments = invoices.map(invoice => ({paid: invoice.amount_paid, due: invoice.total_due, date: new Date(invoice.createdAt).toLocaleString('en-us', { month: 'short' })}))
         .sort((a, b) => a.date < b.date)
         let total_paid = invoicePayments.reduce((obj, data) => {
@@ -92,6 +94,7 @@ export default {
           }
           return obj
         }, {})
+        
         this.totalInvoice.xAxis.data = [...Object.keys(numAndDate)]
         this.totalInvoice.series[0].data = [...Object.values(numAndDate)]
         this.totalInvoice.series[1].data = [...Object.values(total_paid)]
