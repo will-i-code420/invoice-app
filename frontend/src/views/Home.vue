@@ -1,13 +1,10 @@
 <template>
   <div class="signup-container">
-    <b-nav class="user" tabs align="center">
-      <b-nav-item @click="signIn">Log In</b-nav-item>
-      <b-nav-item @click="register">Register New User</b-nav-item>
-    </b-nav>
     <b-container class="forms-container">
       <b-row>
         <b-col sm="6" offset="3">
-          <Login v-if="showSignIn"/><Register v-if="showCreateLogin"/>
+          <h1>Sign In</h1>
+          <Login v-if="login"/>
         </b-col>
       </b-row>
     </b-container>
@@ -16,38 +13,27 @@
 
 <script>
 import Login from '@/components/Login'
-import Register from '@/components/Register'
 
 export default {
   name: 'signin',
   components: {
-    Login,
-    Register
+    Login
   },
   data () {
     return {
-      showSignIn: true,
-      showCreateLogin: false
+      login: true
     }
   },
   methods: {
-    signIn () {
-      this.showSignIn = !this.showSignIn
-      this.showCreateLogin = false
+    setView () {
+      this.login = !this.login
     },
-    register () {
-      this.showCreateLogin = !this.showCreateLogin
-      this.showSignIn = false
-    }
   }
 }
 </script>
 
 <style scoped>
-.nav {
-  margin-bottom: 30px;
-}
-.user {
+.signup-container {
   padding-top: 65px;
 }
 </style>

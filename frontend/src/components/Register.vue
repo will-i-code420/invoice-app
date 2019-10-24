@@ -1,89 +1,99 @@
 <template>
-  <div class="create-login-container">
-    <b-row>
-      <b-col>
-        <b-form ref="create" @submit.prevent="register">
-          <label for="name">Name:</label>
-          <b-form-input
-          v-model="createUser.name"
-          placeholder="ex. Jane Doe"
-          type="text"
-          required
-          >
-          </b-form-input>
-          <label for="email">Email:</label>
-          <b-form-input
-          v-model="createUser.email"
-          placeholder="ex. bob@gmail.com"
-          type="email"
-          required
-          >
-          </b-form-input>
-          <label for="name">Phone:</label>
-          <b-form-input
-          v-model="createUser.phone"
-          placeholder="ex. 800-235-1234 ext. 033"
-          type="text"
-          required
-          >
-          </b-form-input>
-          <label for="company">Company Name:</label>
-          <b-form-input
-          v-model="createUser.company_name"
-          type="text"
-          required
-          >
-          </b-form-input>
-          <label for="company">Company Address:</label>
-          <b-form-input
-          v-model="createUser.company_address"
-          placeholder="Billing Street # and name only"
-          type="text"
-          required
-          >
-          </b-form-input>
-          <label for="company">Company City:</label>
-          <b-form-input
-          v-model="createUser.company_city"
-          type="text"
-          required
-          >
-          </b-form-input>
-          <label for="company">Company State:</label>
-          <b-form-input
-          v-model="createUser.company_state"
-          type="text"
-          required
-          >
-          </b-form-input>
-          <label for="company">Company Zip:</label>
-          <b-form-input
-          v-model="createUser.company_zip"
-          type="text"
-          required
-          >
-          </b-form-input>
-          <label for="password">Password:</label>
-          <b-form-input
-          v-model="createUser.password"
-          type="password"
-          required
-          >
-          </b-form-input>
-          <label for="c-password">Confirm Password:</label>
-          <b-form-input
-          v-model="confirm_password"
-          type="password"
-          required
-          >
-          </b-form-input>
-          <div>
-            <b-button variant="info" type="submit">Register</b-button>
-            {{ loading }}
-          </div>
-        </b-form>
-      </b-col>
-    </b-row>
+  <div class="register-container">
+    <h1>Register Your Company</h1>
+    <b-container class="forms-container">
+      <b-row>
+        <b-col sm="8" offset="2">
+          <b-form ref="create" @submit.prevent="register">
+            <label for="company">Company Name:</label>
+            <b-form-input
+            v-model="createCompany.company_name"
+            type="text"
+            required
+            >
+            </b-form-input>
+            <label for="company">Company Address:</label>
+            <b-form-input
+            v-model="createCompany.company_address"
+            placeholder="Billing Street # and name only"
+            type="text"
+            required
+            >
+            </b-form-input>
+            <label for="company">Company City:</label>
+            <b-form-input
+            v-model="createCompany.company_city"
+            type="text"
+            required
+            >
+            </b-form-input>
+            <label for="company">Company State:</label>
+            <b-form-input
+            v-model="createCompany.company_state"
+            type="text"
+            required
+            >
+            </b-form-input>
+            <label for="company">Company Zip:</label>
+            <b-form-input
+            v-model="createCompany.company_zip"
+            type="text"
+            required
+            >
+            </b-form-input>
+            <label for="ein">EIN #:</label>
+            <b-form-input
+            v-model="createCompany.company_ein"
+            type="text"
+            required
+            >
+            </b-form-input>
+            <label for="name">Name:</label>
+            <b-form-input
+            v-model="createCompany.name"
+            placeholder="ex. Jane Doe"
+            type="text"
+            required
+            >
+            </b-form-input>
+            <label for="email">Email:</label>
+            <b-form-input
+            v-model="createCompany.email"
+            placeholder="ex. bob@gmail.com"
+            type="email"
+            required
+            >
+            </b-form-input>
+            <label for="name">Phone:</label>
+            <b-form-input
+            v-model="createCompany.phone"
+            placeholder="ex. 800-235-1234 ext. 033"
+            type="text"
+            required
+            >
+            </b-form-input>
+            <label for="password">Password:</label>
+            <b-form-input
+            v-model="createCompany.password"
+            type="password"
+            required
+            >
+            </b-form-input>
+            <label for="c-password">Confirm Password:</label>
+            <b-form-input
+            v-model="confirm_password"
+            type="password"
+            required
+            >
+            </b-form-input>
+            <div>
+              <b-button variant="info" type="submit">Register</b-button>
+              {{ loading }}
+            </div>
+          </b-form>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -94,7 +104,7 @@ export default {
   name: 'register',
   data () {
     return {
-      createUser: {
+      createCompany: {
         name: '',
         email: '',
         phone: '',
@@ -104,7 +114,8 @@ export default {
         company_city: '',
         company_state: '',
         company_zip: '',
-        admin: false
+        ein: '',
+        admin: true
       },
       confirm_password: '',
       loading: '',
@@ -113,10 +124,10 @@ export default {
   },
   methods: {
     validate () {
-      if (this.createUser.password != this.confirm_password) {
+      if (this.createCompany.password != this.confirm_password) {
         this.registerError = "Passwords DO NOT match!"
         return false
-      } else if (this.createUser.phone.length < 10) {
+      } else if (this.createCompany.phone.length < 10) {
         this.registerError = "Not valid phone #"
         return false
       } else {
@@ -127,7 +138,7 @@ export default {
       let valid = this.validate()
       if (valid) {
         this.loading = "Registering you, please wait..."
-        await authenticationService.register(this.createUser).then(res => {
+        await authenticationService.register(this.createCompany).then(res => {
           this.loading = ''
           if (res.data.status === true) {
             this.$store.dispatch('setToken', res.data.token)
@@ -148,8 +159,14 @@ export default {
 </script>
 
 <style scoped>
+.register-container {
+  padding-top: 70px;
+}
+.forms-container {
+  border: 3px solid blue;
+}
 .btn {
-  margin-top: 20px;
+  margin: 20px 0;
 }
 label {
   margin: 15px 0;

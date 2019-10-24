@@ -1,7 +1,7 @@
 <template>
   <div class="signin-container">
     <b-row>
-      <b-col>
+      <b-col sm="6" offset="3">
         <b-form @submit.prevent="login">
           <label for="email">Email:</label>
           <b-form-input
@@ -23,6 +23,10 @@
             {{ loading }}
           </div>
         </b-form>
+        <hr>
+        <b-button pill variant="primary" :to="{name: 'register'}">
+          Create New Account
+        </b-button>
       </b-col>
     </b-row>
   </div>
@@ -62,8 +66,11 @@ export default {
 </script>
 
 <style scoped>
+.signin-container {
+  border: 3px solid blue;
+}
 .btn {
-  margin-top: 20px;
+  margin: 20px 0;
 }
 label {
   margin: 15px 0;
