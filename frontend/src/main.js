@@ -11,6 +11,11 @@ import store from './store'
 
 import '@/plugins/echarts'
 
+import commonComponents from './components/common'
+commonComponents.forEach(component => {
+  Vue.component(component.name, component)
+})
+
 Vue.use(BootstrapVue)
 Vue.use(VueCookies)
 

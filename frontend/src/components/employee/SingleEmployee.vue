@@ -134,14 +134,10 @@
 </template>
 
 <script>
-import FileUpload from '@/components/FileUpload'
 import employeeService from '@/services/employeeService'
 
 export default {
   name: 'singleEmployee',
-  components: {
-    FileUpload
-  },
   data () {
     return {
       employee: [],

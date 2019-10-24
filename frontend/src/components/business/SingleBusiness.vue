@@ -104,6 +104,7 @@
       <b-col cols="6">
         <div class="business-files">
           <h1>Place Holder For Current Files Saved</h1>
+          <FileUpload/>
         </div>
       </b-col>
     </b-row>
