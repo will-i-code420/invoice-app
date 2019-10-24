@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="employee">
     <b-row>
-      <b-col cols="5">
+      <b-col cols="6">
         <div class="employee-info">
           <b-card v-if="!editing">
             <b-card-title>{{ employee.name }}</b-card-title>

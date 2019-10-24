@@ -45,6 +45,24 @@ module.exports = {
       })
     }
   },
+  async put (req, res) {
+    try {
+      await Business.update(req.body, {
+        where: {
+          id: req.params.id
+        }
+      })
+      res.status(200).json({
+        status: true,
+        message: 'Business Info Updated'
+      })
+    } catch (err) {
+      res.status(409).json({
+        status: false,
+        error: err
+      })
+    }
+  },
   async destroy (req, res) {
     try {
       await Business.destroy({

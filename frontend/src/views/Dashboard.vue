@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="bar-chart">
-      <h2>Total Invoices</h2>
+      <h2>Monthly Invoices</h2>
       <chart
       :options="totalInvoice"
       />
@@ -94,7 +94,7 @@ export default {
           }
           return obj
         }, {})
-        
+
         this.totalInvoice.xAxis.data = [...Object.keys(numAndDate)]
         this.totalInvoice.series[0].data = [...Object.values(numAndDate)]
         this.totalInvoice.series[1].data = [...Object.values(total_paid)]
