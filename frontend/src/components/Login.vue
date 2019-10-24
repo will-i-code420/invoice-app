@@ -55,6 +55,8 @@ export default {
           this.$store.dispatch('setToken', res.data.token)
           this.$store.dispatch('setUser', res.data.user)
           this.$router.push ({ name: 'dashboard' })
+        } else {
+          alert(res.data.error)
         }
       }).catch(err => {
         this.loading = ''

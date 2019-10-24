@@ -27,11 +27,6 @@ module.exports = (sequelize, DataTypes) => {
       unique: true
     },
     password: DataTypes.STRING,
-    company_name: DataTypes.STRING,
-    company_address: DataTypes.STRING,
-    company_city: DataTypes.STRING,
-    company_state: DataTypes.STRING,
-    company_zip: DataTypes.INTEGER,
     admin: DataTypes.BOOLEAN
   }, {
     hooks: {
@@ -40,9 +35,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   User.associate = (models) => {
+    User.belongsTo(models.Company, {
+      foreignKey: 'companyId'
+    });
     User.hasMany(models.Invoices, {
-      foreignKey: 'invoiceId',
-      as: 'invoiceId'
+      foreignKey: 'createdBy',
+      as: 'createdBy'
     });
     User.hasMany(models.Employee, {
       foreignKey: 'employeeId',

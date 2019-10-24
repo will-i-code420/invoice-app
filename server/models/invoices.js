@@ -12,9 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     total_due: DataTypes.INTEGER
   }, {});
   Invoices.associate = (models) => {
+    Invoices.belongsTo(models.Company, {
+      foreignKey: 'invoiceId'
+    });
     Invoices.belongsTo(models.User, {
-      foreignKey: 'invoiceId',
-      onDelete: 'CASCADE'
+      foreignKey: 'createdBy'
     });
     Invoices.hasMany(models.Transactions, {
       foreignKey: 'transactionId',

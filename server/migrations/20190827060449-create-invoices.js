@@ -22,9 +22,18 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
         onDelete: 'CASCADE',
         references: {
-          model: 'Users',
+          model: 'Company',
           key: 'id',
           as: 'invoiceId'
+        }
+      },
+      createdBy: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        references: {
+          model: 'User',
+          key: 'id',
+          as: 'createdBy'
         }
       },
       createdAt: {

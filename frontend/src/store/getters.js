@@ -5,6 +5,9 @@ export default {
   getToken(state) {
     return state.token
   },
+  getCompany(state) {
+    return state.company
+  },
   isLoggedIn(state) {
     return state.isLoggedIn
   },

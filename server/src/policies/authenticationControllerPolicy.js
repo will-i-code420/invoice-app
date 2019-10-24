@@ -8,10 +8,12 @@ module.exports = {
       email: Joi.string().email({ minDomainSegments: 2 }),
       password: Joi.string().regex(/^[a-zA-Z0-9]{8,32}$/),
       company_name: Joi.string(),
+      company_phone: Joi.string(),
       company_address: Joi.string(),
       company_city: Joi.string(),
       company_state: Joi.string(),
-      company_zip: Joi.string(),
+      company_zip: Joi.number(),
+      company_ein: Joi.number(),
       admin: Joi.boolean()
     }
     const {error, value} = Joi.validate(req.body, schema)

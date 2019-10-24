@@ -12,6 +12,14 @@
             required
             >
             </b-form-input>
+            <label for="company">Company Phone:</label>
+            <b-form-input
+            v-model="createCompany.company_phone"
+            type="text"
+            placeholder="Main Contact #, no direct line or ext"
+            required
+            >
+            </b-form-input>
             <label for="company">Company Address:</label>
             <b-form-input
             v-model="createCompany.company_address"
@@ -110,11 +118,12 @@ export default {
         phone: '',
         password: '',
         company_name: '',
+        company_phone: '',
         company_address: '',
         company_city: '',
         company_state: '',
         company_zip: '',
-        ein: '',
+        company_ein: '',
         admin: true
       },
       confirm_password: '',
@@ -143,6 +152,7 @@ export default {
           if (res.data.status === true) {
             this.$store.dispatch('setToken', res.data.token)
             this.$store.dispatch('setUser', res.data.user)
+            this.$store.dispatch('setCompany', res.data.company)
             this.$router.push ({ name: 'dashboard' })
           }
           }).catch(err => {

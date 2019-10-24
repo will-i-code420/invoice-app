@@ -16,6 +16,9 @@ export default {
       state.isAdmin = false
     }
   },
+  setCompany (state, company) {
+    state.company = company
+  },
   logout(state) {
     state.user = false,
     state.token = window.$cookies.keys().forEach(cookie => window.$cookies.remove(cookie)),
