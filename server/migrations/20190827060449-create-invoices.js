@@ -17,16 +17,6 @@ module.exports = {
       total_due: {
         type: Sequelize.INTEGER
       },
-      invoiceId: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Company',
-          key: 'id',
-          as: 'invoiceId'
-        }
-      },
       createdBy: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,

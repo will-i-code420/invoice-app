@@ -94,7 +94,7 @@ export default {
       const invoiceId = this.$store.state.route.params.id
       await invoiceService.invoice(invoiceId).then(res => {
         this.invoice = res.data.invoice
-        this.transactions = res.data.invoice.transactionId
+        this.transactions = res.data.invoice.invoiceId
       })
       balance = this.invoice.total_due - this.invoice.amount_paid
       this.balance_due = balance.toFixed(2)

@@ -6,7 +6,7 @@ module.exports = {
     try {
       const invoices = await Invoices.findAll({
         where: {
-          invoiceId: req.company.id
+          createdBy: req.user.id
         }
       })
       res.status(200).json({
@@ -24,7 +24,7 @@ module.exports = {
       let fullInvoice = await Invoices.findByPk(req.params.invoiceId, {
         include: [{
           model: Transactions,
-          as: 'transactionId'
+          as: 'invoiceId'
         }]
       })
       res.status(200).json({
@@ -44,7 +44,6 @@ module.exports = {
         name: req.body.name,
         amount_paid: req.body.amount_paid,
         total_due: req.body.total_due,
-        invoiceId: req.company.id,
         createdBy: req.user.id
       }).then((invoice) => {
         newInvoice = invoice
@@ -58,7 +57,7 @@ module.exports = {
             description: description[i],
             quantity: quantity[i],
             price: price[i],
-            transactionId: newInvoice['id']
+            invoiceId: newInvoice['id']
           })
         }
       })
@@ -83,7 +82,7 @@ module.exports = {
       const invoice = await Invoices.findByPk(req.params.id, {
         include: [{
           model: Transactions,
-          as: 'transactionId'
+          as: 'invoiceId'
         }]
       })
       res.status(200).json({

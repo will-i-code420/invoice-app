@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Transactions.associate = (models) => {
     Transactions.belongsTo(models.Invoices, {
-      foreignKey: 'transactionId',
+      foreignKey: 'invoiceId',
       onDelete: 'CASCADE'
     });
   };

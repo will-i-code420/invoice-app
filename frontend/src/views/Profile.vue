@@ -11,9 +11,11 @@
         </b-card-text></b-tab>
         <b-tab title="Company Info"><b-card-text>
           <h3>Placeholder for Company Logo</h3>
-          <li>{{ user.company_name }}</li>
-          <li>{{ user.company_address }}</li>
-          <li>{{ user.company_city }}, {{ user.company_state }}, {{ user.company_zip }}</li>
+          <li>{{ company.company_name }}</li>
+          <li>{{ company.company_ein }}</li>
+          <li>{{ company.company_phone }}</li>
+          <li>{{ company.company_address }}</li>
+          <li>{{ company.company_city }}, {{ company.company_state }}, {{ company.company_zip }}</li>
           <ImageUpload/>
         </b-card-text></b-tab>
         <b-tab title="Business Rolodex"><b-card-text>
@@ -70,6 +72,9 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUser
+    },
+    company() {
+      return this.$store.getters.getCompany
     }
   },
   async created () {
