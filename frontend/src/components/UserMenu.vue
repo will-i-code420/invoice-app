@@ -9,7 +9,7 @@
       <b-dropdown-divider></b-dropdown-divider>
       <b-button class="logout" variant="outline-primary" size="sm" @click="logout">Log Out</b-button>
     </b-dropdown>
-    <b-navbar-brand class="company" to="/dashboard"><h5>{{ user.company_name }}</h5></b-navbar-brand>
+    <b-navbar-brand class="company" to="/dashboard"><h5>{{ company.company_name }}</h5></b-navbar-brand>
   </b-navbar-nav>
 </template>
 
@@ -19,6 +19,9 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUser
+    },
+    company() {
+      return this.$store.getters.getCompany
     }
   },
   methods: {

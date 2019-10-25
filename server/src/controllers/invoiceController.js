@@ -6,7 +6,7 @@ module.exports = {
     try {
       const invoices = await Invoices.findAll({
         where: {
-          invoiceId: req.user.id
+          invoiceId: req.company.id
         }
       })
       res.status(200).json({
@@ -44,7 +44,8 @@ module.exports = {
         name: req.body.name,
         amount_paid: req.body.amount_paid,
         total_due: req.body.total_due,
-        invoiceId: req.body.invoiceId
+        invoiceId: req.company.id,
+        createdBy: req.user.id
       }).then((invoice) => {
         newInvoice = invoice
         const item_id = req.body.item_id.split(",")

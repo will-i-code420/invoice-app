@@ -30,8 +30,8 @@ module.exports = {
         companyId: company.id
       })
       delete user.dataValues.password
-      let userPayload ={user: user}
-      let token = jwtSignUser(userPayload)
+      let payload ={user: user, company: company}
+      let token = jwtSignUser(payload)
       res.status(201).json({
         status: true,
         company: company,
@@ -65,9 +65,8 @@ module.exports = {
           id: user.companyId
         }
       })
-      let selectedUser = user.dataValues
-      let userPayload ={user: selectedUser}
-      let token = jwtSignUser(userPayload)
+      let payload ={user: user, company: company}
+      let token = jwtSignUser(payload)
       res.status(201).json({
         status: true,
         company: company,
