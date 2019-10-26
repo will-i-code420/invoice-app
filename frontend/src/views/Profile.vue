@@ -1,70 +1,109 @@
 <template>
   <div class="profile">
-    <h1>Hello, {{ user.name }} from {{ user.company_name }}</h1>
-    <div class="profile-tabs">
-    <b-card no-body>
-      <b-tabs pills card vertical nav-wrapper-class="w-25">
-        <b-tab title="Your Info" active><b-card-text>
-          <li>{{ user.name }}</li>
-          <li>{{ user.email }}</li>
-          <li>{{ user.phone }}</li>
-        </b-card-text></b-tab>
-        <b-tab title="Company Info"><b-card-text>
-          <h3>Placeholder for Company Logo</h3>
-          <li>{{ company.company_name }}</li>
-          <li>{{ company.company_ein }}</li>
-          <li>{{ company.company_phone }}</li>
-          <li>{{ company.company_address }}</li>
-          <li>{{ company.company_city }}, {{ company.company_state }}, {{ company.company_zip }}</li>
-          <ImageUpload/>
-        </b-card-text></b-tab>
-        <b-tab title="Business Rolodex"><b-card-text>
-          <AllBusinesses
-          :business="business"
-          :getBusinessRolodex="getBusinessRolodex"
-          />
-        </b-card-text></b-tab>
-        <b-tab title="Employee Rolodex"><b-card-text>
-          <AllEmployees
-          :employee="employee"
-          />
-        </b-card-text></b-tab>
-        <b-tab title="Add Business"><b-card-text>
-          <AddBusiness
-          :getBusinessRolodex="getBusinessRolodex"
-          />
-        </b-card-text></b-tab>
-        <b-tab title="Add Employee"><b-card-text>
-          <AddEmployee
-          :getEmployeeRolodex="getEmployeeRolodex"
-          />
-        </b-card-text></b-tab>
-      </b-tabs>
-    </b-card>
-    </div>
+    <b-container fluid>
+      <b-row>
+        <b-col sm="2" class="profile-nav">
+          <b-button
+          variant="link"
+          class="profile-tab"
+          :disabled="showing === 'user'"
+          @click="changeView('user')"
+          >
+            User Profile
+          </b-button>
+          <b-button
+          variant="link"
+          class="profile-tab"
+          :disabled="showing === 'company'"
+          @click="changeView('company')"
+          >
+            Company Info
+          </b-button>
+          <b-button
+          variant="link"
+          class="profile-tab"
+          :disabled="showing === 'business'"
+          @click="changeView('business')"
+          >
+            Business Rolodex
+          </b-button>
+          <b-button
+          variant="link"
+          class="profile-tab"
+          :disabled="showing === 'employee'"
+          @click="changeView('employee')"
+          >
+            Employee Rolodex
+          </b-button>
+        </b-col>
+        <b-col cols="10" class="profile-tab">
+          <div class="user" v-if="showing === 'user'">
+            <b-card
+            img-src="https://picsum.photos/600/300/?image=25"
+            img-alt="Image"
+            img-top
+            >
+            <b-list-group>
+              <b-list-group-item>{{ user.name }}</b-list-group-item>
+              <b-list-group-item>{{ user.phone }}</b-list-group-item>
+              <b-list-group-item>{{ user.email }}</b-list-group-item>
+            </b-list-group>
+            <b-button variant="danger">Edit</b-button>
+            </b-card>
+          </div>
+          <div class="company" v-else-if="showing === 'company'">
+            <b-card
+            img-src="https://picsum.photos/600/300/?image=25"
+            img-alt="Image"
+            img-top
+            >
+            <b-list-group>
+              <b-list-group-item>Tax ID: {{ company.company_ein }}</b-list-group-item>
+              <b-list-group-item>{{ company.company_name }}</b-list-group-item>
+              <b-list-group-item>{{ company.company_phone }}</b-list-group-item>
+              <b-list-group-item>{{ company.company_email }}</b-list-group-item>
+              <b-list-group-item>{{ company.company_address }}</b-list-group-item>
+              <b-list-group-item>{{ company.company_city }}, {{ company.company_state }}, {{ company.company_zip }}</b-list-group-item>
+            </b-list-group>
+            <b-button variant="danger">Edit</b-button>
+            <LogoUpload/>
+            </b-card>
+          </div>
+          <div class="business" v-else-if="showing === 'business'">
+            <h1>Business Rolodex</h1>
+            <AllBusiness
+            :business="business"
+            />
+          </div>
+          <div class="employee" v-else-if="showing === 'employee'">
+            <h1>Employee Rolodex</h1>
+            <AllEmployee
+            :employee="employee"
+            />
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-import AddBusiness from '@/components/business/AddBusiness'
-import AddEmployee from '@/components/employee/AddEmployee'
-import AllBusinesses from '@/components/business/AllBusinesses'
-import AllEmployees from '@/components/employee/AllEmployees'
-import ImageUpload from '@/components/ImageUpload'
+import AllBusiness from '@/components/business/AllBusinesses'
+import AllEmployee from '@/components/employee/AllEmployees'
+import LogoUpload from '@/components/LogoUpload'
 import businessService from '@/services/businessService'
 import employeeService from '@/services/employeeService'
 
 export default {
   name: 'profile',
   components: {
-    AddBusiness,
-    AddEmployee,
-    AllBusinesses,
-    AllEmployees,
-    ImageUpload
+    AllBusiness,
+    AllEmployee,
+    LogoUpload
   },
   data () {
     return {
+      showing: 'user',
       business: [],
       employee: []
     }
@@ -107,14 +146,39 @@ export default {
       } catch (err) {
         alert(err.response.data.error)
       }
+    },
+    changeView(view) {
+      this.showing = view
     }
   }
 }
 </script>
 
 <style scoped>
+.profile {
+  padding-top: 65px;
+  background-color: #14AE94;
+  min-height: 100vh;
+}
 
-.profile-tabs {
-  margin-top: 50px;
+.profile-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.profile-tab {
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.btn {
+  margin-top: 20px;
+}
+
+.user, .company, .business, .employee {
+  width: 80%;
 }
 </style>

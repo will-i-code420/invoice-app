@@ -71,6 +71,7 @@ export default {
 <style scoped>
 .signin-container {
   border: 3px solid blue;
+  box-shadow: 0 0 20px green;
 }
 .btn {
   margin: 20px 0;

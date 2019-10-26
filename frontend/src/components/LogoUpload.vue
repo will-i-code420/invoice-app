@@ -11,7 +11,7 @@
           </p>
       </div>
       <b-button pill variant="outline-primary" type="submit">
-        Submit Image
+        Upload Logo
       </b-button>
     </form>
   </div>

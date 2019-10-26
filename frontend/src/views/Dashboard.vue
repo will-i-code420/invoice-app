@@ -118,6 +118,10 @@ export default {
   height: 500px;
 }
 
+.line-chart {
+  margin-top: 50px;
+}
+
 .echarts {
   width: 100%;
   height: 100%;

@@ -1,8 +1,6 @@
 <template>
   <b-navbar-nav class="navhead">
     <b-dropdown ref="user_dropdown" text="Menu" no-caret variant="info">
-      <b-dropdown-item><h5>Welcome, {{ user.name }}</h5></b-dropdown-item>
-      <b-dropdown-divider></b-dropdown-divider>
       <b-dropdown-item class="create" to="/create"><h5>Create Invoice</h5></b-dropdown-item>
       <b-dropdown-item class="view" to="/invoices"><h5>View Invoices</h5></b-dropdown-item>
       <b-dropdown-item class="profile" to="/profile"><h5>Profile</h5></b-dropdown-item>
