@@ -171,7 +171,6 @@ export default {
 .profile-tab {
   display: flex;
   justify-content: center;
-  color: white;
 }
 
 .btn {

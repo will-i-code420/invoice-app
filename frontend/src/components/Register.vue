@@ -164,7 +164,7 @@ export default {
             this.$store.dispatch('setToken', res.data.token)
             this.$store.dispatch('setUser', res.data.user)
             this.$store.dispatch('setCompany', res.data.company)
-            this.$router.push ({ name: 'dashboard' })
+            this.$router.push ({ name: 'profile' })
           }
           }).catch(err => {
             this.loading = ''

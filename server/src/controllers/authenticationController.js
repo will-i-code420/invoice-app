@@ -1,5 +1,7 @@
 const {Company} = require('../../models');
 const {User} = require('../../models');
+const {Employee} = require('../../models');
+const {Tax} = require('../../models');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/config.json');
 
@@ -15,6 +17,7 @@ module.exports = {
       const company = await Company.create({
         company_name: req.body.company_name,
         company_phone: req.body.company_phone,
+        company_email: req.body.company_email,
         company_address: req.body.company_address,
         company_city: req.body.company_city,
         company_state: req.body.company_state,
@@ -29,6 +32,12 @@ module.exports = {
         admin: req.body.admin,
         companyId: company.id
       })
+      const employee = await Employee.create({
+        employeeId: user.id
+      })
+      const tax = await Tax.create({
+        taxId: employee.id
+      })
       delete user.dataValues.password
       let payload ={user: user, company: company}
       let token = jwtSignUser(payload)
@@ -36,6 +45,8 @@ module.exports = {
         status: true,
         company: company,
         user: user,
+        employee: employee,
+        tax: tax,
         token: 'Bearer ' + token
       })
     } catch (err) {
@@ -51,7 +62,17 @@ module.exports = {
       const user = await User.findOne({
         where: {
           email: email
+        },
+        include: [
+        {
+          model: Employee,
+          as: 'employeeId'
+        },
+        {
+          model: Tax,
+          as: 'taxId'
         }
+      ]
       })
       const isPasswordValid = await user.comparePassword(password)
       delete user.dataValues.password

@@ -9,6 +9,7 @@ module.exports = {
       password: Joi.string().regex(/^[a-zA-Z0-9]{8,32}$/),
       company_name: Joi.string(),
       company_phone: Joi.string(),
+      company_email: Joi.string().email({ minDomainSegments: 2 }),
       company_address: Joi.string(),
       company_city: Joi.string(),
       company_state: Joi.string(),
