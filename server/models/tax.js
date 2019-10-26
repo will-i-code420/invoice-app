@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     marital_status: DataTypes.STRING,
+    fica: DataTypes.INTEGER,
+    medicare: DataTypes.INTEGER,
     state_tax: DataTypes.INTEGER,
     fed_deductions: DataTypes.INTEGER
   }, {});

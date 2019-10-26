@@ -11,6 +11,12 @@ module.exports = {
       marital_status: {
         type: Sequelize.STRING
       },
+      fica: {
+        type: Sequelize.INTEGER
+      },
+      medicare: {
+        type: Sequelize.INTEGER
+      },
       state_tax: {
         type: Sequelize.INTEGER
       },

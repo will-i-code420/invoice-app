@@ -13,6 +13,12 @@
                 Email: {{ employee.email }}
               </b-list-group-item>
               <b-list-group-item>
+                DOB: {{ employee.dob }}
+              </b-list-group-item>
+              <b-list-group-item>
+                SSN: {{ employee.ssn }}
+              </b-list-group-item>
+              <b-list-group-item>
                 Address: {{ employee.address }}
               </b-list-group-item>
               <b-list-group-item>
@@ -22,7 +28,13 @@
                 Marital Status: {{ employee.marital_status }}
               </b-list-group-item>
               <b-list-group-item>
-                State Tax: {{ employee.state_tax }} &#37;
+                FICA: {{ employee.fica }}&#37;
+              </b-list-group-item>
+              <b-list-group-item>
+                Medicare: {{ employee.medicare }}&#37;
+              </b-list-group-item>
+              <b-list-group-item>
+                State Tax: {{ employee.state_tax }}&#37;
               </b-list-group-item>
               <b-list-group-item>
                 Federal Deductions: {{ employee.fed_tax }}
