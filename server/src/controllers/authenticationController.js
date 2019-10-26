@@ -24,19 +24,36 @@ module.exports = {
         company_zip: req.body.company_zip,
         company_ein: req.body.company_ein
       })
-      const user = await User.create({
+      let user = await User.create({
         name: req.body.name,
         phone: req.body.phone,
         email: req.body.email,
         password: req.body.password,
-        admin: req.body.admin,
+        role: req.body.role,
         companyId: company.id
       })
       const employee = await Employee.create({
         employeeId: user.id
       })
-      const tax = await Tax.create({
+      await Tax.create({
         taxId: employee.id
+      })
+      user = await User.findOne({
+        where: {
+          email: req.body.email
+        },
+        include: [
+        {
+          model: Employee,
+          as: 'employeeId',
+          include: [
+            {
+              model: Tax,
+              as: 'taxId'
+            }
+          ]
+        }
+      ]
       })
       delete user.dataValues.password
       let payload ={user: user, company: company}
@@ -45,8 +62,6 @@ module.exports = {
         status: true,
         company: company,
         user: user,
-        employee: employee,
-        tax: tax,
         token: 'Bearer ' + token
       })
     } catch (err) {
@@ -66,11 +81,13 @@ module.exports = {
         include: [
         {
           model: Employee,
-          as: 'employeeId'
-        },
-        {
-          model: Tax,
-          as: 'taxId'
+          as: 'employeeId',
+          include: [
+            {
+              model: Tax,
+              as: 'taxId'
+            }
+          ]
         }
       ]
       })

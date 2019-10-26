@@ -132,7 +132,7 @@ export default {
         company_state: '',
         company_zip: '',
         company_ein: '',
-        admin: true
+        role: 'admin'
       },
       confirm_password: '',
       loading: '',

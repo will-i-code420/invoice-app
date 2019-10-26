@@ -15,7 +15,7 @@ module.exports = {
       company_state: Joi.string(),
       company_zip: Joi.number(),
       company_ein: Joi.number(),
-      admin: Joi.boolean()
+      role: Joi.string()
     }
     const {error, value} = Joi.validate(req.body, schema)
     if (error) {

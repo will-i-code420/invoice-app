@@ -21,8 +21,8 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      admin: {
-        type: Sequelize.BOOLEAN
+      role: {
+        type: Sequelize.STRING
       },
       companyId: {
         type: Sequelize.UUID,
