@@ -1,33 +1,30 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Employees', {
+    return queryInterface.createTable('Taxes', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
       },
-      address: {
+      marital_status: {
         type: Sequelize.STRING
       },
-      city: {
-        type: Sequelize.STRING
+      state_tax: {
+        type: Sequelize.INTEGER
       },
-      state: {
-        type: Sequelize.STRING
+      fed_deductions: {
+        type: Sequelize.INTEGER
       },
-      zip: {
-        type: Sequelize.STRING
-      },
-      employeeId: {
+      taxId: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         onDelete: 'CASCADE',
         references: {
-          model: 'Users',
+          model: 'Employee',
           key: 'id',
-          as: 'employeeId'
+          as: 'taxId'
         }
       },
       createdAt: {
@@ -41,6 +38,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Employees');
+    return queryInterface.dropTable('Taxes');
   }
 };

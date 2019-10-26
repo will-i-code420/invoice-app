@@ -5,6 +5,30 @@
       <b-row>
         <b-col sm="8" offset="2">
           <b-form ref="create" @submit.prevent="register">
+            <label for="name">Name:</label>
+            <b-form-input
+            v-model="createCompany.name"
+            placeholder="ex. Jane Doe"
+            type="text"
+            required
+            >
+            </b-form-input>
+            <label for="email">Email:</label>
+            <b-form-input
+            v-model="createCompany.email"
+            placeholder="ex. bob@gmail.com"
+            type="email"
+            required
+            >
+            </b-form-input>
+            <label for="name">Phone:</label>
+            <b-form-input
+            v-model="createCompany.phone"
+            placeholder="ex. 800-235-1234 ext. 033"
+            type="text"
+            required
+            >
+            </b-form-input>
             <label for="company">Company Name:</label>
             <b-form-input
             v-model="createCompany.company_name"
@@ -18,6 +42,13 @@
             type="text"
             placeholder="Main Contact #, no direct line or ext"
             required
+            >
+            </b-form-input>
+            <label for="company">Company Email:</label>
+            <b-form-input
+            v-model="createCompany.company_email"
+            type="email"
+            placeholder="Leave Blank if using same email for login"
             >
             </b-form-input>
             <label for="company">Company Address:</label>
@@ -52,30 +83,6 @@
             <label for="ein">EIN #:</label>
             <b-form-input
             v-model="createCompany.company_ein"
-            type="text"
-            required
-            >
-            </b-form-input>
-            <label for="name">Name:</label>
-            <b-form-input
-            v-model="createCompany.name"
-            placeholder="ex. Jane Doe"
-            type="text"
-            required
-            >
-            </b-form-input>
-            <label for="email">Email:</label>
-            <b-form-input
-            v-model="createCompany.email"
-            placeholder="ex. bob@gmail.com"
-            type="email"
-            required
-            >
-            </b-form-input>
-            <label for="name">Phone:</label>
-            <b-form-input
-            v-model="createCompany.phone"
-            placeholder="ex. 800-235-1234 ext. 033"
             type="text"
             required
             >
@@ -119,6 +126,7 @@ export default {
         password: '',
         company_name: '',
         company_phone: '',
+        company_email: '',
         company_address: '',
         company_city: '',
         company_state: '',
@@ -144,6 +152,9 @@ export default {
       }
     },
     async register () {
+      if (this.createCompany.company_email === '') {
+        this.createCompany.company_email = this.createCompany.email
+      }
       let valid = this.validate()
       if (valid) {
         this.loading = "Registering you, please wait..."
