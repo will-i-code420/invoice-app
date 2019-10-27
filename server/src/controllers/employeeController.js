@@ -1,11 +1,13 @@
+const {User} = require('../../models');
 const {Employee} = require('../../models');
+const {Tax} = require('../../models');
 
 module.exports = {
   async index (req, res) {
     try {
-      const employees = await Employee.findAll({
+      const employees = await User.findAll({
         where: {
-          employeeId: req.user.id
+          companyId: req.company.id
         }
       })
       res.status(200).json({
@@ -20,7 +22,20 @@ module.exports = {
   },
   async employee (req,res) {
     try {
-      let employee = await Employee.findByPk(req.params.employeeId)
+      let employee = await User.findByPk(req.params.employeeId, {
+        include: [
+        {
+          model: Employee,
+          as: 'employeeId',
+          include: [
+            {
+              model: Tax,
+              as: 'taxId'
+            }
+          ]
+        }
+      ]
+      })
       res.status(200).json({
         status: true,
         employee: employee

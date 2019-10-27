@@ -23,6 +23,7 @@ export default {
     return {
       fields: [
         { key: 'name' },
+        { key: 'title' },
         { key: 'phone', label: 'Phone #' },
         { key: 'email' },
         { key: 'hire date',

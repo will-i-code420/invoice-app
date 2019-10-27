@@ -10,7 +10,7 @@ export default {
   },
   setUser (state, user) {
     state.user = user
-    if (user.admin === true) {
+    if (user.role === 'admin') {
       state.isAdmin = true
     } else {
       state.isAdmin = false

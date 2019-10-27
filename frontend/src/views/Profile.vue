@@ -5,7 +5,7 @@
         <b-col sm="2" class="profile-nav">
           <b-button
           variant="link"
-          class="profile-tab"
+          class="profile-button"
           :disabled="showing === 'user'"
           @click="changeView('user')"
           >
@@ -13,7 +13,7 @@
           </b-button>
           <b-button
           variant="link"
-          class="profile-tab"
+          class="profile-button"
           :disabled="showing === 'company'"
           @click="changeView('company')"
           >
@@ -21,7 +21,7 @@
           </b-button>
           <b-button
           variant="link"
-          class="profile-tab"
+          class="profile-button"
           :disabled="showing === 'business'"
           @click="changeView('business')"
           >
@@ -29,7 +29,7 @@
           </b-button>
           <b-button
           variant="link"
-          class="profile-tab"
+          class="profile-button"
           :disabled="showing === 'employee'"
           @click="changeView('employee')"
           >
@@ -45,10 +45,16 @@
             >
             <b-list-group>
               <b-list-group-item>{{ user.name }}</b-list-group-item>
+              <b-list-group-item>{{ user.title }}</b-list-group-item>
               <b-list-group-item>{{ user.phone }}</b-list-group-item>
               <b-list-group-item>{{ user.email }}</b-list-group-item>
             </b-list-group>
-            <b-button variant="danger">Edit</b-button>
+            <b-button
+            variant="danger"
+            :to="{ name: 'singleEmployee', params: { id: user.id } }"
+            >
+              View Details
+            </b-button>
             </b-card>
           </div>
           <div class="company" v-else-if="showing === 'company'">
@@ -65,8 +71,15 @@
               <b-list-group-item>{{ company.company_address }}</b-list-group-item>
               <b-list-group-item>{{ company.company_city }}, {{ company.company_state }}, {{ company.company_zip }}</b-list-group-item>
             </b-list-group>
-            <b-button variant="danger">Edit</b-button>
-            <LogoUpload/>
+            <LogoUpload
+            v-if="admin && editing"
+            />
+            <b-button v-if="admin && !editing" variant="danger" @click="editInfo">
+              Edit
+            </b-button>
+            <b-button v-if="admin && editing" variant="danger" @click="saveChanges">
+              Save Changes
+            </b-button>
             </b-card>
           </div>
           <div class="business" v-else-if="showing === 'business'">
@@ -105,7 +118,8 @@ export default {
     return {
       showing: 'user',
       business: [],
-      employee: []
+      employee: [],
+      editing: false
     }
   },
   computed: {
@@ -114,6 +128,9 @@ export default {
     },
     company() {
       return this.$store.getters.getCompany
+    },
+    admin() {
+      return this.$store.getters.isAdmin
     }
   },
   async created () {
@@ -149,6 +166,12 @@ export default {
     },
     changeView(view) {
       this.showing = view
+    },
+    editInfo() {
+      this.editing = true
+    },
+    saveChanges() {
+      this.editing = false
     }
   }
 }
@@ -171,6 +194,7 @@ export default {
 .profile-tab {
   display: flex;
   justify-content: center;
+  border: 2px solid black;
 }
 
 .btn {
@@ -178,6 +202,6 @@ export default {
 }
 
 .user, .company, .business, .employee {
-  width: 80%;
+  width: 90%;
 }
 </style>
