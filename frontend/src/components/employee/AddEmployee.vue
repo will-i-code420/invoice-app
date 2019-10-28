@@ -177,23 +177,11 @@ export default {
         await employeeService.create(this.userInfo).then(res => {
           if (res.data.status === true) {
             this.status = `${res.data.message}`
-            this.getEmployeeRolodex()
-            this.clearEmployeeForm()
           }
         })
+        this.clearEmployeeForm()
       } catch (err) {
         this.status = `${err}`
-      }
-    },
-    async getEmployeeRolodex() {
-      try {
-        await employeeService.index().then(res => {
-          if (res.data.status === true) {
-            this.employee = res.data.employee
-          }
-        })
-      } catch (err) {
-        alert(err.response.data.error)
       }
     },
     clearEmployeeForm() {
