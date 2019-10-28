@@ -1,11 +1,13 @@
 <template>
   <b-navbar-nav class="navhead">
     <b-dropdown ref="user_dropdown" text="Menu" no-caret variant="info">
-      <b-dropdown-item class="create" to="/create"><h5>Create Invoice</h5></b-dropdown-item>
-      <b-dropdown-item class="view" to="/invoices"><h5>View Invoices</h5></b-dropdown-item>
-      <b-dropdown-item class="profile" to="/profile"><h5>Profile</h5></b-dropdown-item>
+      <b-dropdown-item class="menu-item" to="/create"><h5>Create Invoice</h5></b-dropdown-item>
+      <b-dropdown-item class="menu-item" to="/invoices"><h5>View Invoices</h5></b-dropdown-item>
+      <b-dropdown-item class="menu-item" to="/create-business"><h5>Add Business</h5></b-dropdown-item>
+      <b-dropdown-item v-if="admin" class="menu-item" to="/create-employee"><h5>Add Employee</h5></b-dropdown-item>
+      <b-dropdown-item class="menu-item" to="/profile"><h5>Profile</h5></b-dropdown-item>
       <b-dropdown-divider></b-dropdown-divider>
-      <b-button class="logout" variant="outline-primary" size="sm" @click="logout">Log Out</b-button>
+      <b-button class="logout" variant="outline-danger" pill size="sm" @click="logout">Log Out</b-button>
     </b-dropdown>
     <b-navbar-brand class="company" to="/dashboard"><h5>{{ company.company_name }}</h5></b-navbar-brand>
   </b-navbar-nav>
@@ -20,6 +22,9 @@ export default {
     },
     company() {
       return this.$store.getters.getCompany
+    },
+    admin() {
+      return this.$store.getters.isAdmin
     }
   },
   methods: {
@@ -32,8 +37,10 @@ export default {
 </script>
 
 <style scoped>
-.create, .view, .profile {
+.menu-item {
   text-align: center;
+  width: 225px;
+  margin: 5px 0;
 }
 .logout {
   margin-left: 35%;

@@ -102,7 +102,7 @@
     required
     ></b-form-input>
     </b-form-group>
-    <b-button type="submit" variant="primary">Add Employee</b-button>
+    <b-button type="submit" variant="success" pill>Add Employee</b-button>
     {{ status }}
   </b-form>
 </template>

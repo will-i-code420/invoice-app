@@ -133,10 +133,12 @@
               </b-list-group-item>
               <b-list-group-item>
                 <b-form-group label="Marital Status:" label-for="input-5" label-cols>
-                <b-form-input
-                  id="input-5"
+                  <b-form-radio-group
+                  id="input-16"
                   v-model="employeeInfo.employeeId[0].taxId.marital_status"
-                ></b-form-input>
+                  :options="options"
+                  required
+                  ></b-form-radio-group>
                 </b-form-group>
               </b-list-group-item>
               <b-list-group-item v-if="admin">
@@ -200,7 +202,11 @@ export default {
     return {
       employee: [],
       employeeInfo: {},
-      editing: false
+      editing: false,
+      options: [
+        {text: 'Single', value: 'single'},
+        {text: 'Married', value: 'married'}
+      ]
     }
   },
   computed: {

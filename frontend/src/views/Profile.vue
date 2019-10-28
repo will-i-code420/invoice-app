@@ -50,7 +50,8 @@
               <b-list-group-item>{{ user.email }}</b-list-group-item>
             </b-list-group>
             <b-button
-            variant="danger"
+            variant="primary"
+            pill
             :to="{ name: 'singleEmployee', params: { id: user.id } }"
             >
               View Details
@@ -72,7 +73,7 @@
               <b-list-group-item>{{ company.company_address }}</b-list-group-item>
               <b-list-group-item>{{ company.company_city }}, {{ company.company_state }}, {{ company.company_zip }}</b-list-group-item>
             </b-list-group>
-            <b-button v-if="admin && !editing" variant="danger" @click="editCompany(company)">
+            <b-button v-if="admin && !editing" variant="danger" pill @click="editCompany(company)">
               Edit
             </b-button>
             </b-card>
@@ -158,10 +159,10 @@
               </b-list-group-item>
             </b-list-group>
             <LogoUpload/>
-            <b-button variant="danger" @click="saveChanges">
+            <b-button class="company-button" variant="success" pill @click="saveChanges">
               Save Changes
             </b-button>
-            <b-button variant="danger" @click="cancelEditCompany">
+            <b-button class="company-button" variant="danger" pill @click="cancelEditCompany">
               Cancel
             </b-button>
             </b-card>
@@ -171,12 +172,18 @@
             <AllBusiness
             :business="business"
             />
+            <b-button v-if="admin" variant="primary" pill to="/create-business">
+              Create New
+            </b-button>
           </div>
           <div class="employee" v-else-if="showing === 'employee'">
             <h1>Employee Rolodex</h1>
             <AllEmployee
             :employee="employee"
             />
+            <b-button v-if="admin" variant="primary" pill to="/create-employee">
+              Create New
+            </b-button>
           </div>
         </b-col>
       </b-row>
@@ -307,6 +314,10 @@ export default {
 
 .btn {
   margin-top: 20px;
+}
+
+.company-button {
+  margin: 20px 10px;
 }
 
 .user, .company, .business, .employee {

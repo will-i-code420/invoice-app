@@ -83,7 +83,7 @@
     required
     ></b-form-input>
     </b-form-group>
-    <b-button type="submit" variant="primary">Add Business</b-button>
+    <b-button type="submit" variant="success" pill>Add Business</b-button>
     {{ status }}
   </b-form>
 </template>
