@@ -7,8 +7,8 @@ export default {
   employee(employeeId) {
     return api().get(`employee/${employeeId}`)
   },
-  create(employee) {
-    return api().post('employee', employee)
+  create(employeeInfo) {
+    return api().post('employee', employeeInfo)
   },
   put(employeeInfo) {
     return api().put(`employee/${employeeInfo.id}`, employeeInfo)

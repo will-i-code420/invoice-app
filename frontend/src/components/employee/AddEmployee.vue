@@ -1,110 +1,127 @@
 <template>
-  <b-form @submit.prevent="submitEmployee">
-    <b-form-group
-    id="input-group-9"
-    label="Employee Name:"
-    label-for="input-9">
-    <b-form-input
-    id="input-9"
-    v-model="employeeInfo.name"
-    required
-    ></b-form-input>
-    </b-form-group>
-    <b-form-group
-    id="input-group-14"
-    label="Employee Phone:"
-    label-for="input-14">
-    <b-form-input
-    id="input-14"
-    v-model="employeeInfo.phone"
-    required
-    ></b-form-input>
-    </b-form-group>
-    <b-form-group
-    id="input-group-15"
-    label="Employee Email:"
-    label-for="input-15">
-    <b-form-input
-    id="input-15"
-    v-model="employeeInfo.email"
-    type="email"
-    required
-    ></b-form-input>
-    </b-form-group>
-    <b-form-group
-    id="input-group-10"
-    label="Home Address:"
-    label-for="input-10">
-    <b-form-input
-    id="input-10"
-    v-model="employeeInfo.address"
-    required
-    ></b-form-input>
-    </b-form-group>
-    <b-form-group
-    id="input-group-11"
-    label="Home City:"
-    label-for="input-11">
-    <b-form-input
-    id="input-11"
-    v-model="employeeInfo.city"
-    required
-    ></b-form-input>
-    </b-form-group>
-    <b-form-group
-    id="input-group-12"
-    label="Home State:"
-    label-for="input-12">
-    <b-form-input
-    id="input-12"
-    v-model="employeeInfo.state"
-    required
-    ></b-form-input>
-    </b-form-group>
-    <b-form-group
-    id="input-group-13"
-    label="Home Zip:"
-    label-for="input-13">
-    <b-form-input
-    id="input-13"
-    v-model="employeeInfo.zip"
-    required
-    ></b-form-input>
-    </b-form-group>
-    <b-form-group
-    id="input-group-16"
-    label="Marital Status"
-    label-for="input-16">
-    <b-form-radio-group
-    id="input-16"
-    v-model="employeeInfo.marital_status"
-    :options="options"
-    required
-    ></b-form-radio-group>
-    </b-form-group>
-    <b-form-group
-    id="input-group-16"
-    label="State Tax %:"
-    label-for="input-16">
-    <b-form-input
-    id="input-16"
-    v-model="employeeInfo.state_tax"
-    required
-    ></b-form-input>
-    </b-form-group>
-    <b-form-group
-    id="input-group-17"
-    label="Federal Deductions:"
-    label-for="input-17">
-    <b-form-input
-    id="input-17"
-    v-model="employeeInfo.fed_tax"
-    required
-    ></b-form-input>
-    </b-form-group>
-    <b-button type="submit" variant="success" pill>Add Employee</b-button>
-    {{ status }}
-  </b-form>
+  <b-container class="add-employee">
+    <h1>Create New Employee</h1>
+    <b-row>
+      <b-col cols="8" offset="2">
+        <b-form @submit.prevent="submitEmployee">
+          <b-form-group label="Employee Name:">
+          <b-form-input
+          v-model="userInfo.name"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Employee Title:">
+          <b-form-input
+          v-model="userInfo.title"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Employee Phone:">
+          <b-form-input
+          v-model="userInfo.phone"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Employee Email:">
+          <b-form-input
+          v-model="userInfo.email"
+          type="email"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Temporary Password:">
+          <b-form-input
+          v-model="userInfo.password"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Role">
+          <b-form-radio-group
+          v-model="userInfo.role"
+          :options="roleOptions"
+          required
+          ></b-form-radio-group>
+          </b-form-group>
+          <b-form-group label="DOB:">
+          <b-form-input
+          v-model="userInfo.employeeInfo.dob"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="SSN#">
+          <b-form-input
+          v-model="userInfo.employeeInfo.ssn"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Home Address:">
+          <b-form-input
+          v-model="userInfo.employeeInfo.address"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Home City:">
+          <b-form-input
+          v-model="userInfo.employeeInfo.city"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Home State:">
+          <b-form-input
+          v-model="userInfo.employeeInfo.state"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Home Zip:">
+          <b-form-input
+          v-model="userInfo.employeeInfo.zip"
+          type="number"
+          no-wheel
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Marital Status">
+          <b-form-radio-group
+          v-model="userInfo.employeeInfo.taxInfo.marital_status"
+          :options="options"
+          required
+          ></b-form-radio-group>
+          </b-form-group>
+          <b-form-group label="FICA%">
+          <b-form-input
+          v-model="userInfo.employeeInfo.taxInfo.fica"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Medicare%">
+          <b-form-input
+          v-model="userInfo.employeeInfo.taxInfo.medicare"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="State Tax%">
+          <b-form-input
+          v-model="userInfo.employeeInfo.taxInfo.state_tax"
+          required
+          ></b-form-input>
+          </b-form-group>
+          <b-form-group label="Federal Deductions">
+          <b-form-input
+          v-model="userInfo.employeeInfo.taxInfo.fed_deductions"
+          type="number"
+          no-wheel
+          required
+          ></b-form-input>
+          </b-form-group>
+          <FileUpload/>
+          <div v-if="submitting" class="submit-status">
+            <p class="status">{{ status }}</p>
+          </div>
+          <b-button type="submit" variant="success" pill>Add Employee</b-button>
+        </b-form>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -112,75 +129,104 @@ import employeeService from '@/services/employeeService'
 
 export default {
   name: 'add-employee',
-  props: {
-    getEmployeeRolodex: Function
-  },
   data() {
     return {
       status: '',
-      employeeInfo: {
+      submitting: false,
+      userInfo: {
         name: '',
+        title: '',
         phone: '',
         email: '',
-        address: '',
-        city: '',
-        state: '',
-        zip: '',
-        marital_status: '',
-        state_tax: '',
-        fed_tax: ''
+        password: '',
+        role: 'user',
+        employeeInfo: {
+          dob: '',
+          ssn: '',
+          address: '',
+          city: '',
+          state: '',
+          zip: '',
+          taxInfo: {
+            marital_status: '',
+            fica: '',
+            medicare: '',
+            state_tax: '',
+            fed_deductions: ''
+          }
+        }
       },
       options: [
         {text: 'Single', value: 'single'},
         {text: 'Married', value: 'married'}
+      ],
+      roleOptions: [
+        {text: 'Admin', value: 'admin'},
+        {text: 'Manager', value: 'manager'},
+        {text: 'HR', value: 'hr'},
+        {text: 'User', value: 'user'}
+
       ]
     }
   },
   methods: {
     async submitEmployee() {
-      this.staus = "Saving Employee..."
-      let employee = {}
-      const formData = new FormData()
-      formData.append("name", this.employeeInfo.name),
-      formData.append("phone", this.employeeInfo.phone),
-      formData.append("email", this.employeeInfo.email),
-      formData.append("address", this.employeeInfo.address),
-      formData.append("city", this.employeeInfo.city),
-      formData.append("state", this.employeeInfo.state),
-      formData.append("zip", this.employeeInfo.zip),
-      formData.append("marital_status", this.employeeInfo.marital_status),
-      formData.append("state_tax", this.employeeInfo.state_tax),
-      formData.append("fed_tax", this.employeeInfo.fed_tax),
-      formData.append("employeeId", this.$store.state.user.id)
-      for (const [key, value] of formData.entries()) {
-        employee[key] = value
+      this.submitting = true
+      try {
+        this.status = "Creating Employee..."
+        await employeeService.create(this.userInfo).then(res => {
+          if (res.data.status === true) {
+            this.status = `${res.data.message}`
+            this.getEmployeeRolodex()
+            this.clearEmployeeForm()
+          }
+        })
+      } catch (err) {
+        this.status = `${err}`
       }
-      await employeeService.create(employee).then(res => {
-        if (res.data.status === true) {
-          alert(res.data.message)
-          this.getEmployeeRolodex()
-          this.clearEmployeeForm()
-        } else {
-          alert(res.data.message)
-        }
-      })
+    },
+    async getEmployeeRolodex() {
+      try {
+        await employeeService.index().then(res => {
+          if (res.data.status === true) {
+            this.employee = res.data.employee
+          }
+        })
+      } catch (err) {
+        alert(err.response.data.error)
+      }
     },
     clearEmployeeForm() {
-      this.employeeInfo.name = ''
-      this.employeeInfo.phone = ''
-      this.employeeInfo.email = ''
-      this.employeeInfo.address = ''
-      this.employeeInfo.city = ''
-      this.employeeInfo.state = ''
-      this.employeeInfo.zip = ''
-      this.employeeInfo.marital_status = ''
-      this.employeeInfo.state_tax = ''
-      this.employeeInfo.fed_tax = ''
+      this.userInfo.name = ''
+      this.userInfo.title = ''
+      this.userInfo.phone = ''
+      this.userInfo.email = ''
+      this.userInfo.employeeInfo.dob = ''
+      this.userInfo.employeeInfo.ssn = ''
+      this.userInfo.employeeInfo.address = ''
+      this.userInfo.employeeInfo.city = ''
+      this.userInfo.employeeInfo.state = ''
+      this.userInfo.employeeInfo.zip = ''
+      this.userInfo.employeeInfo.taxInfo.marital_status = ''
+      this.userInfo.employeeInfo.taxInfo.fica = ''
+      this.userInfo.employeeInfo.taxInfo.medicare = ''
+      this.userInfo.employeeInfo.taxInfo.state_tax = ''
+      this.userInfo.employeeInfo.taxInfo.fed_deductions = ''
       this.status = ''
+      this.submitting = false
     }
   }
 }
 </script>
 
 <style scoped>
+.add-employee {
+  margin-top: 70px;
+  border: 2px solid blue;
+  box-shadow: 0 0 10px green;
+}
+
+.btn {
+  margin: 20px 0;
+}
 </style>

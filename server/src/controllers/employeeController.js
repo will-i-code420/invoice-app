@@ -50,15 +50,40 @@ module.exports = {
   },
   async create (req, res) {
     try {
-      await Employee.create(req.body)
+      let user = await User.create({
+        name: req.body.name,
+        title: req.body.title,
+        phone: req.body.phone,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role,
+        companyId: req.company.id
+      })
+      const employee = await Employee.create({
+        dob: req.body.employeeInfo.dob,
+        ssn: req.body.employeeInfo.ssn,
+        address: req.body.employeeInfo.address,
+        city: req.body.employeeInfo.city,
+        state: req.body.employeeInfo.state,
+        zip: req.body.employeeInfo.zip,
+        employeeId: user.id
+      })
+      await Tax.create({
+        marital_status: req.body.employeeInfo.taxInfo.marital_status,
+        fica: req.body.employeeInfo.taxInfo.fica,
+        medicare: req.body.employeeInfo.taxInfo.medicare,
+        state_tax: req.body.employeeInfo.taxInfo.state_tax,
+        fed_deductions: req.body.employeeInfo.taxInfo.fed_deductions,
+        taxId: employee.id
+      })
       res.status(201).json({
         status: true,
-        message: 'Employee added'
+        message: 'Employee created'
       })
     } catch (err) {
       res.status(409).json({
         status: false,
-        error: err
+        error: `${err}`
       })
     }
   },
@@ -101,7 +126,6 @@ module.exports = {
         message: 'Employee Info Updated'
       })
     } catch (err) {
-      console.log(err)
       res.status(409).json({
         status: false,
         error: `${err}`
