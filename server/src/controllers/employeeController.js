@@ -10,6 +10,7 @@ module.exports = {
           companyId: req.company.id
         }
       })
+      employees.forEach(employee => delete employee.dataValues.password)
       res.status(200).json({
         status: true,
         employee: employees
@@ -36,6 +37,7 @@ module.exports = {
         }
       ]
       })
+      delete employee.dataValues.password
       res.status(200).json({
         status: true,
         employee: employee
@@ -61,20 +63,48 @@ module.exports = {
     }
   },
   async put (req, res) {
+    console.log(req.body)
     try {
-      await Employee.update(req.body, {
+      await User.update(req.body, {
         where: {
           id: req.params.id
         }
       })
+      await Employee.update(req.body.employeeId[0], {
+        where: {
+          employeeId: req.body.id
+        }
+      })
+      await Tax.update(req.body.employeeId[0].taxId, {
+        where: {
+          taxId: req.body.employeeId[0].id
+        }
+      })
+      const updatedEmployee = await User.findByPk(req.body.id, {
+        include: [
+        {
+          model: Employee,
+          as: 'employeeId',
+          include: [
+            {
+              model: Tax,
+              as: 'taxId'
+            }
+          ]
+        }
+      ]
+      })
+      delete updatedEmployee.dataValues.password
       res.status(200).json({
         status: true,
+        employee: updatedEmployee,
         message: 'Employee Info Updated'
       })
     } catch (err) {
+      console.log(err)
       res.status(409).json({
         status: false,
-        error: err
+        error: `${err}`
       })
     }
   }

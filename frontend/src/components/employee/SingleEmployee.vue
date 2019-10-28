@@ -4,58 +4,57 @@
       <b-col cols="6">
         <div class="employee-info">
           <b-card v-if="!editing">
-            <b-card-title>{{ user.name }}</b-card-title>
+            <b-card-title>{{ employee.name }}</b-card-title>
             <b-list-group>
               <b-list-group-item>
-                Title: {{ user.title }}
+                Title: {{ employee.title }}
               </b-list-group-item>
               <b-list-group-item>
-                Phone: {{ user.phone }}
+                Phone: {{ employee.phone }}
               </b-list-group-item>
               <b-list-group-item>
-                Email: {{ user.email }}
+                Email: {{ employee.email }}
               </b-list-group-item>
               <b-list-group-item>
-                DOB: {{ user.employeeId[0].dob }}
+                DOB: {{ employee.employeeId[0].dob }}
               </b-list-group-item>
               <b-list-group-item>
-                SSN: {{ user.employeeId[0].ssn }}
+                SSN: {{ employee.employeeId[0].ssn }}
               </b-list-group-item>
               <b-list-group-item>
-                Address: {{ user.employeeId[0].address }}
+                Address: {{ employee.employeeId[0].address }}
               </b-list-group-item>
               <b-list-group-item>
-                City/State/ZIP: {{ user.employeeId[0].city }}, {{ user.employeeId[0].state }} {{ user.employeeId[0].zip }}
+                City/State/ZIP: {{ employee.employeeId[0].city }}, {{ employee.employeeId[0].state }} {{ employee.employeeId[0].zip }}
               </b-list-group-item>
               <b-list-group-item>
-                Marital Status: {{ user.employeeId[0].taxId.marital_status }}
+                Marital Status: {{ employee.employeeId[0].taxId.marital_status }}
               </b-list-group-item>
               <b-list-group-item>
-                FICA: {{ user.employeeId[0].taxId.fica }}&#37;
+                FICA: {{ employee.employeeId[0].taxId.fica }}&#37;
               </b-list-group-item>
               <b-list-group-item>
-                Medicare: {{ user.employeeId[0].taxId.medicare }}&#37;
+                Medicare: {{ employee.employeeId[0].taxId.medicare }}&#37;
               </b-list-group-item>
               <b-list-group-item>
-                State Tax: {{ user.employeeId[0].taxId.state_tax }}&#37;
+                State Tax: {{ employee.employeeId[0].taxId.state_tax }}&#37;
               </b-list-group-item>
               <b-list-group-item>
-                Federal Deductions: {{ user.employeeId[0].taxId.fed_deductions }}
+                Federal Deductions: {{ employee.employeeId[0].taxId.fed_deductions }}
               </b-list-group-item>
             </b-list-group>
-            <b-button variant="outline-danger" @click="editEmployee">
+            <b-button variant="outline-danger" @click="editEmployee(employee)">
               Edit Info
             </b-button>
           </b-card>
           <b-card v-if="editing">
-            <b-card-title>Editing</b-card-title>
+            <b-card-title>Editing: {{employee.name}}</b-card-title>
             <b-list-group>
               <b-list-group-item>
                 <b-form-group label="Name:" label-for="input-1" label-cols>
                 <b-form-input
                   id="input-1"
-                  v-model="userInfo.name"
-                  :placeholder="user.name"
+                  v-model="employeeInfo.name"
                 ></b-form-input>
               </b-form-group>
               </b-list-group-item>
@@ -63,8 +62,7 @@
                 <b-form-group label="Title:" label-for="input-13" label-cols>
                 <b-form-input
                   id="input-13"
-                  v-model="userInfo.title"
-                  :placeholder="user.title"
+                  v-model="employeeInfo.title"
                 ></b-form-input>
               </b-form-group>
               </b-list-group-item>
@@ -72,8 +70,7 @@
                 <b-form-group label="Phone:" label-for="input-2" label-cols>
                 <b-form-input
                   id="input-2"
-                  v-model="userInfo.phone"
-                  :placeholder="user.phone"
+                  v-model="employeeInfo.phone"
                 ></b-form-input>
               </b-form-group>
               </b-list-group-item>
@@ -81,9 +78,8 @@
                 <b-form-group label="Email:" label-for="input-3" label-cols>
                 <b-form-input
                   id="input-3"
-                  v-model="userInfo.email"
+                  v-model="employeeInfo.email"
                   type="email"
-                  :placeholder="user.email"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
@@ -91,17 +87,15 @@
                 <b-form-group label="DOB:" label-for="input-11" label-cols>
                 <b-form-input
                   id="input-11"
-                  v-model="employeeInfo.dob"
-                  :placeholder="user.employeeId[0].dob"
+                  v-model="employeeInfo.employeeId[0].dob"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
-              <b-list-group-item>
+              <b-list-group-item v-if="admin">
                 <b-form-group label="SSN:" label-for="input-12" label-cols>
                 <b-form-input
                   id="input-12"
-                  v-model="employeeInfo.ssn"
-                  :placeholder="user.employeeId[0].ssn"
+                  v-model="employeeInfo.employeeId[0].ssn"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
@@ -109,8 +103,7 @@
                 <b-form-group label="Address:" label-for="input-4" label-cols>
                 <b-form-input
                   id="input-4"
-                  v-model="employeeInfo.address"
-                  :placeholder="user.employeeId[0].address"
+                  v-model="employeeInfo.employeeId[0].address"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
@@ -118,8 +111,7 @@
                 <b-form-group label="City:" label-for="input-8" label-cols>
                 <b-form-input
                   id="input-8"
-                  v-model="employeeInfo.city"
-                  :placeholder="user.employeeId[0].city"
+                  v-model="employeeInfo.employeeId[0].city"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
@@ -127,8 +119,7 @@
                 <b-form-group label="State:" label-for="input-9" label-cols>
                 <b-form-input
                   id="input-9"
-                  v-model="employeeInfo.state"
-                  :placeholder="user.employeeId[0].state"
+                  v-model="employeeInfo.employeeId[0].state"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
@@ -136,8 +127,7 @@
                 <b-form-group label="ZIP:" label-for="input-10" label-cols>
                 <b-form-input
                   id="input-10"
-                  v-model="employeeInfo.zip"
-                  :placeholder="user.employeeId[0].zip"
+                  v-model="employeeInfo.employeeId[0].zip"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
@@ -145,26 +135,23 @@
                 <b-form-group label="Marital Status:" label-for="input-5" label-cols>
                 <b-form-input
                   id="input-5"
-                  v-model="taxInfo.marital_status"
-                  :placeholder="user.employeeId[0].taxId.marital_status"
+                  v-model="employeeInfo.employeeId[0].taxId.marital_status"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
               <b-list-group-item v-if="admin">
-                <b-form-group label="State Tax %" label-for="input-14" label-cols>
+                <b-form-group label="FICA %" label-for="input-14" label-cols>
                 <b-form-input
                   id="input-14"
-                  v-model="taxInfo.state_tax"
-                  :placeholder="user.employeeId[0].taxId.fica"
+                  v-model="employeeInfo.employeeId[0].taxId.fica"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
               <b-list-group-item v-if="admin">
-                <b-form-group label="State Tax %" label-for="input-15" label-cols>
+                <b-form-group label="Medicare %" label-for="input-15" label-cols>
                 <b-form-input
                   id="input-15"
-                  v-model="taxInfo.state_tax"
-                  :placeholder="user.employeeId[0].taxId.medicare"
+                  v-model="employeeInfo.employeeId[0].taxId.medicare"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
@@ -172,8 +159,7 @@
                 <b-form-group label="State Tax %" label-for="input-6" label-cols>
                 <b-form-input
                   id="input-6"
-                  v-model="taxInfo.state_tax"
-                  :placeholder="user.employeeId[0].taxId.state_tax"
+                  v-model="employeeInfo.employeeId[0].taxId.state_tax"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
@@ -181,14 +167,16 @@
                 <b-form-group label="Federal Deductions:" label-for="input-7" label-cols>
                 <b-form-input
                   id="input-7"
-                  v-model="taxInfo.fed_tax"
-                  :placeholder="user.employeeId[0].taxId.fed_deductions"
+                  v-model="employeeInfo.employeeId[0].taxId.fed_deductions"
                 ></b-form-input>
                 </b-form-group>
               </b-list-group-item>
             </b-list-group>
             <b-button variant="outline-success" @click="saveChanges">
               Save
+            </b-button>
+            <b-button variant="outline-success" @click="cancelChanges">
+              Cancel
             </b-button>
           </b-card>
         </div>
@@ -210,28 +198,8 @@ export default {
   name: 'singleEmployee',
   data () {
     return {
-      user: [],
-      userInfo: {
-        name: '',
-        title: '',
-        phone: '',
-        email: ''
-      },
-      employeeInfo: {
-        dob: '',
-        ssn: '',
-        address: '',
-        city: '',
-        state: '',
-        zip: ''
-      },
-      taxInfo: {
-        marital_status: '',
-        fica: '',
-        medicare: '',
-        state_tax: '',
-        fed_deductions: ''
-      },
+      employee: [],
+      employeeInfo: {},
       editing: false
     }
   },
@@ -244,18 +212,25 @@ export default {
     const employeeId = this.$store.state.route.params.id
     await employeeService.employee(employeeId).then(res => {
       if (res.data.status === true) {
-        this.user = res.data.employee
+        this.employee = res.data.employee
       }
     })
   },
   methods: {
-    editEmployee() {
+    editEmployee(employee) {
+      this.employeeInfo = {...employee}
       this.editing = true
     },
+    cancelChanges() {
+      this.employeeInfo = {}
+      this.editing = false
+    },
     async saveChanges() {
-      await employeeService.put(this.employee).then(res => {
+      await employeeService.put(this.employeeInfo).then(res => {
         if (res.data.status === true) {
           alert(res.data.message)
+          this.employee = res.data.employee
+          this.$store.dispatch('setUser', res.data.employee)
           this.editing = false
         } else {
           alert(res.data.error)
@@ -272,6 +247,6 @@ export default {
 }
 
 .btn {
-  margin-top: 10px;
+  margin: 20px 10px;
 }
 </style>

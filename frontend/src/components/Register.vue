@@ -13,6 +13,14 @@
             required
             >
             </b-form-input>
+            <label for="title">Title:</label>
+            <b-form-input
+            v-model="createCompany.title"
+            placeholder="ex. Owner"
+            type="text"
+            required
+            >
+            </b-form-input>
             <label for="email">Email:</label>
             <b-form-input
             v-model="createCompany.email"
@@ -121,6 +129,7 @@ export default {
     return {
       createCompany: {
         name: '',
+        title: '',
         email: '',
         phone: '',
         password: '',

@@ -60,8 +60,9 @@
           <div class="company" v-else-if="showing === 'company'">
             <b-card
             img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
+            :img-alt="company.company_name"
             img-top
+            v-if="!editing"
             >
             <b-list-group>
               <b-list-group-item>Tax ID: {{ company.company_ein }}</b-list-group-item>
@@ -71,14 +72,97 @@
               <b-list-group-item>{{ company.company_address }}</b-list-group-item>
               <b-list-group-item>{{ company.company_city }}, {{ company.company_state }}, {{ company.company_zip }}</b-list-group-item>
             </b-list-group>
-            <LogoUpload
-            v-if="admin && editing"
-            />
-            <b-button v-if="admin && !editing" variant="danger" @click="editInfo">
+            <b-button v-if="admin && !editing" variant="danger" @click="editCompany(company)">
               Edit
             </b-button>
-            <b-button v-if="admin && editing" variant="danger" @click="saveChanges">
+            </b-card>
+            <b-card
+            img-src="https://picsum.photos/600/300/?image=25"
+            :img-alt="company.company_name"
+            img-top
+            v-if="editing"
+            >
+            <b-list-group>
+              <b-list-group-item>
+                <b-form-group label="Tax ID:" label-for="input-1" label-cols>
+                <b-form-input
+                  id="input-1"
+                  class="num-input"
+                  v-model="companyInfo.company_ein"
+                  type="number"
+                  no-wheel
+                  number
+                ></b-form-input>
+              </b-form-group>
+              </b-list-group-item>
+              <b-list-group-item>
+                <b-form-group label="Name:" label-for="input-2" label-cols>
+                <b-form-input
+                  id="input-2"
+                  v-model="companyInfo.company_name"
+                ></b-form-input>
+              </b-form-group>
+              </b-list-group-item>
+              <b-list-group-item>
+                <b-form-group label="Phone:" label-for="input-3" label-cols>
+                <b-form-input
+                  id="input-3"
+                  v-model="companyInfo.company_phone"
+                ></b-form-input>
+                </b-form-group>
+              </b-list-group-item>
+              <b-list-group-item>
+                <b-form-group label="Email:" label-for="input-4" label-cols>
+                <b-form-input
+                  id="input-4"
+                  v-model="companyInfo.company_email"
+                  type="email"
+                ></b-form-input>
+                </b-form-group>
+              </b-list-group-item>
+              <b-list-group-item>
+                <b-form-group label="Address:" label-for="input-5" label-cols>
+                <b-form-input
+                  id="input-5"
+                  v-model="companyInfo.company_address"
+                ></b-form-input>
+                </b-form-group>
+              </b-list-group-item>
+              <b-list-group-item>
+                <b-form-group label="City:" label-for="input-6" label-cols>
+                <b-form-input
+                  id="input-6"
+                  v-model="companyInfo.company_city"
+                ></b-form-input>
+                </b-form-group>
+              </b-list-group-item>
+              <b-list-group-item>
+                <b-form-group label="State:" label-for="input-7" label-cols>
+                <b-form-input
+                  id="input-7"
+                  v-model="companyInfo.company_state"
+                ></b-form-input>
+                </b-form-group>
+              </b-list-group-item>
+              <b-list-group-item>
+                <b-form-group label="Zip:" label-for="input-8" label-cols>
+                <b-form-input
+                  id="input-8"
+                  class="num-input"
+                  v-model="companyInfo.company_zip"
+                  type="number"
+                  no-wheel
+                  number
+                ></b-form-input>
+                </b-form-group>
+              </b-list-group-item>
+            </b-list-group>
+            <LogoUpload/>
+            <b-button variant="danger" @click="saveChanges">
               Save Changes
+            </b-button>
+            <b-button variant="danger" @click="cancelEditCompany">
+              Cancel
             </b-button>
             </b-card>
           </div>
@@ -105,6 +189,7 @@ import AllBusiness from '@/components/business/AllBusinesses'
 import AllEmployee from '@/components/employee/AllEmployees'
 import LogoUpload from '@/components/LogoUpload'
 import businessService from '@/services/businessService'
+import companyService from '@/services/companyService'
 import employeeService from '@/services/employeeService'
 
 export default {
@@ -119,7 +204,8 @@ export default {
       showing: 'user',
       business: [],
       employee: [],
-      editing: false
+      editing: false,
+      companyInfo: {}
     }
   },
   computed: {
@@ -167,17 +253,39 @@ export default {
     changeView(view) {
       this.showing = view
     },
-    editInfo() {
+    editCompany(company) {
+      this.companyInfo = {...company}
       this.editing = true
     },
-    saveChanges() {
+    cancelEditCompany() {
+      this.companyInfo = {}
       this.editing = false
+    },
+    async saveChanges() {
+      try {
+        await companyService.put(this.companyInfo).then(res => {
+          if (res.data.status === true) {
+            alert('Company Updated')
+            this.$store.dispatch('setCompany', res.data.company)
+            this.editing = false
+          }
+        })
+      } catch (err) {
+        alert(`${err}`)
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+.num-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
 .profile {
   padding-top: 65px;
   background-color: #14AE94;

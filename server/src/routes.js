@@ -6,6 +6,7 @@ const employeeController = require('./controllers/employeeController');
 const fileController = require('./controllers/fileController');
 const uploadController = require('./controllers/uploadController');
 const logoController = require('./controllers/logoController');
+const companyController = require('./controllers/companyController');
 const isAuthenticated = require('./policies/isAuthenticated');
 
 module.exports = (app) => {
@@ -19,6 +20,7 @@ module.exports = (app) => {
   app.put('/invoices/:id', isAuthenticated, invoiceController.put);
   app.put('/employee/:id', isAuthenticated, employeeController.put);
   app.put('/business/:id', isAuthenticated, businessController.put);
+  app.put('/company/:id', isAuthenticated, companyController.put);
   app.get('/invoices', isAuthenticated, invoiceController.index);
   app.get('/invoices/:invoiceId', isAuthenticated, invoiceController.invoice);
   app.get('/business', isAuthenticated, businessController.index);

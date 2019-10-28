@@ -26,6 +26,7 @@ module.exports = {
       })
       let user = await User.create({
         name: req.body.name,
+        title: req.body.title,
         phone: req.body.phone,
         email: req.body.email,
         password: req.body.password,
