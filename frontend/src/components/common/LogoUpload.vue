@@ -21,7 +21,7 @@
 import fileService from '@/services/fileService'
 
 export default {
-  name: 'imageUpload',
+  name: 'LogoUpload',
   data () {
     return {
       image: '',

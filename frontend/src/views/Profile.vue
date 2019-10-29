@@ -202,8 +202,7 @@ export default {
   name: 'profile',
   components: {
     AllBusiness,
-    AllEmployee,
-    LogoUpload
+    AllEmployee
   },
   data () {
     return {
