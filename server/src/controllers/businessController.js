@@ -49,7 +49,6 @@ module.exports = {
         message: 'Business added'
       })
     } catch (err) {
-      console.log(err)
       res.status(409).json({
         status: false,
         error: `${err}`
