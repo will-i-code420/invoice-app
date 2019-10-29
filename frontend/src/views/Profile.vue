@@ -194,7 +194,6 @@
 <script>
 import AllBusiness from '@/components/business/AllBusinesses'
 import AllEmployee from '@/components/employee/AllEmployees'
-import LogoUpload from '@/components/LogoUpload'
 import businessService from '@/services/businessService'
 import companyService from '@/services/companyService'
 import employeeService from '@/services/employeeService'

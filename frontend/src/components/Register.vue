@@ -109,6 +109,7 @@
             required
             >
             </b-form-input>
+            <LogoUpload/>
             <div>
               <b-button variant="info" type="submit">Register</b-button>
               {{ loading }}
