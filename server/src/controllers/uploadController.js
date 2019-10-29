@@ -1,27 +1,54 @@
-const multer = require('multer');
-//const moment = require('moment');
-const path = require('path');
-//const date = moment().format('lll');
+const {File} = require('../../models');
+const {Logo} = require('../../models');
 
-exports.addFile = function(req, res, next) {
-  const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-      cb(null, path.join(__dirname, '../../employeeFiles'));
-    },
-    filename: function(req, file, cb) {
-      cb(null, file.originalname + path.extname(file.originalname));
-    }
-  })
-  const upload = multer({storage: storage}).array('files', 10)
-  try {
-    upload(req, res, (err) => {
-      if (err) {
-        console.log(err)
-      } else {
-        next()
+module.exports = {
+  async file (req, res) {
+    const name = req.files.map(file => file.originalname.split(","));
+    const size = req.files.map(file => file.size.toString().split(","));
+    const type = req.files.map(file => file.mimetype.split(","));
+    const path = req.files.map(file => file.path.split(","));
+    const names = [].concat(...name);
+    const sizes = [].concat(...size);
+    const types = [].concat(...type);
+    const paths = [].concat(...path);
+    try {
+      for (let i = 0; i < name.length; i++) {
+        await File.create({
+          name: names[i],
+          size: sizes[i],
+          type: types[i],
+          path: paths[i],
+          fileId: req.body.fileId
+        })
       }
-    })
-  } catch (err) {
-    console.log(err)
+      res.status(200).json({
+        status: true,
+        message: "File(s) Uploaded"
+      })
+    } catch (err) {
+      res.status(500).json({
+        error: err
+      })
+    }
+  },
+  async logo (req, res) {
+    try {
+      await Logo.create({
+        name: req.file.filename,
+        size: req.file.size,
+        type: req.file.mimetype,
+        path: req.file.path,
+        imageId: req.user.id
+      })
+      res.status(200).json({
+        status: true,
+        message: "Logo Uploaded"
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(500).json({
+        error: err
+      })
+    }
   }
 };

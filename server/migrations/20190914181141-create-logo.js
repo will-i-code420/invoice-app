@@ -25,7 +25,7 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
         onDelete: 'CASCADE',
         references: {
-          model: 'Users',
+          model: 'Company',
           key: 'id',
           as: 'imageId'
         }

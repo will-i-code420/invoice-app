@@ -3,9 +3,9 @@ const authenticationControllerPolicy = require('./policies/authenticationControl
 const invoiceController = require('./controllers/invoiceController');
 const businessController = require('./controllers/businessController');
 const employeeController = require('./controllers/employeeController');
-const fileController = require('./controllers/fileController');
 const uploadController = require('./controllers/uploadController');
-const logoController = require('./controllers/logoController');
+const fileUploadController = require('./controllers/fileUploadController');
+const logoUploadController = require('./controllers/logoUploadController');
 const companyController = require('./controllers/companyController');
 const isAuthenticated = require('./policies/isAuthenticated');
 
@@ -15,8 +15,8 @@ module.exports = (app) => {
   app.post('/invoices', isAuthenticated, invoiceController.create);
   app.post('/business', isAuthenticated, businessController.create);
   app.post('/employee', isAuthenticated, employeeController.create);
-  app.post('/employeeFiles', isAuthenticated, uploadController.addFile, fileController.upload);
-  app.post('/businessLogo', isAuthenticated, logoController.addLogo, fileController.logo);
+  app.post('/employeeFiles', isAuthenticated, fileUploadController.addFile, uploadController.file);
+  app.post('/companyLogo', isAuthenticated, logoUploadController.addLogo, uploadController.logo);
   app.put('/invoices/:id', isAuthenticated, invoiceController.put);
   app.put('/employee/:id', isAuthenticated, employeeController.put);
   app.put('/business/:id', isAuthenticated, businessController.put);

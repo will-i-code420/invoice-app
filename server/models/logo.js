@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     path: DataTypes.STRING
   }, {});
   Logo.associate = function(models) {
-    Logo.belongsTo(models.User, {
+    Logo.belongsTo(models.Company, {
       foreignKey: 'imageId',
       onDelete: 'CASCADE'
     });
