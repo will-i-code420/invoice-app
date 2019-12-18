@@ -9,6 +9,22 @@
   border-radius: 5%;
 }
 
+.return-login {
+  font-size: 1.25rem;
+}
+
+.return-login-btn {
+  margin-top: 2rem;
+  background-color: $darkBlue;
+  color: $white;
+  border: 2px solid $darkBlue;
+  border-radius: 20%;
+  @include transition(background-color 500ms);
+  &:hover {
+    background-color: $lightBlue;
+  }
+}
+
 .register-title {
   padding: 2rem 0;
   border-bottom: 2px dashed white;

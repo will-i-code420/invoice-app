@@ -1,5 +1,11 @@
 <template>
   <div class="register-container">
+    <span class="return-login">Oops, need to go back to login page
+    <button type="button" class="return-login-btn" @click="login()">
+      Login Page
+    </button>
+    ??
+    </span>
     <h1 class="register-title">Register Your Company</h1>
     <form id="register-form" @submit.prevent="register" autocomplete="off">
       <label for="name">Full Name:</label>
@@ -192,6 +198,9 @@ export default {
       } else {
         this.message = `${this.registerError}`
       }
+    },
+    login() {
+      this.$emit('goto-login', 'login')
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="signup-container">
     <Login v-if="view === 'login'" @create-account="setView"/>
-    <Register v-else-if="view === 'register'"/>
+    <Register v-else-if="view === 'register'" @goto-login="setView"/>
   </div>
 </template>
 
