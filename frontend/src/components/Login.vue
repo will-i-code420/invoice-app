@@ -28,7 +28,7 @@
             Reset Password
           </button>
         </div>
-        <span class="loading-msg">{{ loading }}</span>
+        <span class="login-loading-msg">{{ loading }}</span>
     </form>
     <span class="line-between-login-register">Don't Have An Account??</span>
     <div class="register-btn-container">
@@ -50,24 +50,24 @@ export default {
         email: '',
         password: ''
       },
-      loading: ''
+      message: ''
     }
   },
   methods: {
     async login () {
-      this.loading = 'Signing in...'
+      this.message = 'Signing in...'
       await authenticationService.login(this.userLogin).then(res => {
-        this.loading = ''
+        this.message = ''
         if (res.data.status === true) {
           this.$store.dispatch('setToken', res.data.token)
           this.$store.dispatch('setUser', res.data.user)
           this.$store.dispatch('setCompany', res.data.company)
           this.$router.push ({ name: 'dashboard' })
         } else {
-          this.loading = res.data.error
+          this.message = `${res.data.error}`
         }
       }).catch(err => {
-        this.loading = `${err}`
+        this.message = `${err}`
       })
     },
     createAccount() {

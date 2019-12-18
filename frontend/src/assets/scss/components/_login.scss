@@ -27,20 +27,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-label {
-  padding-top: .75rem;
-}
-
-input {
-  outline: none;
-  user-select: none;
-  border: none;
-  background-color: transparent;
-  color: $white;
-  width: 70%;
-  border-bottom: 1px solid white;;
+  label {
+    padding-top: .75rem;
+  }
+  input {
+    outline: none;
+    user-select: none;
+    border: none;
+    background-color: transparent;
+    color: $white;
+    width: 70%;
+    border-bottom: 1px solid white;;
+  }
 }
 
 .login-btn-container {
@@ -81,7 +79,7 @@ input {
   background-color: $lightRed;
 }
 
-.loading-msg {
+.login-loading-msg {
   color: $lightRed;
   padding-bottom: .5rem;
   font-size: 1.5rem;

@@ -1,122 +1,130 @@
 <template>
   <div class="register-container">
-    <h1>Register Your Company</h1>
-    <b-container class="forms-container">
-      <b-row>
-        <b-col sm="8" offset="2">
-          <b-form ref="create" @submit.prevent="register">
-            <label for="name">Name:</label>
-            <b-form-input
-            v-model="createCompany.name"
-            placeholder="ex. Jane Doe"
-            type="text"
-            required
-            >
-            </b-form-input>
-            <label for="title">Title:</label>
-            <b-form-input
-            v-model="createCompany.title"
-            placeholder="ex. Owner"
-            type="text"
-            required
-            >
-            </b-form-input>
-            <label for="email">Email:</label>
-            <b-form-input
-            v-model="createCompany.email"
-            placeholder="ex. bob@gmail.com"
-            type="email"
-            required
-            >
-            </b-form-input>
-            <label for="name">Phone:</label>
-            <b-form-input
-            v-model="createCompany.phone"
-            placeholder="ex. 800-235-1234 ext. 033"
-            type="text"
-            required
-            >
-            </b-form-input>
-            <label for="company">Company Name:</label>
-            <b-form-input
-            v-model="createCompany.company_name"
-            type="text"
-            required
-            >
-            </b-form-input>
-            <label for="company">Company Phone:</label>
-            <b-form-input
-            v-model="createCompany.company_phone"
-            type="text"
-            placeholder="Main Contact #, no direct line or ext"
-            required
-            >
-            </b-form-input>
-            <label for="company">Company Email:</label>
-            <b-form-input
-            v-model="createCompany.company_email"
-            type="email"
-            placeholder="Leave Blank if using same email for login"
-            >
-            </b-form-input>
-            <label for="company">Company Address:</label>
-            <b-form-input
-            v-model="createCompany.company_address"
-            placeholder="Billing Street # and name only"
-            type="text"
-            required
-            >
-            </b-form-input>
-            <label for="company">Company City:</label>
-            <b-form-input
-            v-model="createCompany.company_city"
-            type="text"
-            required
-            >
-            </b-form-input>
-            <label for="company">Company State:</label>
-            <b-form-input
-            v-model="createCompany.company_state"
-            type="text"
-            required
-            >
-            </b-form-input>
-            <label for="company">Company Zip:</label>
-            <b-form-input
-            v-model="createCompany.company_zip"
-            type="text"
-            required
-            >
-            </b-form-input>
-            <label for="ein">EIN #:</label>
-            <b-form-input
-            v-model="createCompany.company_ein"
-            type="text"
-            required
-            >
-            </b-form-input>
-            <label for="password">Password:</label>
-            <b-form-input
-            v-model="createCompany.password"
-            type="password"
-            required
-            >
-            </b-form-input>
-            <label for="c-password">Confirm Password:</label>
-            <b-form-input
-            v-model="confirm_password"
-            type="password"
-            required
-            >
-            </b-form-input>
-            <div>
-              <b-button variant="info" type="submit">Register</b-button>
-              {{ loading }}
-            </div>
-          </b-form>
-        </b-col>
-      </b-row>
-    </b-container>
+    <h1 class="register-title">Register Your Company</h1>
+    <form id="register-form" @submit.prevent="register">
+      <label for="name">Full Name:</label>
+        <input
+        v-model="createCompany.name"
+        id="name"
+        placeholder="ex. Ricky Bobby"
+        type="text"
+        aria-labelledby="your full name"
+        required
+        >
+      <label for="title">Title:</label>
+        <input
+        v-model="createCompany.title"
+        id="title"
+        placeholder="ex. Owner, Operator, CEO, etc..."
+        type="text"
+        aria-labelledby="Your position title"
+        required
+        >
+      <label for="email">Your Email:</label>
+        <input
+        v-model="createCompany.email"
+        id="email"
+        type="email"
+        aria-labelledby="your email address with company"
+        required
+        >
+      <label for="phone">Your Phone:</label>
+        <input
+        v-model="createCompany.phone"
+        id="phone"
+        placeholder="ex. 800-235-1234 ext. 033"
+        type="text"
+        aria-labelledby="your phone number with company, include ext or direct line"
+        required
+        >
+      <label for="company-name">Company Name:</label>
+        <input
+        v-model="createCompany.company_name"
+        id="company-name"
+        type="text"
+        aria-labelledby="company name"
+        required
+        >
+      <label for="company-phone">Company Phone:</label>
+        <input
+        v-model="createCompany.company_phone"
+        id="company-phone"
+        type="text"
+        placeholder="Main Contact #, leave blank if using same phone above"
+        aria-labelledby="main company phone, leave blank if using same phone above"
+        >
+      <label for="company-email">Company Email:</label>
+        <input
+        v-model="createCompany.company_email"
+        id="company-email"
+        type="email"
+        placeholder="Leave Blank if using same email above"
+        aria-labelledby="main company email, leave blank if using same above"
+        >
+      <label for="company-address">Company Address:</label>
+        <input
+        v-model="createCompany.company_address"
+        id="company-address"
+        placeholder="Billing Street # and street info only"
+        type="text"
+        aria-labelledby="billing street number and street info only"
+        required
+        >
+      <label for="company-city">Company City:</label>
+        <input
+        v-model="createCompany.company_city"
+        id="company-city"
+        type="text"
+        aria-labelledby="billing city"
+        required
+        >
+      <label for="company-state">Company State:</label>
+        <input
+        v-model="createCompany.company_state"
+        id="company-state"
+        type="text"
+        aria-labelledby="billing state"
+        required
+        >
+      <label for="company-zip">Company Zip:</label>
+        <input
+        v-model="createCompany.company_zip"
+        id="company-zip"
+        type="text"
+        aria-labelledby="billing zip code"
+        required
+        >
+      <label for="ein">EIN #:</label>
+        <input
+        v-model="createCompany.company_ein"
+        id="ein"
+        type="password"
+        title="If small business w/out EIN use SS#"
+        aria-labelledby="company ein or SS# if small business"
+        required
+        >
+      <label for="password">Password:</label>
+        <input
+        v-model="createCompany.password"
+        id="password"
+        type="password"
+        title="Must be 8-32 characters long using letters and/or numbers"
+        aria-labelledby="create password 8 to 32 characters long using letters and/or numbers"
+        required
+        >
+      <label for="confirm-password">Confirm Password:</label>
+        <input
+        v-model="confirm_password"
+        id="confirm-password"
+        type="password"
+        aria-labelledby="Confirm Password"
+        required
+        >
+        <button variant="info" type="submit">
+          Register
+        </button>
+        <span class="register-loading-msg">{{ message }}</span>
+    </form>
   </div>
 </template>
 
@@ -144,31 +152,31 @@ export default {
         role: 'admin'
       },
       confirm_password: '',
-      loading: '',
-      registerError: ''
+      message: ''
     }
   },
   methods: {
     validate () {
       if (this.createCompany.password != this.confirm_password) {
-        this.registerError = "Passwords DO NOT match!"
+        this.message = "Passwords DO NOT match!"
         return false
       } else if (this.createCompany.phone.length < 10) {
-        this.registerError = "Not valid phone #"
+        this.message = "Not valid phone #"
         return false
       } else {
         return true
       }
     },
     async register () {
-      if (this.createCompany.company_email === '') {
+      if (this.createCompany.company_email === '' || this.createCompany.company_phone === '') {
         this.createCompany.company_email = this.createCompany.email
+        this.createCompany.company_phone = this.createCompany.phone
       }
-      let valid = this.validate()
+      let valid = await this.validate()
       if (valid) {
-        this.loading = "Registering you, please wait..."
+        this.message = "Registering you, please wait..."
         await authenticationService.register(this.createCompany).then(res => {
-          this.loading = ''
+          this.message = "Registration Successful!! And away you go..."
           if (res.data.status === true) {
             this.$store.dispatch('setToken', res.data.token)
             this.$store.dispatch('setUser', res.data.user)
@@ -176,12 +184,10 @@ export default {
             this.$router.push ({ name: 'profile' })
           }
           }).catch(err => {
-            this.loading = ''
-            alert(err.response.data.error)
+            this.message = `${err.response.data.error}`
         })
       } else {
-        this.loading = ''
-        alert(this.registerError)
+        this.message = `${this.registerError}`
       }
     }
   }
