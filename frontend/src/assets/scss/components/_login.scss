@@ -6,8 +6,8 @@
   height: 82%;
   background: rgba(0, 0, 0, .5);
   color: $white;
-  border: 2px solid rgba(185, 140, 4, 1);
-  box-shadow: 0 0 10px rgba(185, 140, 4, 0.75);
+  border: 2px solid $darkGold;
+  box-shadow: 0 0 10px $lightGold;
   border-radius: 5%;
 }
 
@@ -38,18 +38,18 @@
     color: $white;
     width: 70%;
     border-bottom: 1px solid $white;
-    @include transition(box-shadow 500ms);
+    @include transition(box-shadow 500ms, border-bottom 500ms);
     &:active {
-      border-bottom: 1px solid $white;
-      box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 1);
+      border-bottom: 1px solid $lightGold;
+      box-shadow: 0 10px 10px -5px $darkGold;
     }
     &:hover {
-      border-bottom: 1px solid $white;
-      box-shadow: 0 10px 10px  -5px rgba(0, 0, 0, 1);
+      border-bottom: 1px solid $lightGold;
+      box-shadow: 0 10px 10px -5px $darkGold;
     }
     &:focus {
-      border-bottom: 1px solid $white;
-      box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 1);
+      border-bottom: 1px solid $lightGold;
+      box-shadow: 0 10px 10px -5px $darkGold;
     }
   }
 }

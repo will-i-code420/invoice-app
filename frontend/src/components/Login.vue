@@ -28,7 +28,7 @@
             Reset Password
           </button>
         </div>
-        <span class="login-loading-msg">{{ loading }}</span>
+        <span class="login-loading-msg">{{ message }}</span>
     </form>
     <span class="line-between-login-register">Don't Have An Account??</span>
     <div class="register-btn-container">
