@@ -1,7 +1,9 @@
 <template>
   <div class="signup-container">
-    <Login v-if="view === 'login'" @create-account="setView"/>
-    <Register v-else-if="view === 'register'" @goto-login="setView"/>
+    <transition name="slide-fade" appear>
+      <Login v-if="view === 'login'" @create-account="setView"/>
+      <Register v-else-if="view === 'register'" @goto-login="setView"/>
+    </transition>
   </div>
 </template>
 

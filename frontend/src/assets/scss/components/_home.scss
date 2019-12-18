@@ -5,3 +5,17 @@
   min-height: 100vh;
   max-width: 100vw;
 }
+
+.slide-fade-enter-active {
+  @include transition(opacity 750ms ease-in, transform 750ms ease-in)
+}
+
+.slide-fade-leave-active {
+  @include transition(opacity 750ms ease-out, transform 750ms ease-out)
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateX(40px);
+  opacity: 0;
+}
