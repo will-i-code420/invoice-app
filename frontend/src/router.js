@@ -20,12 +20,6 @@ export default new Router({
         import('@/views/Home.vue')
     },
     {
-      path: '/register',
-      name: 'register',
-      component: () =>
-        import('@/components/Register.vue')
-    },
-    {
       path: '/about',
       name: 'about',
       component: () =>

@@ -1,27 +1,28 @@
 <template>
   <div class="signup-container">
-    <div class="login-container">
-      <Login v-if="login"/>
-    </div>
+    <Login v-if="view === 'login'" @create-account="setView"/>
+    <Register v-else-if="view === 'register'"/>
   </div>
 </template>
 
 <script>
 import Login from '@/components/Login'
+import Register from '@/components/Register'
 
 export default {
   name: 'home',
   components: {
-    Login
+    Login,
+    Register
   },
   data () {
     return {
-      login: true
+      view: 'login'
     }
   },
   methods: {
-    setView () {
-      this.login = !this.login
+    setView(view) {
+      this.view = view
     },
   }
 }

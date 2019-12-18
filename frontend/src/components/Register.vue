@@ -109,7 +109,6 @@
             required
             >
             </b-form-input>
-            <LogoUpload/>
             <div>
               <b-button variant="info" type="submit">Register</b-button>
               {{ loading }}
@@ -188,18 +187,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.register-container {
-  padding-top: 70px;
-}
-.forms-container {
-  border: 3px solid blue;
-}
-.btn {
-  margin: 20px 0;
-}
-label {
-  margin: 15px 0;
-}
-</style>

@@ -1,13 +1,5 @@
-$button-blue: rgba(2, 48, 124, 1);
-$button-blue-hover: rgba(1, 82, 204, 1);
-$white-text: rgba(255, 255, 255, 1);
-$button-red: rgba(144, 4, 4, 1);
-$button-red-hover: rgba(199, 2, 2, 1);
-
-@mixin transition($transition...) {
-  -webkit-transition: $transition;
-  -moz-transition: $transition;
-  -ms-transition: $transition;
-  -o-transition: $transition;
-  transition: $transition;
-}
+$darkBlue: rgba(2, 48, 124, 1);
+$lightBlue: rgba(1, 82, 204, 1);
+$white: rgba(255, 255, 255, 1);
+$darkRed: rgba(112, 2, 2, 1);
+$lightRed: rgba(199, 2, 2, 1);

@@ -1,6 +1,6 @@
 <template>
-  <NavHead/>
   <div class="profile">
+    <NavHead/>
     <b-container fluid>
       <b-row>
         <b-col sm="2" class="profile-nav">

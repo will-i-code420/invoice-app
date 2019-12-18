@@ -1,7 +1,7 @@
 <template>
   <div class="signin-container">
     <img src="../assets/images/user.png" alt="blank login avatar" class="avatar">
-    <h1>Login</h1>
+    <h1 class="signin-title">Login</h1>
     <form id="signin-form" @submit.prevent="login">
       <label for="email">Email:</label>
         <input
@@ -19,20 +19,20 @@
         aria-labelledby="password"
         required
         >
+        <div class="login-btn-container">
+          <button class="login-btn" type="submit">
+            Log In
+          </button>
+          <span class="between-login-reset-btn">OR</span>
+          <button class="reset-pass-btn" type="button">
+            Reset Password
+          </button>
+        </div>
+        <span class="loading-msg">{{ loading }}</span>
     </form>
-      <div class="login-btn-container">
-        <button class="login-btn" type="submit">
-          Log In
-        </button>
-        <span class="between-login-reset-btn">OR</span>
-        <button class="reset-pass-btn" type="button">
-          Reset Password
-        </button>
-          <span class="loading-msg">{{ loading }}</span>
-      </div>
     <span class="line-between-login-register">Don't Have An Account??</span>
     <div class="register-btn-container">
-      <button class="register-btn" type="button" :to="{name: 'register'}">
+      <button class="register-btn" type="button" @click="createAccount()">
         Create New Account
       </button>
     </div>
@@ -64,12 +64,14 @@ export default {
           this.$store.dispatch('setCompany', res.data.company)
           this.$router.push ({ name: 'dashboard' })
         } else {
-          alert(res.data.error)
+          this.loading = res.data.error
         }
       }).catch(err => {
-        this.loading = ''
-        alert(err)
+        this.loading = `${err}`
       })
+    },
+    createAccount() {
+      this.$emit('create-account', 'register')
     }
   }
 }

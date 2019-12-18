@@ -1,4 +1,11 @@
 .signin-container {
+  position: absolute;
+  top: 12.5%;
+  left: 27.5%;
+  width: 45%;
+  height: 82%;
+  background: rgba(0, 0, 0, .5);
+  color: $white;
   border: 2px solid rgba(185, 140, 4, 1);
   box-shadow: 0 0 10px rgba(185, 140, 4, 0.75);
   border-radius: 5%;
@@ -8,10 +15,10 @@
   position: absolute;
   height: 125px;
   top: -15%;
-  left: 39%;
+  left: calc(50% - 10%);
 }
 
-h1 {
+.signin-title {
   padding: 3rem 0 .5em 0;
   border-bottom: 2px dashed white;
 }
@@ -23,7 +30,7 @@ h1 {
 }
 
 label {
-  margin: .75rem;
+  padding-top: .75rem;
 }
 
 input {
@@ -31,20 +38,17 @@ input {
   user-select: none;
   border: none;
   background-color: transparent;
-  color: $white-text;
+  color: $white;
   width: 70%;
   border-bottom: 1px solid white;;
 }
 
 .login-btn-container {
   display: flex;
+  width: inherit;
   justify-content: center;
   align-items: center;
   margin: 1rem auto;
-}
-
-.register-btn-container {
-  margin: 1.5rem auto;
 }
 
 .login-btn,
@@ -54,45 +58,51 @@ input {
 }
 
 .login-btn {
-  background-color: $button-blue;
-  color: $white-text;
-  border: 2px solid $button-blue;
+  background-color: $darkBlue;
+  color: $white;
+  border: 2px solid $darkBlue;
   border-radius: 20%;
   @include transition(background-color 500ms);
 }
 
 .login-btn:hover {
-  background-color: $button-blue-hover;
+  background-color: $lightBlue;
 }
 
 .reset-pass-btn {
-  background-color: $button-red;
-  border: 2px solid $button-red;
-  color: $white-text;
+  background-color: $darkRed;
+  border: 2px solid $darkRed;
+  color: $white;
   border-radius: 20%;
   @include transition(background-color 500ms);
 }
 
 .reset-pass-btn:hover {
-  background-color: $button-red-hover;
+  background-color: $lightRed;
+}
+
+.loading-msg {
+  color: $lightRed;
+  padding-bottom: .5rem;
+  font-size: 1.5rem;
 }
 
 .register-btn {
   padding: .75rem 1.5rem;
-  border: 2px solid $button-blue;
-  background-color: $button-blue;
-  color: $white-text;
+  margin-top: .75rem;
+  border: 2px solid $darkBlue;
+  background-color: $darkBlue;
+  color: $white;
   border-radius: 20%;
   @include transition(background-color 500ms);
 }
 
 .register-btn:hover {
-  background-color: $button-blue-hover
+  background-color: $lightBlue;
 }
 
 .line-between-login-register {
   position: relative;
-  width: 100%;
 }
 
 .line-between-login-register::before {
