@@ -1,18 +1,10 @@
 <template>
   <div id="app">
-    <NavHead/>
     <router-view/>
   </div>
 </template>
 
 <script>
-import NavHead from '@/components/NavHead'
-
-export default {
-  components: {
-    NavHead
-  }
-}
 </script>
 
 <style lang="scss">
@@ -21,6 +13,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #000;
 }
 </style>

@@ -1,0 +1,118 @@
+.signin-container {
+  border: 2px solid rgba(185, 140, 4, 1);
+  box-shadow: 0 0 10px rgba(185, 140, 4, 0.75);
+  border-radius: 5%;
+}
+
+.avatar {
+  position: absolute;
+  height: 125px;
+  top: -15%;
+  left: 39%;
+}
+
+h1 {
+  padding: 3rem 0 .5em 0;
+  border-bottom: 2px dashed white;
+}
+
+#signin-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  margin: .75rem;
+}
+
+input {
+  outline: none;
+  user-select: none;
+  border: none;
+  background-color: transparent;
+  color: $white-text;
+  width: 70%;
+  border-bottom: 1px solid white;;
+}
+
+.login-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem auto;
+}
+
+.register-btn-container {
+  margin: 1.5rem auto;
+}
+
+.login-btn,
+.reset-pass-btn {
+  padding: .5rem 1.5rem;
+  margin: .5rem 1rem;
+}
+
+.login-btn {
+  background-color: $button-blue;
+  color: $white-text;
+  border: 2px solid $button-blue;
+  border-radius: 20%;
+  @include transition(background-color 500ms);
+}
+
+.login-btn:hover {
+  background-color: $button-blue-hover;
+}
+
+.reset-pass-btn {
+  background-color: $button-red;
+  border: 2px solid $button-red;
+  color: $white-text;
+  border-radius: 20%;
+  @include transition(background-color 500ms);
+}
+
+.reset-pass-btn:hover {
+  background-color: $button-red-hover;
+}
+
+.register-btn {
+  padding: .75rem 1.5rem;
+  border: 2px solid $button-blue;
+  background-color: $button-blue;
+  color: $white-text;
+  border-radius: 20%;
+  @include transition(background-color 500ms);
+}
+
+.register-btn:hover {
+  background-color: $button-blue-hover
+}
+
+.line-between-login-register {
+  position: relative;
+  width: 100%;
+}
+
+.line-between-login-register::before {
+  content: '';
+  width: 100%;
+  position: absolute;
+  overflow: hidden;
+  border-bottom: 1px solid white;
+  top: 50%;
+  right: 105%;
+  z-index: 1;
+}
+
+.line-between-login-register::after {
+  content: '';
+  width: 100%;
+  position: absolute;
+  overflow: hidden;
+  border-bottom: 1px solid white;
+  top: 50%;
+  left: 105%;
+  z-index: 1;
+}

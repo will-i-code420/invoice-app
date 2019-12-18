@@ -1,4 +1,5 @@
 <template>
+  <NavHead/>
   <div class="profile">
     <b-container fluid>
       <b-row>

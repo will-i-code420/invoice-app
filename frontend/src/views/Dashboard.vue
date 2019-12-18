@@ -1,4 +1,5 @@
 <template>
+  <NavHead/>
   <div class="dashboard-container">
     <div class="bar-chart">
       <h2>Monthly Invoices</h2>

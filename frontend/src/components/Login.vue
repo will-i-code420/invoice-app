@@ -1,34 +1,41 @@
 <template>
   <div class="signin-container">
-    <b-row>
-      <b-col sm="6" offset="3">
-        <b-form @submit.prevent="login">
-          <label for="email">Email:</label>
-          <b-form-input
-          v-model="userLogin.email"
-          placeholder="ex. bob@gmail.com"
-          type="email"
-          required
-          >
-          </b-form-input>
-          <label for="password">Password:</label>
-          <b-form-input
-          v-model="userLogin.password"
-          type="password"
-          required
-          >
-          </b-form-input>
-          <div>
-            <b-button pill variant="success" type="submit">Log In</b-button>
-            {{ loading }}
-          </div>
-        </b-form>
-        <hr>
-        <b-button pill variant="primary" :to="{name: 'register'}">
-          Create New Account
-        </b-button>
-      </b-col>
-    </b-row>
+    <img src="../assets/images/user.png" alt="blank login avatar" class="avatar">
+    <h1>Login</h1>
+    <form id="signin-form" @submit.prevent="login">
+      <label for="email">Email:</label>
+        <input
+        v-model="userLogin.email"
+        id="email"
+        type="email"
+        aria-labelledby="email address"
+        required
+        >
+      <label for="password">Password:</label>
+        <input
+        v-model="userLogin.password"
+        id="password"
+        type="password"
+        aria-labelledby="password"
+        required
+        >
+    </form>
+      <div class="login-btn-container">
+        <button class="login-btn" type="submit">
+          Log In
+        </button>
+        <span class="between-login-reset-btn">OR</span>
+        <button class="reset-pass-btn" type="button">
+          Reset Password
+        </button>
+          <span class="loading-msg">{{ loading }}</span>
+      </div>
+    <span class="line-between-login-register">Don't Have An Account??</span>
+    <div class="register-btn-container">
+      <button class="register-btn" type="button" :to="{name: 'register'}">
+        Create New Account
+      </button>
+    </div>
   </div>
 </template>
 
@@ -67,16 +74,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.signin-container {
-  border: 3px solid blue;
-  box-shadow: 0 0 20px green;
-}
-.btn {
-  margin: 20px 0;
-}
-label {
-  margin: 15px 0;
-}
-</style>

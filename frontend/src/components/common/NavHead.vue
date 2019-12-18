@@ -11,7 +11,7 @@
 import UserMenu from '@/components/UserMenu'
 
 export default {
-  name: 'navhead',
+  name: 'NavHead',
   components: {
     UserMenu
   }
