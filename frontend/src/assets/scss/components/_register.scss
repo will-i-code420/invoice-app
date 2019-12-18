@@ -1,15 +1,66 @@
 .register-container {
-
+  position: relative;
+  left: 10%;
+  width: 80%;
+  background: rgba(0, 0, 0, .5);
+  color: $white;
+  border: 2px solid rgba(185, 140, 4, 1);
+  box-shadow: 0 0 10px rgba(185, 140, 4, 0.75);
+  border-radius: 5%;
 }
 
 .register-title {
-
+  padding: 2rem 0;
+  border-bottom: 2px dashed white;
 }
 
 #register-form {
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+    label {
+      padding-top: 1rem;
+      font-size: 1.5rem;
+    }
+    input {
+      width: 55%;
+      outline: none;
+      user-select: none;
+      border: none;
+      background-color: transparent;
+      color: $white;
+      border-bottom: 1px solid $white;
+      @include transition(box-shadow 350ms);
+      &:active {
+        border-bottom: 1px solid $white;
+        box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 1);
+      }
+      &:hover {
+        border-bottom: 1px solid $white;
+        box-shadow: 0 10px 10px  -5px rgba(0, 0, 0, 1);
+      }
+      &:focus {
+        border-bottom: 1px solid $white;
+        box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 1);
+      }
+    }
+}
+
+.submit-registration-btn {
+  padding: .5rem 1.5rem;
+  margin: 1.75rem auto;
+  background-color: $darkBlue;
+  color: $white;
+  border: 2px solid $darkBlue;
+  border-radius: 20%;
+  @include transition(background-color 500ms);
+  &:hover {
+    background-color: $lightBlue;
+  }
 }
 
 .register-loading-msg {
-
+  color: $lightRed;
+  padding-bottom: .5rem;
+  font-size: 1.5rem;
 }

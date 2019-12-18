@@ -1,7 +1,7 @@
 <template>
   <div class="register-container">
     <h1 class="register-title">Register Your Company</h1>
-    <form id="register-form" @submit.prevent="register">
+    <form id="register-form" @submit.prevent="register" autocomplete="off">
       <label for="name">Full Name:</label>
         <input
         v-model="createCompany.name"
@@ -120,7 +120,7 @@
         aria-labelledby="Confirm Password"
         required
         >
-        <button variant="info" type="submit">
+        <button type="submit" class="submit-registration-btn">
           Register
         </button>
         <span class="register-loading-msg">{{ message }}</span>
@@ -168,6 +168,7 @@ export default {
       }
     },
     async register () {
+      this.message = ''
       if (this.createCompany.company_email === '' || this.createCompany.company_phone === '') {
         this.createCompany.company_email = this.createCompany.email
         this.createCompany.company_phone = this.createCompany.phone
@@ -182,9 +183,11 @@ export default {
             this.$store.dispatch('setUser', res.data.user)
             this.$store.dispatch('setCompany', res.data.company)
             this.$router.push ({ name: 'profile' })
+          } else {
+            this.message = `${res.data.error}`
           }
-          }).catch(err => {
-            this.message = `${err.response.data.error}`
+        }).catch(err => {
+          this.message = `${err}`
         })
       } else {
         this.message = `${this.registerError}`

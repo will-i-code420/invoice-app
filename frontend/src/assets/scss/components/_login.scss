@@ -20,7 +20,7 @@
 
 .signin-title {
   padding: 3rem 0 .5em 0;
-  border-bottom: 2px dashed white;
+  border-bottom: 2px dashed $white;
 }
 
 #signin-form {
@@ -37,7 +37,20 @@
     background-color: transparent;
     color: $white;
     width: 70%;
-    border-bottom: 1px solid white;;
+    border-bottom: 1px solid $white;
+    @include transition(box-shadow 500ms);
+    &:active {
+      border-bottom: 1px solid $white;
+      box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 1);
+    }
+    &:hover {
+      border-bottom: 1px solid $white;
+      box-shadow: 0 10px 10px  -5px rgba(0, 0, 0, 1);
+    }
+    &:focus {
+      border-bottom: 1px solid $white;
+      box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 1);
+    }
   }
 }
 
@@ -61,22 +74,19 @@
   border: 2px solid $darkBlue;
   border-radius: 20%;
   @include transition(background-color 500ms);
+  &:hover {
+    background-color: $lightBlue;
+  }
 }
-
-.login-btn:hover {
-  background-color: $lightBlue;
-}
-
 .reset-pass-btn {
   background-color: $darkRed;
   border: 2px solid $darkRed;
   color: $white;
   border-radius: 20%;
   @include transition(background-color 500ms);
-}
-
-.reset-pass-btn:hover {
-  background-color: $lightRed;
+  &:hover {
+    background-color: $lightRed;
+  }
 }
 
 .login-loading-msg {
@@ -93,10 +103,9 @@
   color: $white;
   border-radius: 20%;
   @include transition(background-color 500ms);
-}
-
-.register-btn:hover {
-  background-color: $lightBlue;
+  &:hover {
+    background-color: $lightBlue;
+  }
 }
 
 .line-between-login-register {
@@ -108,7 +117,7 @@
   width: 100%;
   position: absolute;
   overflow: hidden;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid $white;
   top: 50%;
   right: 105%;
   z-index: 1;
@@ -119,7 +128,7 @@
   width: 100%;
   position: absolute;
   overflow: hidden;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid $white;
   top: 50%;
   left: 105%;
   z-index: 1;
