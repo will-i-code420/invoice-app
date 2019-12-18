@@ -11,7 +11,8 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: () =>
-        import('@/views/Dashboard.vue')
+        import('@/views/Dashboard.vue'),
+      meta: { transitionName: 'zoom'}
     },
     {
       path: '/',
@@ -35,13 +36,15 @@ export default new Router({
       path: '/invoices',
       name: 'viewInvoices',
       component: () =>
-        import('@/components/invoice/ViewInvoice.vue')
+        import('@/components/invoice/ViewInvoice.vue'),
+      meta: { transitionName: 'slide'}
     },
     {
       path: '/invoices/:id',
       name: 'singleInvoice',
       component: () =>
-        import('@/components/invoice/SingleInvoice.vue')
+        import('@/components/invoice/SingleInvoice.vue'),
+      meta: { transitionName: 'slide'}
     },
     {
       path: '/employee/:id',
