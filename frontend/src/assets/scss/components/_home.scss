@@ -7,15 +7,15 @@
 }
 
 .slide-fade-enter-active {
-  @include transition(opacity 750ms ease-in, transform 750ms ease-in)
+  @include transition(opacity 500ms ease-in, transform 500ms ease-in)
 }
 
 .slide-fade-leave-active {
-  @include transition(opacity 750ms ease-out, transform 750ms ease-out)
+  @include transition(opacity 500ms ease-out, transform 500ms ease-out)
 }
 
 .slide-fade-enter,
 .slide-fade-leave-to {
-  transform: translateX(40px);
+  transform: rotate(60deg) translateX(100px);
   opacity: 0;
 }

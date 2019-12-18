@@ -1,10 +1,8 @@
 <template>
   <div class="signup-container">
-    <transition name="slide-fade" appear>
+    <transition name="slide-fade" appear mode="out-in">
       <Login v-if="login" @goto-register="setViewRegister"/>
-    </transition>
-    <transition name="slide-fade" appear>
-      <Register v-if="register" @goto-login="setViewLogin"/>
+      <Register v-else-if="register" @goto-login="setViewLogin"/>
     </transition>
   </div>
 </template>
