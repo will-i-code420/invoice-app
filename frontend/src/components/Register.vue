@@ -200,7 +200,7 @@ export default {
       }
     },
     login() {
-      this.$emit('goto-login', 'login')
+      this.$emit('goto-login')
     }
   }
 }

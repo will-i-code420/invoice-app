@@ -1,8 +1,10 @@
 <template>
   <div class="signup-container">
     <transition name="slide-fade" appear>
-      <Login v-if="view === 'login'" @create-account="setView"/>
-      <Register v-else-if="view === 'register'" @goto-login="setView"/>
+      <Login v-if="login" @goto-register="setViewRegister"/>
+    </transition>
+    <transition name="slide-fade" appear>
+      <Register v-if="register" @goto-login="setViewLogin"/>
     </transition>
   </div>
 </template>
@@ -19,13 +21,19 @@ export default {
   },
   data () {
     return {
-      view: 'login'
+      login: true,
+      register: false
     }
   },
   methods: {
-    setView(view) {
-      this.view = view
+    setViewLogin() {
+      this.register = false
+      this.login = true
     },
+    setViewRegister() {
+      this.login = false
+      this.register = true
+    }
   }
 }
 </script>
