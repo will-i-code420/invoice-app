@@ -18,19 +18,22 @@ export default new Router({
       path: '/',
       name: 'home',
       component: () =>
-        import('@/views/Home.vue')
+        import('@/views/Home.vue'),
+      meta: { transitionName: 'zoom'}
     },
     {
       path: '/about',
       name: 'about',
       component: () =>
-        import('@/views/About.vue')
+        import('@/views/About.vue'),
+      meta: { transitionName: 'zoom'}
     },
     {
       path: '/create',
       name: 'createInvoice',
       component: () =>
-        import('@/components/invoice/CreateInvoice.vue')
+        import('@/components/invoice/CreateInvoice.vue'),
+      meta: { transitionName: 'zoom'}
     },
     {
       path: '/invoices',
@@ -50,31 +53,36 @@ export default new Router({
       path: '/employee/:id',
       name: 'singleEmployee',
       component: () =>
-        import('@/components/employee/SingleEmployee.vue')
+        import('@/components/employee/SingleEmployee.vue'),
+      meta: { transitionName: 'slide'}
     },
     {
       path: '/create-employee',
       name: 'addEmployee',
       component: () =>
-        import('@/components/employee/AddEmployee.vue')
+        import('@/components/employee/AddEmployee.vue'),
+      meta: { transitionName: 'zoom'}
     },
     {
       path: '/business/:id',
       name: 'singleBusiness',
       component: () =>
-        import('@/components/business/SingleBusiness.vue')
+        import('@/components/business/SingleBusiness.vue'),
+      meta: { transitionName: 'slide'}
     },
     {
       path: '/create-business',
       name: 'addBusiness',
       component: () =>
-        import('@/components/business/AddBusiness.vue')
+        import('@/components/business/AddBusiness.vue'),
+      meta: { transitionName: 'zoom'}
     },
     {
       path: '/profile',
       name: 'profile',
       component: () =>
-        import('@/views/Profile.vue')
+        import('@/views/Profile.vue'),
+      meta: { transitionName: 'zoom'}
     }
   ]
 })
