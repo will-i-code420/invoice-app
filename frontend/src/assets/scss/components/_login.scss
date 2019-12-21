@@ -72,7 +72,7 @@
   background-color: $darkBlue;
   color: $white;
   border: 2px solid $darkBlue;
-  border-radius: 20%;
+  border-radius: $pill-button;
   @include transition(background-color 500ms);
   &:hover {
     background-color: $lightBlue;
@@ -82,7 +82,7 @@
   background-color: $darkRed;
   border: 2px solid $darkRed;
   color: $white;
-  border-radius: 20%;
+  border-radius: $pill-button;
   @include transition(background-color 500ms);
   &:hover {
     background-color: $lightRed;
@@ -101,7 +101,7 @@
   border: 2px solid $darkBlue;
   background-color: $darkBlue;
   color: $white;
-  border-radius: 20%;
+  border-radius: $pill-button;
   @include transition(background-color 500ms);
   &:hover {
     background-color: $lightBlue;
