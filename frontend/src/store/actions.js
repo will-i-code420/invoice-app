@@ -8,6 +8,15 @@ export default {
   setCompany({commit}, company) {
     commit('setCompany', company)
   },
+  setBusinessList({commit}, list) {
+    commit('setBusinessList', list)
+  },
+  setEmployeeList({commit}, list) {
+    commit('setEmployeeList', list)
+  },
+  setInvoiceList({commit}, list) {
+    commit('setInvoiceList', list)
+  },
   logout({commit}) {
     commit('logout')
   }

@@ -1,13 +1,17 @@
 <template>
   <div class="dashboard-container">
     <NavHead/>
-    <div class="bar-chart">
-      <h2>Monthly Invoices</h2>
+    <div class="dashboard-info-overview">
+      <h3><span>{{businessCount}}</span>Total Business'</h3>
+      <h3><span>{{employeeCount}}</span>Total Employees</h3>
+      <h3><span>{{outstandingQuotes}}</span>Pending Quotes</h3>
+    </div>
+    <h2>Last {{ month }} Months Info</h2>
+    <div class="charts">
       <chart
       :options="totalInvoice"
+      :loading="loading"
       />
-    </div>
-    <div class="line-chart">
       <chart
       :options="income"
       :loading="loading"
@@ -18,15 +22,29 @@
 
 <script>
 import invoiceService from '@/services/invoiceService'
+import businessService from '@/services/businessService'
+import employeeService from '@/services/employeeService'
 
 export default {
   name: 'dashboard',
   data () {
     return {
       loading: true,
+      month: 3,
+      businessCount: 0,
+      employeeCount: 0,
+      outstandingQuotes: 0,
       totalInvoice: {
+        title: {
+          text: 'Invoice Status',
+          x: 'center',
+          textStyle: {
+            fontSize: 28
+          }
+        },
         color: ['#127ac2', '#047513', '#b50915'],
         legend: {
+          top: 35,
           data: ['Total Invoices', 'Total Invoices Paid', 'Total Invoices Late']
         },
         xAxis: {
@@ -54,29 +72,56 @@ export default {
       },
       income: {
         title: {
-          text: 'YTD Income',
+          text: 'Income Info',
           x: 'center',
           textStyle: {
             fontSize: 28
           }
         },
-        color: ['#127ac2'],
+        color: ['#127ac2', '#047513', '#b50915'],
+        legend: {
+          top: 35,
+          data: ['Total Income', 'Pending Income', 'Late Income']
+        },
         xAxis: {
-          data: ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+          data: ['Jan', 'Feb', 'March']
         },
         yAxis: {type: 'value'},
-        series: [{
-          name: 'YTD Income',
-          type: 'line',
-          data: [10, 20, 30, 40]
-        }]
+        series: [
+          {
+            name: 'Total Income',
+            type: 'line',
+            data: [100, 243, 55, 10]
+          },
+          {
+            name: 'Pending Income',
+            type: 'line',
+            data: [25, 33, 45, 33]
+          },
+          {
+            name: 'Late Income',
+            type: 'line',
+            data: [10, 20, 30, 40]
+          }
+      ]
       }
     }
   },
   async created () {
     try {
+      await businessService.index().then(res => {
+        let businessList = res.data.business
+        this.$store.dispatch('setBusinessList', businessList)
+        this.businessCount = businessList.length
+      })
+      await employeeService.index().then(res => {
+        let employeeList = res.data.employee
+        this.$store.dispatch('setEmployeeList', employeeList)
+        this.employeeCount = employeeList.length
+      })
       await invoiceService.index().then(res => {
         let invoices = res.data.invoices
+        this.$store.dispatch('setInvoiceList', invoices)
         // find all invoices by month
         let numAndDate = invoices.map(invoice => new Date(invoice.createdAt).toLocaleString('en-us', { month: 'short' }))
         .sort((a, b) => a < b)
@@ -95,36 +140,14 @@ export default {
           }
           return obj
         }, {})
-
         this.totalInvoice.xAxis.data = [...Object.keys(numAndDate)]
         this.totalInvoice.series[0].data = [...Object.values(numAndDate)]
         this.totalInvoice.series[1].data = [...Object.values(total_paid)]
         this.loading = false
       })
     } catch (err) {
-      alert(err)
+      alert(`${err}`)
     }
   }
 }
 </script>
-
-<style scoped>
-
-.dashboard-container {
-  padding-top: 65px;
-}
-
-.bar-chart, .line-chart {
-  width: 100%;
-  height: 500px;
-}
-
-.line-chart {
-  margin-top: 50px;
-}
-
-.echarts {
-  width: 100%;
-  height: 100%;
-}
-</style>

@@ -3,5 +3,8 @@ export default {
   company: false,
   token: '',
   isAdmin: false,
-  isLoggedIn: false
+  isLoggedIn: false,
+  businessList: [],
+  employeeList: [],
+  invoiceList: [],
 }

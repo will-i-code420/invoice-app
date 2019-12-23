@@ -285,41 +285,5 @@ export default {
 </script>
 
 <style scoped>
-.num-input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  margin: 0;
-}
 
-.profile {
-  padding-top: 65px;
-  background-color: #14AE94;
-  min-height: 100vh;
-}
-
-.profile-nav {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.profile-tab {
-  display: flex;
-  justify-content: center;
-  border: 2px solid black;
-}
-
-.btn {
-  margin-top: 20px;
-}
-
-.company-button {
-  margin: 20px 10px;
-}
-
-.user, .company, .business, .employee {
-  width: 90%;
-}
 </style>

@@ -55,20 +55,20 @@ export default {
   },
   methods: {
     async login () {
-      this.message = 'Signing in...'
-      await authenticationService.login(this.userLogin).then(res => {
-        this.message = ''
-        if (res.data.status === true) {
-          this.$store.dispatch('setToken', res.data.token)
-          this.$store.dispatch('setUser', res.data.user)
-          this.$store.dispatch('setCompany', res.data.company)
-          this.$router.push ({ name: 'dashboard' })
-        } else {
-          this.message = `${res.data.error}`
-        }
-      }).catch(err => {
+      this.message = "Loggin you in..."
+      try {
+        await authenticationService.login(this.userLogin).then(res => {
+          this.message = "Getting Required Info..."
+          if (res.data.status === true) {
+            this.$store.dispatch('setToken', res.data.token)
+            this.$store.dispatch('setUser', res.data.user)
+            this.$store.dispatch('setCompany', res.data.company)
+            this.$router.push ({ name: 'dashboard' })
+          }
+        })
+      } catch (err) {
         this.message = `${err}`
-      })
+      }
     },
     createAccount() {
       this.$emit('goto-register', 'register')

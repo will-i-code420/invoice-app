@@ -1,5 +1,5 @@
 <template>
-  <b-navbar type="dark" variant="info" fixed="top">
+  <b-navbar class="navbar" type="dark" variant="info">
     <UserMenu v-if="$store.state.isLoggedIn"/>
   <b-navbar-nav class="ml-auto">
     <b-navbar-brand to="about">Business Solutions</b-navbar-brand>

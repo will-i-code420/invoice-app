@@ -19,6 +19,15 @@ export default {
   setCompany (state, company) {
     state.company = company
   },
+  setBusinessList (state, list) {
+    state.businessList = list
+  },
+  setEmployeeList (state, list) {
+    state.employeeList = list
+  },
+  setInvoiceList (state, list) {
+    state.invoiceList = list
+  },
   logout(state) {
     state.user = false,
     state.token = window.$cookies.keys().forEach(cookie => window.$cookies.remove(cookie)),
