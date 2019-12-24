@@ -43,7 +43,10 @@ module.exports = {
       await Invoices.create({
         name: req.body.name,
         amount_paid: req.body.amount_paid,
+        tax_amount: req.body.tax_amount,
         total_due: req.body.total_due,
+        is_quote: req.body.is_quote,
+        due_date: req.body.due_date,
         createdBy: req.user.id
       }).then((invoice) => {
         newInvoice = invoice

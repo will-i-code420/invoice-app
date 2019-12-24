@@ -1,118 +1,116 @@
 <template>
   <div class="create-invoice-container">
-    <b-container>
-      <b-row>
-        <b-col>
-          <h2 class="complete">Complete To Create Invoice</h2>
-          <hr>
-          <b-form @submit.prevent="submitInvoice">
-            <label class="invoice" for="invoice">Invoice To:</label>
-            <b-form-input
-            v-model="invoice.name"
-            type="text"
-            placeholder="Company Or Individual Name"
-            required
-            >
-            </b-form-input>
-            <hr>
-            <h3>Add New Item:</h3>
-            <b-button squared variant="success" v-b-modal.modal-add-transaction>
-              +
-            </b-button>
-            <b-modal
-            id="modal-add-transaction"
-            ref="modal"
-            title="New Item"
-            ok-title="Add Item"
-            ok-variant="success"
-            cancel-variant="danger"
-            @show="resetModal"
-            @hidden="resetModal"
-            @ok="handleOk"
-            >
-
-            <form ref="form" @submit.stop.prevent="submitTransaction">
-
-              <b-form-group
-              :state="transState"
-              label="Item Description:"
-              label-for="transaction"
-              invalid-feedback="Item required"
+    <h1 class="create-invoice-title" v-if="!this.invoice.is_quote">
+      Creating Invoice
+    </h1>
+    <h1 class="create-invoice-title" v-else>
+      Creating Quote
+    </h1>
+    <label class="price-quote-box">**Check Box If Price Quote Only**
+      <input class="quote-checkbox" name="quotebox" type="checkbox" v-model="invoice.is_quote">
+    </label>
+    <hr>
+    <form id="create-invoice-form" @submit.prevent="createInvoice">
+      <label class="invoice" for="invoice">Invoice To:
+      <input
+      v-model="invoice.name"
+      id="invoice-name"
+      type="text"
+      placeholder="Company Or Individual Name"
+      aria-labelledby="Company Or Individual Being Invoiced"
+      required
+      >
+      </label>
+    <hr>
+    <h3>Add Transaction:</h3>
+      <b-button squared variant="success" v-b-modal.modal-add-transaction>
+        +
+      </b-button>
+      <b-modal
+      id="modal-add-transaction"
+      ref="modal"
+      title="New Item"
+      ok-title="Add Item"
+      ok-variant="success"
+      cancel-variant="danger"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="handleOk"
+      >
+      <form ref="form" @submit.stop.prevent="submitTransaction">
+        <b-form-group
+        :state="transState"
+        label="Item Description:"
+        label-for="transaction"
+        invalid-feedback="Item required"
+        >
+        <b-form-input
+        id="transaction"
+        v-model="trans.description"
+        :state="transState"
+        required
+        ></b-form-input>
+        </b-form-group>
+        <b-form-group
+        :state="transState"
+        label="Qty:"
+        label-for="quantity"
+        invalid-feedback="Item required"
+        >
+        <b-form-input
+        id="quantity"
+        v-model="trans.quantity"
+        :state="transState"
+        required
+        ></b-form-input>
+        </b-form-group>
+        <b-form-group
+        :state="transState"
+        label="Price:"
+        label-for="price"
+        invalid-feedback="Price required"
+        >
+        <b-form-input
+        id="price"
+        v-model="trans.price"
+        :state="transState"
+        required
+        ></b-form-input>
+        </b-form-group>
+      </form>
+      </b-modal>
+      <hr>
+      <template>
+        <h2>Transactions:</h2>
+        <div>
+          <b-table bordered hover :items="transactions" :fields="fields">
+            <template v-slot:cell(modify)="data">
+              <b-button squared @click="selectTrans(data.item)">
+                Edit
+              </b-button>
+              <b-modal
+              id="modal-edit-transaction"
+              ref="modal"
+              title="Edit Item:"
+              ok-title="Edit Item"
+              ok-variant="success"
+              cancel-variant="danger"
+              @ok="handleEdit"
               >
-
-              <b-form-input
-              id="transaction"
-              v-model="trans.description"
-              :state="transState"
-              required
-              ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-              :state="transState"
-              label="Qty:"
-              label-for="quantity"
-              invalid-feedback="Item required"
-              >
-
-              <b-form-input
-              id="quantity"
-              v-model="trans.quantity"
-              :state="transState"
-              required
-              ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-              :state="transState"
-              label="Price:"
-              label-for="price"
-              invalid-feedback="Price required"
-              >
-
-              <b-form-input
-              id="price"
-              v-model="trans.price"
-              :state="transState"
-              required
-              ></b-form-input>
-            </b-form-group>
-          </form>
-        </b-modal>
-        <hr>
-        <template>
-          <h2>Invoice Info:</h2>
-          <div>
-            <b-table bordered hover :items="transactions" :fields="fields">
-              <template v-slot:cell(modify)="data">
-                <b-button squared @click="selectTrans(data.item)">
-                  Edit
-                </b-button>
-                <b-modal
-                id="modal-edit-transaction"
-                ref="modal"
-                title="Edit Item:"
-                ok-title="Edit Item"
-                ok-variant="success"
-                cancel-variant="danger"
-                @ok="handleEdit"
+              <form ref="edit-form">
+                <b-form-group
+                :state="transState"
+                label="Item Description:"
+                label-for="transaction"
+                invalid-feedback="Item required"
                 >
-                <form ref="edit-form">
-
-                  <b-form-group
-                  :state="transState"
-                  label="Item Description:"
-                  label-for="transaction"
-                  invalid-feedback="Item required"
-                  >
-                  <b-form-input
-                  id="transaction"
-                  v-model="selectedTrans.description"
-                  :state="transState"
-                  required
-                  ></b-form-input>
+                <b-form-input
+                id="transaction"
+                v-model="selectedTrans.description"
+                :state="transState"
+                required
+                ></b-form-input>
                 </b-form-group>
-
                 <b-form-group
                 :state="transState"
                 label="Qty:"
@@ -126,7 +124,6 @@
                 required
                 ></b-form-input>
               </b-form-group>
-
               <b-form-group
               :state="transState"
               label="Price:"
@@ -142,33 +139,25 @@
             </b-form-group>
           </form>
         </b-modal>
-                <b-button squared @click="deleteTransaction(data.item.id)">
-                  X
-                </b-button>
-              </template>
-            </b-table>
-          </div>
+          <b-button squared @click="deleteTransaction(data.item.id)">
+            X
+          </b-button>
+          </template>
+          </b-table>
+        </div>
         </template>
         <hr>
-        <label class="total" for="total">
-          <h4>Invoice Total: ${{ invoice.total_due }}</h4>
-        </label>
+        <h4>Invoice Total: ${{ invoice.total_due }}</h4>
         <br>
-        <label class="paid" for="paid">Amount Paid:</label>
-        <b-form-input
-        v-model="invoice.amount_paid"
-        placeholder="ex. 0.00, leave blank if unpaid"
-        >
-        </b-form-input>
-        <div class="create">
-          <b-button pill variant="outline-success" type="submit">
+        <div class="create-invoice-quote">
+          <b-button v-if="!this.invoice.is_quote" pill variant="outline-success" type="submit">
             Create Invoice
           </b-button>
+          <b-button v-else pill variant="outline-success" type="submit">
+            Create Quote
+          </b-button>
         </div>
-        </b-form>
-        </b-col>
-      </b-row>
-    </b-container>
+        </form>
   </div>
 </template>
 
@@ -183,7 +172,10 @@ export default {
       invoice: {
         name: '',
         total_due: '',
-        amount_paid: ''
+        amount_paid: '',
+        tax_amount: '',
+        is_quote: false,
+        due_date: ''
       },
       nextTransId: 1,
       transactions: [],
@@ -273,8 +265,13 @@ export default {
       this.nextTransId--
       this.calcTotal()
     },
-    async submitInvoice () {
+    calcDueDate() {
+      let date = new Date()
+      this.invoice.due_date = new Date(date.getFullYear(), date.getMonth(), date.getDate()+21)
+    },
+    async createInvoice () {
       this.loading = "Creating Invoice, please wait..."
+      this.calcDueDate()
       let invoiceForm = {}
       const formData = new FormData()
       let item_id = []
@@ -290,6 +287,9 @@ export default {
       if (this.invoice.amount_paid === '') {
         this.invoice.amount_paid = 0.00
       }
+      if (this.invoice.tax_amount === '') {
+        this.invoice.tax_amount = 0.00
+      }
       formData.append("name", this.invoice.name)
       formData.append("item_id", item_id)
       formData.append("description", description)
@@ -297,6 +297,9 @@ export default {
       formData.append("price", price)
       formData.append("amount_paid", this.invoice.amount_paid)
       formData.append("total_due", this.invoice.total_due)
+      formData.append("tax_amount", this.invoice.tax_amount)
+      formData.append("is_quote", this.invoice.is_quote)
+      formData.append("due_date", this.invoice.due_date)
       formData.append("invoiceId", this.$store.state.user.id)
       for (const [key, value] of formData.entries()) {
         invoiceForm[key] = value
@@ -314,24 +317,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.btn {
-  margin: 0 30px;
-}
-.complete {
-  padding-top: 85px;
-}
-.invoice {
-  padding-top: 30px;
-}
-.total {
-  padding-top: 15px;
-}
-.paid {
-  padding-top: 20px;
-}
-.create {
-  padding-top: 30px;
-}
-</style>

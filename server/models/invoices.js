@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     amount_paid: DataTypes.INTEGER,
-    total_due: DataTypes.INTEGER
+    tax_amount: DataTypes.INTEGER,
+    total_due: DataTypes.INTEGER,
+    due_date: DataTypes.DATEONLY,
+    is_quote: DataTypes.BOOLEAN
   }, {});
   Invoices.associate = (models) => {
     Invoices.belongsTo(models.User, {

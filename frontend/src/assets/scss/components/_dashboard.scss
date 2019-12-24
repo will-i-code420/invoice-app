@@ -2,7 +2,7 @@
   display: inline-block;
   width: 100%;
   min-height: 100vh;
-  background-color: rgba(173,168,168,.5)
+  background-color: $lightGray;
 }
 
 .dashboard-info-overview {
@@ -47,5 +47,5 @@
   width: 50%;
   height: 100%;
   margin: 1rem;
-  background-color: rgb(240,240,240)
+  background-color: rgb(240,240,240);
 }
