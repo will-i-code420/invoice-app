@@ -1,5 +1,6 @@
 <template>
   <div class="create-invoice-container">
+    <NavHead/>
     <h1 class="create-invoice-title" v-if="!this.invoice.is_quote">
       Creating Invoice
     </h1>
@@ -7,79 +8,75 @@
       Creating Quote
     </h1>
     <label class="price-quote-box">**Check Box If Price Quote Only**
-      <input class="quote-checkbox" name="quotebox" type="checkbox" v-model="invoice.is_quote">
+      <input class="quote-checkbox" name="quotebox" type="checkbox" v-model="invoice.is_quote" aria-labelledby="Checkbox for quote or invoice">
     </label>
-    <hr>
+    <hr class="create-invoice-hr">
     <form id="create-invoice-form" @submit.prevent="createInvoice">
-      <label class="invoice" for="invoice">Invoice To:
+      <label class="invoice-label" for="invoice-name">
+        Invoice To:
+      </label>
       <input
       v-model="invoice.name"
       id="invoice-name"
       type="text"
-      placeholder="Company Or Individual Name"
+      title="Company Or Individual Name"
       aria-labelledby="Company Or Individual Being Invoiced"
       required
       >
-      </label>
-    <hr>
-    <h3>Add Transaction:</h3>
-      <b-button squared variant="success" v-b-modal.modal-add-transaction>
-        +
-      </b-button>
-      <b-modal
-      id="modal-add-transaction"
-      ref="modal"
-      title="New Item"
-      ok-title="Add Item"
-      ok-variant="success"
-      cancel-variant="danger"
-      @show="resetModal"
-      @hidden="resetModal"
-      @ok="handleOk"
-      >
-      <form ref="form" @submit.stop.prevent="submitTransaction">
-        <b-form-group
-        :state="transState"
-        label="Item Description:"
-        label-for="transaction"
-        invalid-feedback="Item required"
+    <hr class="create-invoice-hr">
+      <h3>Add Transaction:</h3>
+        <button class="add-trans-button" type="button" @click="toggleTransModal">
+          &plus;
+        </button>
+        <transition name="modal-fade">
+        <Modal
+        v-show="isModalOpen"
         >
-        <b-form-input
-        id="transaction"
-        v-model="trans.description"
-        :state="transState"
-        required
-        ></b-form-input>
-        </b-form-group>
-        <b-form-group
-        :state="transState"
-        label="Qty:"
-        label-for="quantity"
-        invalid-feedback="Item required"
-        >
-        <b-form-input
-        id="quantity"
-        v-model="trans.quantity"
-        :state="transState"
-        required
-        ></b-form-input>
-        </b-form-group>
-        <b-form-group
-        :state="transState"
-        label="Price:"
-        label-for="price"
-        invalid-feedback="Price required"
-        >
-        <b-form-input
-        id="price"
-        v-model="trans.price"
-        :state="transState"
-        required
-        ></b-form-input>
-        </b-form-group>
-      </form>
-      </b-modal>
-      <hr>
+        <template #header>
+          <h1>Add New Item</h1>
+        </template>
+        <template #body>
+          <form ref="transaction-form">
+            <label for="description">Description:
+            <input
+            v-model="trans.description"
+            id="description"
+            type="text"
+            aria-labelledby="Transaction Description"
+            required
+            >
+            </label>
+            <label for="quantity">Qty:
+            <input
+            v-model="trans.quantity"
+            id="quantity"
+            type="text"
+            aria-labelledby="Quantity Of Transaction"
+            required
+            >
+            </label>
+            <label for="price">Price:
+            <input
+            v-model="trans.price"
+            id="price"
+            type="text"
+            aria-labelledby="Price Per Unit"
+            required
+            >
+            </label>
+          </form>
+        </template>
+        <template #footer>
+          <button class="submit-trans" type="button" @click="submitTransaction">
+            Add Item
+          </button>
+          <button class="cancel-trans" type="button" @click="toggleTransModal">
+            Cancel
+          </button>
+        </template>
+        </Modal>
+        </transition>
+      <hr class="create-invoice-hr">
       <template>
         <h2>Transactions:</h2>
         <div>
@@ -146,7 +143,7 @@
           </b-table>
         </div>
         </template>
-        <hr>
+        <hr class="create-invoice-hr">
         <h4>Invoice Total: ${{ invoice.total_due }}</h4>
         <br>
         <div class="create-invoice-quote">
@@ -169,6 +166,7 @@ export default {
   data () {
     return {
       transState: null,
+      isModalOpen: false,
       invoice: {
         name: '',
         total_due: '',
@@ -199,10 +197,15 @@ export default {
   computed: {
   },
   methods: {
+    toggleTransModal() {
+      this.isModalOpen = !this.isModalOpen
+    },
     checkFormValidity () {
-      const valid = this.$refs.form.checkValidity()
-      this.transState = valid ? 'valid' : 'invalid'
-      return valid
+      if (this.trans.description == '' || this.trans.quantity == 0 || this.trans.quantity == 0) {
+        return false
+      } else {
+        return true
+      }
     },
     resetModal () {
       this.trans.description = ''
@@ -217,10 +220,6 @@ export default {
       this.nextTransId = 1
       this.transactions = []
       this.transState = null
-    },
-    handleOk (bvModalEvt) {
-      bvModalEvt.preventDefault()
-      this.submitTransaction()
     },
     selectTrans (item) {
       this.selectedTrans = item

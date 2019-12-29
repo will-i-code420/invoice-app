@@ -1,17 +1,60 @@
 .create-invoice-container {
   background-color: $lightGray;
+  width: 100%;
+  min-height: 100%;
 }
 
 .create-invoice-title {
   padding: 1.5rem 0;
 }
 
+.create-invoice-hr {
+  background-color: black;
+  height: .1rem;
+}
+
+.add-trans-button {
+  height: 3rem;
+  width: 3rem;
+  font-size: 28px;
+  background-color: $darkGreen;
+  border: 2px solid $darkGreen;
+  color: $white;
+  @include transition(background-color 500ms);
+  &:hover {
+    background-color: $lightGreen
+  }
+}
+
 #create-invoice-form {
 
 }
 
-.invoice {
+.submit-trans {
+  background-color: $darkBlue;
+  color: $white;
+  border: 2px solid $darkBlue;
+  border-radius: $pill-button;
+  @include transition(background-color 500ms);
+  &:hover {
+    background-color: $lightBlue;
+  }
+}
+
+.cancel-trans {
+  background-color: $darkRed;
+  border: 2px solid $darkRed;
+  color: $white;
+  border-radius: $pill-button;
+  @include transition(background-color 500ms);
+  &:hover {
+    background-color: $lightRed;
+  }
+}
+
+.invoice-label {
   font-size: 22px;
+  font-weight: bold;
 }
 
 .price-quote-box {

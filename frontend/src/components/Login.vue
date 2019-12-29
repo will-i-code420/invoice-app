@@ -71,7 +71,7 @@ export default {
       }
     },
     createAccount() {
-      this.$emit('goto-register', 'register')
+      this.$emit('goto-register')
     }
   }
 }

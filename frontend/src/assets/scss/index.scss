@@ -1,13 +1,14 @@
 // libraries
 
 // base values
-@import 'base/variables.scss';
-@import 'base/mixins.scss';
+@import 'base/variables';
+@import 'base/mixins';
 
 // component styling
-@import 'components/home.scss';
-@import 'components/login.scss';
-@import 'components/register.scss';
-@import 'components/dashboard.scss';
-@import 'components/profile.scss';
+@import 'components/home';
+@import 'components/login';
+@import 'components/register';
+@import 'components/dashboard';
+@import 'components/profile';
 @import 'components/create-invoice';
+@import 'components/modal';
