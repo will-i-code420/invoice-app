@@ -26,8 +26,14 @@
   }
 }
 
-#create-invoice-form {
-
+#transaction-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+    label {
+      padding-top: .5rem;
+    }
 }
 
 .submit-trans {
@@ -39,6 +45,9 @@
   &:hover {
     background-color: $lightBlue;
   }
+  &:focus {
+    background-color: $lightBlue;
+  }
 }
 
 .cancel-trans {
@@ -48,6 +57,9 @@
   border-radius: $pill-button;
   @include transition(background-color 500ms);
   &:hover {
+    background-color: $lightRed;
+  }
+  &:focus {
     background-color: $lightRed;
   }
 }

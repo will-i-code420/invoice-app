@@ -24,53 +24,55 @@
       required
       >
     <hr class="create-invoice-hr">
-      <h3>Add Transaction:</h3>
+      <h3>Add Transaction(s):</h3>
         <button class="add-trans-button" type="button" @click="toggleTransModal">
           &plus;
         </button>
         <transition name="modal-fade">
         <Modal
         v-show="isModalOpen"
+        @keydown.esc="toggleTransModal"
         >
         <template #header>
           <h1>Add New Item</h1>
         </template>
         <template #body>
-          <form ref="transaction-form">
-            <label for="description">Description:
+          <form id="transaction-form" @keydown.esc="toggleTransModal">
+            <label for="description">Description:</label>
             <input
             v-model="trans.description"
             id="description"
             type="text"
             aria-labelledby="Transaction Description"
             required
+            @keydown.shift.tab.prevent
             >
-            </label>
-            <label for="quantity">Qty:
+
+            <label for="quantity">Qty:</label>
             <input
-            v-model="trans.quantity"
+            v-model.number="trans.quantity"
             id="quantity"
-            type="text"
+            type="number"
             aria-labelledby="Quantity Of Transaction"
             required
             >
-            </label>
-            <label for="price">Price:
+
+            <label for="price">Price:</label>
             <input
-            v-model="trans.price"
+            v-model.number="trans.price"
             id="price"
-            type="text"
+            type="number"
             aria-labelledby="Price Per Unit"
             required
             >
-            </label>
+
           </form>
         </template>
         <template #footer>
-          <button class="submit-trans" type="button" @click="submitTransaction">
+          <button class="submit-trans" type="button" @click="submitTransaction" @keydown.enter="submitTransaction">
             Add Item
           </button>
-          <button class="cancel-trans" type="button" @click="toggleTransModal">
+          <button class="cancel-trans" type="button" @click="toggleTransModal" @keydown.esc="toggleTransModal" @keydown.tab.exact.prevent>
             Cancel
           </button>
         </template>
@@ -199,6 +201,7 @@ export default {
   methods: {
     toggleTransModal() {
       this.isModalOpen = !this.isModalOpen
+      this.resetModal()
     },
     checkFormValidity () {
       if (this.trans.description == '' || this.trans.quantity == 0 || this.trans.quantity == 0) {

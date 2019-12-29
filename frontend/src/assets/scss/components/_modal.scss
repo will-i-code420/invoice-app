@@ -8,10 +8,10 @@
 
 .modal {
   width: 40%;
-  height: 55%;
-  top: 20%;
+  height: 73%;
+  top: 15%;
   left: 30%;
-  background: #fff;
+  background: rgba(236,236,236,1);
   box-shadow: 2px 2px 20px 1px;
   display: flex;
   flex-direction: column;
@@ -24,20 +24,21 @@
   }
 
 .modal-header {
-  border-bottom: 1px solid #eee;
-  color: #4AAE9B;
+  border-bottom: 1px solid rgba(0, 0, 0, .8);
+  color: $darkBlue;
   justify-content: center;
 }
 
 .modal-body {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  justify-content: flex-end;
+  align-items: center;
   padding: 2rem .75rem;
 }
 
 .modal-footer {
-  border-top: 1px solid #eee;
+  border-top: 1px solid rgba(0, 0, 0, .8);
   justify-content: flex-end;
 }
 
