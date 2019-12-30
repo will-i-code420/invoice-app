@@ -73,3 +73,37 @@
   font-size: 22px;
   font-weight: bold;
 }
+
+.invoice-total-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.tax-amount-box {
+  font-size: 22px;
+  font-weight: bold;
+  width: 30%;
+  margin: 0 auto;
+}
+
+.tax-selection-list {
+  display: flex;
+  margin: .75rem auto;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+}
+
+.invoice-subtotal,
+.invoice-total,
+.invoice-tax {
+  display: flex;
+  width: 20%;
+  margin-left: auto;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 1rem;
+  border: 2px solid black;
+  padding: 0 1rem;
+  box-shadow: 0 0 8px;
+}

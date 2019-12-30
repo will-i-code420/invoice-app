@@ -7,8 +7,8 @@
     <h1 class="create-invoice-title" v-else>
       Creating Quote
     </h1>
-    <label class="price-quote-box">**Check Box If Price Quote Only**
-      <input class="quote-checkbox" name="quotebox" type="checkbox" v-model="invoice.is_quote" aria-labelledby="Checkbox for quote or invoice">
+    <label class="price-quote-box" for="if-price-quote">**Check Box If Price Quote Only**
+      <input class="quote-checkbox" id="if-price-quote" name="quotebox" type="checkbox" v-model="invoice.is_quote" aria-labelledby="Checkbox for quote or invoice">
     </label>
     <hr class="create-invoice-hr">
     <form id="create-invoice-form" @submit.prevent="createInvoice">
@@ -31,7 +31,6 @@
         <transition name="modal-fade">
         <Modal
         v-show="isModalOpen"
-        @keydown.esc="toggleTransModal"
         >
         <template #header>
           <h1>Add New Item</h1>
@@ -64,6 +63,7 @@
             type="number"
             aria-labelledby="Price Per Unit"
             required
+            @keydown.enter="submitTransaction"
             >
 
           </form>
@@ -146,8 +146,21 @@
         </div>
         </template>
         <hr class="create-invoice-hr">
-        <h4>Invoice Total: ${{ invoice.total_due }}</h4>
-        <br>
+        <section class="invoice-total-container">
+          <label class="tax-amount-box" for="if-tax-charged">**Check Box If Tax Required**
+            <input class="tax-checkbox" id="if-tax-charged" name="taxbox" type="checkbox" v-model="isTaxed" aria-labelledby="Checkbox if state taxes to be charged">
+          </label>
+          <br>
+          <select v-if="isTaxed" class="tax-selection-list" name="tax-selection" v-model="invoice.tax_rate">
+            <option disabled value="">Select City For Taxes</option>
+            <option v-for="tax in taxes" :key="tax.id" :value="tax.rate">{{tax.city}} - {{tax.rate}}</option>
+          </select>
+          <h4 class="invoice-subtotal">Sub-Total: ${{ invoice.subtotal_due }}</h4>
+          <h4 v-if="isTaxed" class="invoice-tax">State Tax: ${{ invoice.tax_due }}</h4>
+          <h4 class="invoice-total">Invoice Total: ${{ invoice.total_due }}</h4>
+          <br>
+        </section>
+
         <div class="create-invoice-quote">
           <b-button v-if="!this.invoice.is_quote" pill variant="outline-success" type="submit">
             Create Invoice
@@ -169,11 +182,31 @@ export default {
     return {
       transState: null,
       isModalOpen: false,
+      isTaxed: false,
+      taxes: [
+        {
+          id: 1,
+          city: 'Tucson',
+          rate: 2.5
+        },
+        {
+          id: 2,
+          city: 'Nogales',
+          rate: 3.3
+        },
+        {
+          id: 3,
+          city: 'Marana',
+          rate: 5.4
+        },
+      ],
       invoice: {
         name: '',
-        total_due: '',
-        amount_paid: '',
-        tax_amount: '',
+        subtotal_due: Number(),
+        total_due: Number(),
+        amount_paid: Number(),
+        tax_due: Number(),
+        tax_rate: Number(),
         is_quote: false,
         due_date: ''
       },
@@ -201,20 +234,19 @@ export default {
   methods: {
     toggleTransModal() {
       this.isModalOpen = !this.isModalOpen
-      this.resetModal()
     },
-    checkFormValidity () {
+    resetTransModal() {
+      this.trans.description = ''
+      this.trans.price = ''
+      this.trans.quantity = ''
+      this.transState = null
+    },
+    checkFormValidity() {
       if (this.trans.description == '' || this.trans.quantity == 0 || this.trans.quantity == 0) {
         return false
       } else {
         return true
       }
-    },
-    resetModal () {
-      this.trans.description = ''
-      this.trans.price = ''
-      this.trans.quantity = ''
-      this.transState = null
     },
     resetInvoice () {
       this.invoice.name = ''
@@ -242,21 +274,34 @@ export default {
         price: this.trans.price
       })
       this.nextTransId++
-      this.calcTotal()
-      this.resetModal()
+      this.resetTransModal()
+      this.calcSubTotal()
     },
-    calcTotal () {
+    calcSubTotal () {
       let total = Number()
       this.transactions.forEach(item => {
         total += parseFloat(item.price * item.quantity)
       })
+      this.invoice.subtotal_due = total.toFixed(2)
+      if (this.invoice.tax_rate != '') {
+        this.calcTax()
+      }
+      this.calcTotal()
+    },
+    calcTax() {
+      let taxRate = (this.invoice.tax_rate / 100) * this.invoice.subtotal_due
+      this.invoice.tax_due = taxRate.toFixed(2)
+      this.calcTotal()
+    },
+    calcTotal() {
+      let total = Number(this.invoice.subtotal_due) + Number(this.invoice.tax_due)
       this.invoice.total_due = total.toFixed(2)
     },
     editTransaction (id) {
       if (this.selectedTrans) {
         this.$delete(this.selectedTrans, '_rowVarient')
       }
-      this.calcTotal()
+      this.calcSubTotal()
       this.$set(id, '_rowVarient', 'primary')
       this.selectedTrans = id
     },
@@ -265,9 +310,12 @@ export default {
         return item.id !== id
       })
       this.nextTransId--
-      this.calcTotal()
+      this.calcSubTotal()
     },
     calcDueDate() {
+      if (!this.invoice.is_quote) {
+        return
+      }
       let date = new Date()
       this.invoice.due_date = new Date(date.getFullYear(), date.getMonth(), date.getDate()+21)
     },
@@ -298,8 +346,10 @@ export default {
       formData.append("quantity", quantity)
       formData.append("price", price)
       formData.append("amount_paid", this.invoice.amount_paid)
+      formData.append("subtotal_due", this.invoice.subtotal_due)
       formData.append("total_due", this.invoice.total_due)
       formData.append("tax_amount", this.invoice.tax_amount)
+      formData.append("tax_rate", this.invoice.tax_rate)
       formData.append("is_quote", this.invoice.is_quote)
       formData.append("due_date", this.invoice.due_date)
       formData.append("invoiceId", this.$store.state.user.id)
@@ -315,6 +365,17 @@ export default {
         alert(err.response.data.error)
       })
       this.resetInvoice()
+    }
+  },
+  watch: {
+    'invoice.tax_rate': function() {
+      this.calcTax()
+    },
+    isTaxed: function() {
+      if (!this.isTaxed) {
+        this.invoice.tax_rate = 0
+        this.calcTax()
+      }
     }
   }
 }

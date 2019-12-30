@@ -2,14 +2,11 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
-      await queryInterface.addColumn('Invoices', 'due_date', {
-        type: Sequelize.DATEONLY
-      });
-      await queryInterface.addColumn('Invoices', 'tax_amount', {
+      await queryInterface.addColumn('Invoices', 'subtotal_due', {
         type: Sequelize.INTEGER
       });
-      await queryInterface.addColumn('Invoices', 'is_quote', {
-        type: Sequelize.BOOLEAN
+      await queryInterface.addColumn('Invoices', 'tax_rate', {
+        type: Sequelize.INTEGER
       });
       return Promise.resolve();
     } catch (e) {
@@ -19,9 +16,8 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     try {
-      await queryInterface.removeColumn('Invoices', 'due_date');
-      await queryInterface.removeColumn('Invoices', 'tax_amount');
-      await queryInterface.removeColumn('Invoices', 'is_quote');
+      await queryInterface.removeColumn('Invoices', 'subtotal_due');
+      await queryInterface.removeColumn('Invoices', 'tax_rate');
       return Promise.resolve();
     } catch (e) {
       return Promise.reject(e);
