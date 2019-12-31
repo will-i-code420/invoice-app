@@ -74,66 +74,76 @@
         </Modal>
         </transition>
       <hr class="create-invoice-hr">
-      <template>
-        <section class="transaction-table-container">
-          <h2 class="transactions-title">Transactions:</h2>
-          <b-table bordered hover :items="transactions" :fields="fields">
-            <template v-slot:cell(modify)="data">
-              <button class="edit-trans-btn" aria-labelledby="Edit Transaction Button" title="Edit Transaction" @click="selectTransaction(data.item)">
-                &#9998;
-              </button>
-            <transition name="modal-fade">
-              <Modal v-show="isEditModalOpen">
-                <template #header>
-                  <h1>Editing: {{ selectedTrans.description }}</h1>
-                </template>
-                <template #body>
-                  <form id="edit-transaction-form" @keydown.esc="toggleEditModal">
-                    <label for="description">Description:</label>
-                    <input
-                    v-model="selectedTrans.description"
-                    id="description"
-                    type="text"
-                    aria-labelledby="Transaction Description"
-                    required
-                    @keydown.shift.tab.prevent
-                    >
-                    <label for="quantity">Qty:</label>
-                    <input
-                    v-model.number="selectedTrans.quantity"
-                    id="quantity"
-                    type="number"
-                    aria-labelledby="Quantity Of Transaction"
-                    required
-                    >
-                    <label for="price">Price:</label>
-                    <input
-                    v-model.number="selectedTrans.price"
-                    id="price"
-                    type="number"
-                    aria-labelledby="Price Per Unit"
-                    required
-                    @keydown.enter="editTransaction"
-                    >
-                  </form>
-                </template>
-                <template #footer>
-                  <button class="edit-trans" type="button" @click="editTransaction" @keydown.esc="toggleEditModal" @keydown.enter="editTransaction">
-                    Edit Item
-                  </button>
-                  <button class="cancel-edit" aria-labelledby="Delete Transaction Button" type="button" @click="toggleEditModal" @keydown.esc="toggleEditModal" @keydown.tab.exact.prevent>
-                    Cancel
-                  </button>
-                </template>
-              </Modal>
-            </transition>
-          <button title="Delete Item" class="delete-trans-btn" @click="deleteTransaction(data.item.id)">
-            &#10008;
-          </button>
+      <section class="transaction-table-container">
+        <h2 class="transactions-title">Transactions:</h2>
+        <Table>
+          <template #table-head>
+            <th v-for="(title, index) in trans_table_headers" :key="index">
+              {{ title }}
+            </th>
           </template>
-          </b-table>
-        </section>
-        </template>
+          <template #table-body>
+            <tr v-for="(transaction, index) in transactions" :key="index">
+              <td v-for="value in transaction" :key="value.id">
+                {{value}}
+              </td>
+              <td>
+                <button class="edit-trans-btn" aria-labelledby="Edit Transaction Button" title="Edit Transaction" @click="selectTransaction(data.item)">
+                  &#9998;
+                </button>
+                <button title="Delete Item" class="delete-trans-btn" @click="deleteTransaction(data.item.id)">
+                  &#10008;
+                </button>
+              </td>
+            </tr>
+          </template>
+          <transition name="modal-fade">
+            <Modal v-show="isEditModalOpen">
+              <template #header>
+                <h1>Editing: {{ selectedTrans.description }}</h1>
+              </template>
+              <template #body>
+                <form id="edit-transaction-form" @keydown.esc="toggleEditModal">
+                  <label for="description">Description:</label>
+                  <input
+                  v-model="selectedTrans.description"
+                  id="description"
+                  type="text"
+                  aria-labelledby="Transaction Description"
+                  required
+                  @keydown.shift.tab.prevent
+                  >
+                  <label for="quantity">Qty:</label>
+                  <input
+                  v-model.number="selectedTrans.quantity"
+                  id="quantity"
+                  type="number"
+                  aria-labelledby="Quantity Of Transaction"
+                  required
+                  >
+                  <label for="price">Price:</label>
+                  <input
+                  v-model.number="selectedTrans.price"
+                  id="price"
+                  type="number"
+                  aria-labelledby="Price Per Unit"
+                  required
+                  @keydown.enter="editTransaction"
+                  >
+                </form>
+              </template>
+              <template #footer>
+                <button class="edit-trans" type="button" @click="editTransaction" @keydown.esc="toggleEditModal" @keydown.enter="editTransaction">
+                  Edit Item
+                </button>
+                <button class="cancel-edit" aria-labelledby="Delete Transaction Button" type="button" @click="toggleEditModal" @keydown.esc="toggleEditModal" @keydown.tab.exact.prevent>
+                  Cancel
+                </button>
+              </template>
+            </Modal>
+          </transition>
+      </Table>
+      </section>
         <hr class="create-invoice-hr">
         <section class="invoice-total-container">
           <label class="tax-amount-box" for="if-tax-charged">**Check Box If Tax Required**
@@ -217,12 +227,12 @@ export default {
         quantity: Number(),
         price: Number()
       },
-      fields: [
-        { key: 'item_id', label: 'Item #' },
-        { key: 'description' },
-        { key: 'quantity' },
-        { key: 'price' },
-        { key: 'modify', class: 'text-center' }
+      trans_table_headers: [
+        'Item #',
+        'Description',
+        'Quantity',
+        'Price',
+        'Modify'
       ],
       selectedTrans: {}
     }
