@@ -135,3 +135,38 @@
     background-color: $lightGreen;
   }
 }
+
+.edit-trans-btn,
+.delete-trans-btn {
+  margin: .2rem .4rem;
+}
+
+.delete-trans-btn {
+  padding: .25rem .5rem;
+  font-size: 1.75rem;
+  background-color: $darkRed;
+  border: 2px solid $darkRed;
+  color: $white;
+  @include transition(background-color 500ms);
+  &:hover {
+    background-color: $lightRed;
+  }
+  &:focus {
+    background-color: $lightRed;
+  }
+}
+
+.edit-trans-btn {
+  padding: .25rem .5rem;
+  font-size: 1.75rem;
+  color: $white;
+  background-color: $darkGreen;
+  border: 2px solid $darkGreen;
+  @include transition(background-color 500ms);
+  &:hover {
+    background-color: $lightGreen;
+  }
+  &:focus {
+    background-color: $lightGreen;
+  }
+}

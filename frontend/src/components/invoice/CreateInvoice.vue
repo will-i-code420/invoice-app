@@ -79,9 +79,9 @@
           <h2 class="transactions-title">Transactions:</h2>
           <b-table bordered hover :items="transactions" :fields="fields">
             <template v-slot:cell(modify)="data">
-              <b-button squared @click="selectTransaction(data.item)">
-                Edit
-              </b-button>
+              <button class="edit-trans-btn" aria-labelledby="Edit Transaction Button" title="Edit Transaction" @click="selectTransaction(data.item)">
+                &#9998;
+              </button>
             <transition name="modal-fade">
               <Modal v-show="isEditModalOpen">
                 <template #header>
@@ -121,15 +121,15 @@
                   <button class="edit-trans" type="button" @click="editTransaction" @keydown.esc="toggleEditModal" @keydown.enter="editTransaction">
                     Edit Item
                   </button>
-                  <button class="cancel-edit" type="button" @click="toggleEditModal" @keydown.esc="toggleEditModal" @keydown.tab.exact.prevent>
+                  <button class="cancel-edit" aria-labelledby="Delete Transaction Button" type="button" @click="toggleEditModal" @keydown.esc="toggleEditModal" @keydown.tab.exact.prevent>
                     Cancel
                   </button>
                 </template>
               </Modal>
             </transition>
-          <b-button squared @click="deleteTransaction(data.item.id)">
-            X
-          </b-button>
+          <button title="Delete Item" class="delete-trans-btn" @click="deleteTransaction(data.item.id)">
+            &#10008;
+          </button>
           </template>
           </b-table>
         </section>
