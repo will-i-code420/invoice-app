@@ -160,14 +160,22 @@
           <h4 class="invoice-total">Invoice Total: ${{ invoice.total_due }}</h4>
           <br>
         </section>
-
+        <div class="add-payment-container">
+          <label class="add-payment-label" for="add-payment">Apply Payment:</label>
+          <input
+          v-model.number="invoice.amount_paid"
+          type="number"
+          id="add-payment"
+          aria-labelledby="Upfront Payment Received"
+          >
+        </div>
         <div class="create-invoice-quote">
-          <b-button v-if="!this.invoice.is_quote" pill variant="outline-success" type="submit">
+          <button class="invoice-create-button" v-if="!this.invoice.is_quote" type="submit">
             Create Invoice
-          </b-button>
-          <b-button v-else pill variant="outline-success" type="submit">
+          </button>
+          <button class="invoice-create-button" v-else type="submit">
             Create Quote
-          </b-button>
+          </button>
         </div>
         </form>
   </div>
@@ -297,6 +305,10 @@ export default {
       let total = Number(this.invoice.subtotal_due) + Number(this.invoice.tax_due)
       this.invoice.total_due = total.toFixed(2)
     },
+    applyPayment() {
+      let newTotal = Number(this.invoice.total_due) - Number(this.invoice.amount_paid)
+      this.invoice.total_due = newTotal.toFixed(2)
+    },
     editTransaction (id) {
       if (this.selectedTrans) {
         this.$delete(this.selectedTrans, '_rowVarient')
@@ -376,6 +388,9 @@ export default {
         this.invoice.tax_rate = 0
         this.calcTax()
       }
+    },
+    'invoice.amount_paid': function() {
+      this.applyPayment()
     }
   }
 }

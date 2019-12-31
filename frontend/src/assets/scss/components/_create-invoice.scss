@@ -24,6 +24,9 @@
   &:hover {
     background-color: $lightGreen
   }
+  &:focus {
+    background-color: $lightGreen
+  }
 }
 
 #transaction-form {
@@ -64,16 +67,12 @@
   }
 }
 
-.invoice-label {
-  font-size: 22px;
-  font-weight: bold;
-}
-
+.invoice-label,
+.add-payment-label,
 .price-quote-box {
   font-size: 22px;
   font-weight: bold;
 }
-
 .invoice-total-container {
   display: flex;
   flex-direction: column;
@@ -106,4 +105,30 @@
   border: 2px solid black;
   padding: 0 1rem;
   box-shadow: 0 0 8px;
+}
+
+.add-payment-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-invoice-quote {
+  padding: 1.5rem 0;
+}
+
+.invoice-create-button {
+  padding: .5rem;
+  color: $white;
+  background-color: $darkGreen;
+  border: 2px solid $darkGreen;
+  border-radius: $pill-button;
+  @include transition(background-color 500ms);
+  &:hover {
+    background-color: $lightGreen;
+  }
+  &:focus {
+    background-color: $lightGreen;
+  }
 }
