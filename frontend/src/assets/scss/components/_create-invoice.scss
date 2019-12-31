@@ -29,7 +29,8 @@
   }
 }
 
-#transaction-form {
+#transaction-form,
+#edit-transaction-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,7 +40,8 @@
     }
 }
 
-.submit-trans {
+.submit-trans,
+.edit-trans {
   background-color: $darkBlue;
   color: $white;
   border: 2px solid $darkBlue;
@@ -53,7 +55,8 @@
   }
 }
 
-.cancel-trans {
+.cancel-trans,
+.cancel-edit {
   background-color: $darkRed;
   border: 2px solid $darkRed;
   color: $white;

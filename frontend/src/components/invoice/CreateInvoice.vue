@@ -29,11 +29,9 @@
           &plus;
         </button>
         <transition name="modal-fade">
-        <Modal
-        v-show="isModalOpen"
-        >
+        <Modal v-show="isTransModalOpen">
         <template #header>
-          <h1>Add New Item</h1>
+          <h1 @keydown.esc="toggleTransModal">Add New Item(s)</h1>
         </template>
         <template #body>
           <form id="transaction-form" @keydown.esc="toggleTransModal">
@@ -46,7 +44,6 @@
             required
             @keydown.shift.tab.prevent
             >
-
             <label for="quantity">Qty:</label>
             <input
             v-model.number="trans.quantity"
@@ -55,7 +52,6 @@
             aria-labelledby="Quantity Of Transaction"
             required
             >
-
             <label for="price">Price:</label>
             <input
             v-model.number="trans.price"
@@ -65,11 +61,10 @@
             required
             @keydown.enter="submitTransaction"
             >
-
           </form>
         </template>
         <template #footer>
-          <button class="submit-trans" type="button" @click="submitTransaction" @keydown.enter="submitTransaction">
+          <button class="submit-trans" type="button" @click="submitTransaction" @keydown.esc="toggleTransModal" @keydown.enter="submitTransaction">
             Add Item
           </button>
           <button class="cancel-trans" type="button" @click="toggleTransModal" @keydown.esc="toggleTransModal" @keydown.tab.exact.prevent>
@@ -80,70 +75,64 @@
         </transition>
       <hr class="create-invoice-hr">
       <template>
-        <h2>Transactions:</h2>
-        <div>
+        <section class="transaction-table-container">
+          <h2 class="transactions-title">Transactions:</h2>
           <b-table bordered hover :items="transactions" :fields="fields">
             <template v-slot:cell(modify)="data">
-              <b-button squared @click="selectTrans(data.item)">
+              <b-button squared @click="selectTransaction(data.item)">
                 Edit
               </b-button>
-              <b-modal
-              id="modal-edit-transaction"
-              ref="modal"
-              title="Edit Item:"
-              ok-title="Edit Item"
-              ok-variant="success"
-              cancel-variant="danger"
-              @ok="handleEdit"
-              >
-              <form ref="edit-form">
-                <b-form-group
-                :state="transState"
-                label="Item Description:"
-                label-for="transaction"
-                invalid-feedback="Item required"
-                >
-                <b-form-input
-                id="transaction"
-                v-model="selectedTrans.description"
-                :state="transState"
-                required
-                ></b-form-input>
-                </b-form-group>
-                <b-form-group
-                :state="transState"
-                label="Qty:"
-                label-for="quantity"
-                invalid-feedback="Item required"
-                >
-                <b-form-input
-                id="quantity"
-                v-model="selectedTrans.quantity"
-                :state="transState"
-                required
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-              :state="transState"
-              label="Price:"
-              label-for="price"
-              invalid-feedback="Price required"
-              >
-              <b-form-input
-              id="price"
-              v-model="selectedTrans.price"
-              :state="transState"
-              required
-              ></b-form-input>
-            </b-form-group>
-          </form>
-        </b-modal>
+            <transition name="modal-fade">
+              <Modal v-show="isEditModalOpen">
+                <template #header>
+                  <h1>Editing: {{ selectedTrans.description }}</h1>
+                </template>
+                <template #body>
+                  <form id="edit-transaction-form" @keydown.esc="toggleEditModal">
+                    <label for="description">Description:</label>
+                    <input
+                    v-model="selectedTrans.description"
+                    id="description"
+                    type="text"
+                    aria-labelledby="Transaction Description"
+                    required
+                    @keydown.shift.tab.prevent
+                    >
+                    <label for="quantity">Qty:</label>
+                    <input
+                    v-model.number="selectedTrans.quantity"
+                    id="quantity"
+                    type="number"
+                    aria-labelledby="Quantity Of Transaction"
+                    required
+                    >
+                    <label for="price">Price:</label>
+                    <input
+                    v-model.number="selectedTrans.price"
+                    id="price"
+                    type="number"
+                    aria-labelledby="Price Per Unit"
+                    required
+                    @keydown.enter="editTransaction"
+                    >
+                  </form>
+                </template>
+                <template #footer>
+                  <button class="edit-trans" type="button" @click="editTransaction" @keydown.esc="toggleEditModal" @keydown.enter="editTransaction">
+                    Edit Item
+                  </button>
+                  <button class="cancel-edit" type="button" @click="toggleEditModal" @keydown.esc="toggleEditModal" @keydown.tab.exact.prevent>
+                    Cancel
+                  </button>
+                </template>
+              </Modal>
+            </transition>
           <b-button squared @click="deleteTransaction(data.item.id)">
             X
           </b-button>
           </template>
           </b-table>
-        </div>
+        </section>
         </template>
         <hr class="create-invoice-hr">
         <section class="invoice-total-container">
@@ -189,7 +178,8 @@ export default {
   data () {
     return {
       transState: null,
-      isModalOpen: false,
+      isTransModalOpen: false,
+      isEditModalOpen: false,
       isTaxed: false,
       taxes: [
         {
@@ -234,19 +224,28 @@ export default {
         { key: 'price' },
         { key: 'modify', class: 'text-center' }
       ],
-      selectedTrans: []
+      selectedTrans: {}
     }
   },
   computed: {
   },
   methods: {
     toggleTransModal() {
-      this.isModalOpen = !this.isModalOpen
+      this.isTransModalOpen = !this.isTransModalOpen
+    },
+    toggleEditModal() {
+      this.isEditModalOpen = !this.isEditModalOpen
     },
     resetTransModal() {
       this.trans.description = ''
       this.trans.price = ''
       this.trans.quantity = ''
+      this.transState = null
+    },
+    resetEditModal() {
+      this.selectedTrans.description = ''
+      this.selectedTrans.price = ''
+      this.selectedTrans.quantity = ''
       this.transState = null
     },
     checkFormValidity() {
@@ -264,12 +263,10 @@ export default {
       this.transactions = []
       this.transState = null
     },
-    selectTrans (item) {
+    selectTransaction (item) {
       this.selectedTrans = item
-      this.$bvModal.show('modal-edit-transaction')
-    },
-    handleEdit () {
-      this.editTransaction()
+      console.log(this.selectedTrans)
+      this.toggleEditModal()
     },
     submitTransaction () {
       if (!this.checkFormValidity()) {
@@ -316,6 +313,7 @@ export default {
       this.calcSubTotal()
       this.$set(id, '_rowVarient', 'primary')
       this.selectedTrans = id
+      this.resetEditModal()
     },
     deleteTransaction (id) {
       this.transactions = this.transactions.filter(item => {
