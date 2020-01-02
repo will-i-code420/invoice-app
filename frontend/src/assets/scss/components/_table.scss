@@ -1,0 +1,14 @@
+.table-container {
+  width: 100%;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.table {
+  display: flex;
+  width: inherit;
+  justify-content: space-around;
+  align-items: center;
+  border: 2px solid black;
+}
