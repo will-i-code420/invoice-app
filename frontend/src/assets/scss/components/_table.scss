@@ -1,14 +1,25 @@
 .table-container {
   width: 100%;
-  border: 2px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .table {
-  display: flex;
-  width: inherit;
-  justify-content: space-around;
-  align-items: center;
-  border: 2px solid black;
+  width: 75%;
+  border-collapse: collapse;
+  box-shadow: 0 0 8px;
+    thead {
+      th {
+        border: 2px solid rgba(0, 0, 0, .8);
+        padding: .5rem 1.5rem;
+      }
+    }
+    tbody {
+      tr {
+        td {
+          border: 2px solid rgba(0, 0, 0, .8);
+          font-size: 1.25rem;
+        }
+      }
+    }
 }

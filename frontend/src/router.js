@@ -29,6 +29,13 @@ export default new Router({
       meta: { transitionName: 'zoom'}
     },
     {
+      path: '/invoice',
+      name: 'invoice',
+      component: () =>
+        import('@/views/Invoice.vue'),
+      meta: { transitionName: 'zoom'}
+    },
+    {
       path: '/create',
       name: 'createInvoice',
       component: () =>
