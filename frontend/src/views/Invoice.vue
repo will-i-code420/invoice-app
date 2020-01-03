@@ -1,7 +1,23 @@
 <template>
-  <CreateInvoice v-if="create"/>
-  <ViewInvoice v-else-if="view"/>
-  <SingleInvoice v-else-if="single"/>
+  <div class="main-invoice-container">
+    <section v-if="main" class="main-invoice-dashboard">
+      <h2>Invoice Dashboard</h2>
+      <div class="invoice-selection-container">
+        <div class="invoice-selection-cards">
+
+        </div>
+      </div>
+    </section>
+    <section v-if="create" class="create-container">
+      <CreateInvoice/>
+    </section>
+    <section v-if="view" class="view-container">
+      <ViewInvoice />
+    </section>
+    <section v-if="single" class="single-container">
+      <SingleInvoice />
+    </section>
+  </div>
 </template>
 
 <script>
@@ -10,7 +26,7 @@ import ViewInvoice from '@/components/invoice/ViewInvoice'
 import SingleInvoice from '@/components/invoice/SingleInvoice'
 
 export default {
-  name: 'invoice',
+  name: 'invoice-dashboard',
   components: {
     CreateInvoice,
     SingleInvoice,
@@ -18,7 +34,8 @@ export default {
   },
   data() {
     return {
-      create: true,
+      main: true,
+      create: false,
       view: false,
       single: false
     }

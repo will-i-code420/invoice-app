@@ -188,7 +188,7 @@ export default {
             this.$store.dispatch('setToken', res.data.token)
             this.$store.dispatch('setUser', res.data.user)
             this.$store.dispatch('setCompany', res.data.company)
-            this.$router.push ({ name: 'profile' })
+            this.$router.push ({ name: 'setting-dashboard' })
           } else {
             this.message = `${res.data.error}`
           }

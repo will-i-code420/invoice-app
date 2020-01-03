@@ -1,0 +1,45 @@
+.top-nav-container {
+  border-bottom: 2px solid rgba(0, 0, 0, 1);
+  display: flex;
+  background-color: $darkGray;
+  justify-content: flex-start;
+  align-items: center;
+  height: 4rem;
+}
+
+.top-nav-btns li,
+.top-nav-brand li {
+  list-style: none;
+  padding: .2rem 1rem;
+}
+
+.top-nav-btns {
+  display: flex;
+  margin: auto 0;
+  padding: 0;
+}
+
+.top-nav-brand-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.logout-btn {
+  background-color: $darkRed;
+  border: 2px solid $darkRed;
+  color: $white;
+  border-radius: $pill-button;
+  @include transition(background-color 500ms);
+  &:hover {
+    background-color: $lightRed;
+  }
+  &:focus {
+    background-color: $lightRed;
+  }
+}
+
+.top-nav-brand {
+  display: flex;
+  margin: auto 0;
+}

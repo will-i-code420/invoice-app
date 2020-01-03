@@ -1,6 +1,5 @@
 <template>
   <div class="create-invoice-container">
-    <NavHead/>
     <h1 class="create-invoice-title" v-if="!this.invoice.is_quote">
       Creating Invoice
     </h1>

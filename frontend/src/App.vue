@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <TopNavBar v-if="$store.state.isLoggedIn"/>
     <transition
     :name="transitionName"
     :mode="transitionMode"
@@ -11,11 +12,16 @@
 </template>
 
 <script>
+import TopNavBar from '@/components/TopNavBar'
+
 const DEFAULT_TRANSITION = 'fade'
 const DEFAULT_TRANSITION_MODE = 'out-in'
 
 export default {
   name: 'App',
+  components: {
+    TopNavBar
+  },
   data() {
     return {
       transitionName: DEFAULT_TRANSITION,

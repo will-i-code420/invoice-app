@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import CreateInvoice from '@/components/invoice/CreateInvoice.vue'
+import ViewInvoice from '@/components/invoice/ViewInvoice.vue'
+import SingleInvoice from '@/components/invoice/SingleInvoice.vue'
 
 Vue.use(Router)
 
@@ -8,8 +11,8 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/dashboard',
-      name: 'dashboard',
+      path: '/main-dashboard',
+      name: 'main-dashboard',
       component: () =>
         import('@/views/Dashboard.vue'),
       meta: { transitionName: 'zoom'}
@@ -29,32 +32,31 @@ export default new Router({
       meta: { transitionName: 'zoom'}
     },
     {
-      path: '/invoice',
-      name: 'invoice',
+      path: '/invoice-dashboard',
+      name: 'invoice-dashboard',
       component: () =>
         import('@/views/Invoice.vue'),
-      meta: { transitionName: 'zoom'}
-    },
-    {
-      path: '/create',
-      name: 'createInvoice',
-      component: () =>
-        import('@/components/invoice/CreateInvoice.vue'),
-      meta: { transitionName: 'zoom'}
-    },
-    {
-      path: '/invoices',
-      name: 'viewInvoices',
-      component: () =>
-        import('@/components/invoice/ViewInvoice.vue'),
-      meta: { transitionName: 'slide'}
-    },
-    {
-      path: '/invoices/:id',
-      name: 'singleInvoice',
-      component: () =>
-        import('@/components/invoice/SingleInvoice.vue'),
-      meta: { transitionName: 'slide'}
+      meta: { transitionName: 'zoom'},
+      children: [
+        {
+          path: 'create-invoice',
+          name: 'create-invoice',
+          component: CreateInvoice,
+          meta: { transitionName: 'slide'}
+        },
+        {
+          path: 'all-invoices',
+          name: 'all-invoices',
+          component: ViewInvoice,
+          meta: { transitionName: 'slide'}
+        },
+        {
+          path: 'invoice/:id',
+          name: 'singleInvoice',
+          component: SingleInvoice,
+          meta: { transitionName: 'slide'}
+        }
+      ]
     },
     {
       path: '/employee/:id',
@@ -85,10 +87,17 @@ export default new Router({
       meta: { transitionName: 'zoom'}
     },
     {
-      path: '/profile',
-      name: 'profile',
+      path: '/settings-dashboard',
+      name: 'setting-dashboard',
       component: () =>
-        import('@/views/Profile.vue'),
+        import('@/views/Setting.vue'),
+      meta: { transitionName: 'zoom'}
+    },
+    {
+      path: '/business-dashboard',
+      name: 'business-dashboard',
+      component: () =>
+        import('@/views/Business.vue'),
       meta: { transitionName: 'zoom'}
     }
   ]

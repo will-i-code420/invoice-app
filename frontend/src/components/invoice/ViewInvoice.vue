@@ -1,5 +1,5 @@
 <template>
-  <div class="view-inovices-container">
+  <div class="view-invoices-container">
     <b-container class="bv-example-row">
       <b-row>
         <b-col>
@@ -29,7 +29,7 @@
 import invoiceService from '@/services/invoiceService'
 
 export default {
-  name: 'viewInvoice',
+  name: 'all-invoices',
   data () {
     return {
       invoices: [],
@@ -71,7 +71,7 @@ export default {
 
 <style scoped>
 
-.view-inovices-container {
+.view-invoices-container {
   padding-top: 65px;
 }
 

@@ -1,6 +1,5 @@
 <template>
   <div class="dashboard-container">
-    <NavHead/>
     <div class="dashboard-info-overview">
       <h3><span>{{businessCount}}</span>Total Business'</h3>
       <h3><span>{{employeeCount}}</span>Total Employees</h3>
@@ -26,7 +25,7 @@ import businessService from '@/services/businessService'
 import employeeService from '@/services/employeeService'
 
 export default {
-  name: 'dashboard',
+  name: 'main-dashboard',
   data () {
     return {
       loading: true,

@@ -1,6 +1,5 @@
 <template>
-  <div class="profile">
-    <NavHead/>
+  <div class="setting-dashboard-container">
     <b-container fluid>
       <b-row>
         <b-col sm="2" class="profile-nav">
@@ -200,7 +199,7 @@ import companyService from '@/services/companyService'
 import employeeService from '@/services/employeeService'
 
 export default {
-  name: 'profile',
+  name: 'setting-dashboard',
   components: {
     AllBusiness,
     AllEmployee
