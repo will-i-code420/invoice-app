@@ -1,14 +1,13 @@
 .side-nav-bar-container {
   background-color: $darkGray;
   position: absolute;
-  top: 0;
+  top: 20;
   left: 0;
-  width: 50px;
+  width: 80px;
   padding: 10px;
-  min-height: calc(100vh - 20px);
-  border: solid #fff;
-  border-width: 0 1px 0 0;
-  z-index: 999;
+  min-height: 100vh;
+  border: solid rgba(0, 0, 0, .8);
+  border-width: 0 2px 0 0;
   @include transition(width 500ms ease-in-out);
 
   .side-nav-control {
@@ -18,7 +17,7 @@
     width: 50px;
     margin-bottom: 10px;
 
-    fa-icon {
+    .icon {
       font-size: 2rem;
       cursor: pointer;
       @include transition(color 500ms ease-in-out, transform 500ms ease-in-out);
@@ -26,9 +25,9 @@
   }
 
   &.show {
-    width: 180px;
+    width: 220px;
 
-    .side-nav-control > fa-icon {
+    .side-nav-control > .icon {
       color: #fff;
       transform: rotateZ(-180deg);
     }
@@ -46,8 +45,12 @@
     width: 50px;
     float: left;
 
-    fa-icon {
-      font-size: 2rem;
+    .icon-links {
+      color: rgba(0, 0, 0, 1);
+    }
+
+    .icon {
+      font-size: 3rem;
       padding: 10px 0;
       cursor: pointer;
       @include transition(color 500ms ease-in-out);
@@ -59,17 +62,17 @@
   }
 
   .side-nav-links {
-    padding-top: 14px;
-    float: left;
 
-    div {
-      font-size: 1.35rem;
-      padding-left: 10px;
-      margin-bottom: 18px;
+    .router-links {
+      font-size: 1.25rem;
+      line-height: 3rem;
+      color: rgba(0, 0, 0, 1);
       cursor: pointer;
+      @include transition(color 500ms)
 
       &:hover {
         color: #fff;
+        text-decoration: none;
       }
     }
   }

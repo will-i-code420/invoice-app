@@ -1,7 +1,7 @@
 <template>
   <div class="side-nav-bar-container" :class="{'show': showSideNav}">
     <div class="side-nav-control">
-      <fa-icon icon="['fas', 'angle-double-right']" />
+      <font-awesome-icon class="icon" :icon="['fas', 'angle-double-right']" @click="showNav"/>
     </div>
     <div class="side-nav-icons">
       <slot name="icons">
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'side-nav-bar',
+  name: 'SideNavBar',
   data() {
     return {
       showSideNav: false,
@@ -26,7 +26,7 @@ export default {
     }
   },
   methods: {
-    showSideNav() {
+    showNav() {
       if (this.showLinks) {
         this.showLinks = false
         setTimeout(() => {

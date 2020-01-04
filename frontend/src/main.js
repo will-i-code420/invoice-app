@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import './plugins/fontawesome'
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -11,6 +10,7 @@ import router from './router'
 import { sync } from 'vuex-router-sync'
 import store from './store'
 
+import '@/plugins/fontawesome'
 import '@/plugins/echarts'
 
 import commonComponents from './components/common'

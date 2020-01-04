@@ -1,16 +1,16 @@
 <template>
   <div class="top-nav-container">
     <ul class="top-nav-btns">
-      <li><router-link :to="{ name: 'main-dashboard' }">
+      <li><router-link class="top-nav-links" :to="{ name: 'main-dashboard' }">
         Main Dashboard
       </router-link></li>
-      <li><router-link :to="{ name: 'invoice-dashboard' }">
+      <li><router-link class="top-nav-links" :to="{ name: 'invoice-dashboard' }">
         Invoice Dashboard
       </router-link></li>
-      <li><router-link :to="{ name: 'setting-dashboard' }">
+      <li><router-link class="top-nav-links" :to="{ name: 'setting-dashboard' }">
         Settings Dashboard
       </router-link></li>
-      <li><router-link :to="{ name: 'business-dashboard' }">
+      <li><router-link class="top-nav-links" :to="{ name: 'business-dashboard' }">
         Business Dashboard
       </router-link></li>
     </ul>

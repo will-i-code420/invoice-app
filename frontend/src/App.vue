@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TopNavBar v-if="$store.state.isLoggedIn"/>
+    <TopNavBar />
     <transition
     :name="transitionName"
     :mode="transitionMode"
@@ -70,6 +70,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+
+  .router-link-active {
+    color: rgba(255, 255, 255, 1);
+  }
 }
 
 .fade-enter-active,

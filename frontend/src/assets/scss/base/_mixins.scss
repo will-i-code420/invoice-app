@@ -9,7 +9,7 @@
 @mixin side-nav-childs($values...) {
   @each $var in $values {
     &:nth-child(#{$var}) {
-      transition: transform linear calc(100ms * #{$var}, display 500ms)
+      transition: transform linear calc(100ms * #{$var}), display 500ms;
     }
   }
 }
