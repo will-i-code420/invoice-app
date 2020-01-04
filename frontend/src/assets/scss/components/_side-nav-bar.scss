@@ -1,3 +1,84 @@
 .side-nav-bar-container {
   background-color: $darkGray;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  padding: 10px;
+  min-height: calc(100vh - 20px);
+  border: solid #fff;
+  border-width: 0 1px 0 0;
+  z-index: 999;
+  @include transition(width 500ms ease-in-out);
+
+  .side-nav-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    margin-bottom: 10px;
+
+    fa-icon {
+      font-size: 2rem;
+      cursor: pointer;
+      @include transition(color 500ms ease-in-out, transform 500ms ease-in-out);
+    }
+  }
+
+  &.show {
+    width: 180px;
+
+    .side-nav-control > fa-icon {
+      color: #fff;
+      transform: rotateZ(-180deg);
+    }
+
+    .side-nav-icons {
+      color: #fff;
+    }
+  }
+
+  .side-nav-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50px;
+    float: left;
+
+    fa-icon {
+      font-size: 2rem;
+      padding: 10px 0;
+      cursor: pointer;
+      @include transition(color 500ms ease-in-out);
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+
+  .side-nav-links {
+    padding-top: 14px;
+    float: left;
+
+    div {
+      font-size: 1.35rem;
+      padding-left: 10px;
+      margin-bottom: 18px;
+      cursor: pointer;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+}
+
+.side-nav-fade-enter-active, .side-nav-fade-leave-active {
+  @include side-nav-childs(1, 2, 3)
+}
+
+.side-nav-fade-enter, .side-nav-fade-leave-to {
+  transform: scale(0);
 }
