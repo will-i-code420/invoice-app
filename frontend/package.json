@@ -15,7 +15,7 @@
     "echarts": "^4.5.0",
     "html2canvas": "^1.0.0-rc.5",
     "jspdf": "^1.5.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "vue": "^2.6.11",
     "vue-cookies": "^1.6.1",
     "vue-echarts": "^4.1.0",
